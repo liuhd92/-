@@ -1,0 +1,16 @@
+<view class="goodsContainer">
+    <view class="goodsTypes">
+        <tag-list></tag-list>
+    </view>
+    <view class="goodsTitle big">重量</view>
+    <view class="goodsTitle" style="color: #FA9817;">小于5公斤</view>
+    <view class="goodsTitle" style="color: #FA9817;" hidden>{{goodsWeight}}公斤</view>
+    <view>
+        <slider activeColor="#FFB000" backgroundColor="#EDEDED"></slider>
+        <view class="weightLabel">
+            <text>小于5公斤</text>
+            <text>20公斤</text>
+        </view>
+    </view>
+    <button  class="confirmBtn lg">确定</button>
+</view>

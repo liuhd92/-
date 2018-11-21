@@ -1,12 +1,14 @@
 {
   "pages":[
+    "pages/cityList/cityList",
+    "pages/goodInfo/goosInfo",
     "pages/index/index",
     "pages/logs/logs"
   ],
   "window":{
     "backgroundTextStyle":"light",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "WeChat",
+    "navigationBarTitleText": "美团跑腿",
     "navigationBarTextStyle":"black"
   }
 }

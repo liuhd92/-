@@ -1,0 +1,67 @@
+page {
+    background-color: #fff;
+    padding-top: 30rpx;
+    height: calc(100% - 30rpx);
+}
+
+.goodsContainer {
+    color: #333333;
+}
+
+.goodsTitle {
+    margin: 30rpx 0;
+    font-size: 34rpx;
+    text-align: center;
+}
+
+.goodsTitle.big {
+    margin-top: 60rpx;
+}
+
+.goodsTypes {
+    padding: 0 30rpx;
+    padding-bottom: 30rpx;
+    border-bottom: 1rpx solid #E4E4E4;
+}
+
+.goodsTagRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30rpx;
+}
+
+.goodsTag {
+    width: 208rpx;
+    height: 70rpx;
+    border: 1rpx solid #DBDBDB;
+    border-radius: 4rpx;
+    font-size: 28rpx;
+    line-height: 40rpx;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.selected {
+    background-color: #FFFBF1;
+    border: 1rpx solid #FFB000;
+}
+
+.weightSlider {
+    margin: 0 120rpx;
+}
+
+.weightLabel {
+    font-size: 24rpx;
+    color: #666666;
+    display: flex;
+    justify-content: space-between;
+    margin: 20rpx 86rpx 0 81rpx;
+}
+
+.confirmBtn {
+    margin: 80rpx auto 0 auto;
+    background: #FFB000;
+    width: calc(90vw)
+}

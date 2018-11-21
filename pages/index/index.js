@@ -9,7 +9,18 @@ Page({
     motto: 'Hello World',
     userInfo: {},
     hasUserInfo: false,
-    canIUse: wx.canIUse('button.open-type.getUserInfo')
+    mapData: {
+      scale: 16,
+      markers: [],
+      lng: 116.29845,
+      lat: 39.95933
+    },
+    sendAddress:{},
+    ongoingOrderIds:[],
+    canIUse: wx.canIUse('button.open-type.getUserInfo'),
+    // 取送件代购切换
+    currentData:0
+
   },
   //事件处理函数
   bindViewTap: function() {
@@ -17,11 +28,51 @@ Page({
       url: '../logs/logs'
     })
   },
+  //获取当前取件代购的index
+  bindchange: function (e) {
+    const that = this;
+    that.setData({
+      currentData: e.detail.current
+    })
+  },
+  //点击切换，滑块index赋值
+  checkCurrent: function (e) {
+    const that = this;
+    if (that.data.currentData === e.target.dataset.current) {
+      return false;
+    } else {
+      that.setData({
+        currentData: e.target.dataset.current
+      })
+    }
+  },
+  onMapRegionChange: function (e) {//点击地图
+    "end" !== e.type && this.data.pinTextVisible && this.setData({
+      pinTextVisible: !1
+    }), "end" !== e.type || void 0 !== this.data.sendAddress.id && "buy" !==  this.data.pageMode || this.getCenterLocation();
+  },
   getPhoneNumber: function(res){
     console.log(res)
   },
   onLoad: function () {
-
+    // 获取当前位置
+    var that=this
+    wx.getLocation({
+      type: 'wgs84',
+      success(res) {
+        const latitude = res.latitude
+        const longitude = res.longitude
+        const speed = res.speed
+        const accuracy = res.accuracy
+        console.log(latitude);
+        console.log(longitude);
+        that.setData({
+          lat: res.latitude,
+          lng: res.longitude
+        })
+      }
+    })
+    
     console.log('login_status : ' + login_status)
     
     if (app.globalData.userInfo) {
@@ -50,6 +101,7 @@ Page({
         }
       })
     }
+    // 地图
   },
 
   chooseAddress: function(e){
