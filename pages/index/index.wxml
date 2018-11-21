@@ -1,0 +1,20 @@
+<!--index.wxml-->
+<view class="container">
+  <view class="userinfo">
+    <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
+    <block wx:else>
+      <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
+      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+    </block>
+  </view>
+  <view class="usermotto">
+    <text class="user-motto">{{motto}}</text>
+  </view>
+  <button bindtap="login">登陆</button>
+  <view class="flex-one choose-address" bindtap="chooseAddress">请点击选择收货地址</view>
+  <image style="width:17rpx;height:30rpx;" src="https://try.fishqc.com/img/go.png"/>
+  <button open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber"> 
+  手机号</button>
+
+</view>
+
