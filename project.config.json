@@ -4,11 +4,12 @@
 		"ignore": []
 	},
 	"setting": {
-		"urlCheck": true,
+		"urlCheck": false,
 		"es6": true,
 		"postcss": true,
 		"minified": true,
-		"newFeature": true
+		"newFeature": true,
+		"autoAudits": false
 	},
 	"compileType": "miniprogram",
 	"libVersion": "2.4.0",
@@ -36,12 +37,18 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 0,
+			"current": 1,
 			"list": [
 				{
 					"id": 0,
 					"name": "list",
 					"pathName": "pages/cityList/cityList",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "index",
+					"pathName": "pages/index/index",
 					"query": ""
 				}
 			]
