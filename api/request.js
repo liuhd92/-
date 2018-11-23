@@ -1,7 +1,7 @@
 /**
  * name: request.js
  * description: request处理基础类
- * author: liuhd
+ * author: 刘环东
  * date: 2018/11/19
  */
 class request {
@@ -11,6 +11,7 @@ class request {
 
   /**
    * 设置统一的异常处理
+   * author: 刘环东
    */
   setErrorHandler(handler) {
     this._errorHandler = handler;
@@ -18,6 +19,7 @@ class request {
 
   /**
    * GET类型的网络请求
+   * author: 刘环东
    */
   getRequest(url, data, header = this._header) {
     return this.requestAll(url, data, header, 'GET')
@@ -25,6 +27,7 @@ class request {
 
   /**
    * DELETE类型的网络请求
+   * author: 刘环东
    */
   deleteRequest(url, data, header = this._header) {
     return this.requestAll(url, data, header, 'DELETE')
@@ -32,6 +35,7 @@ class request {
 
   /**
    * PUT类型的网络请求
+   * author: 刘环东
    */
   putRequest(url, data, header = this._header) {
     return this.requestAll(url, data, header, 'PUT')
@@ -39,6 +43,7 @@ class request {
 
   /**
    * POST类型的网络请求
+   * author: 刘环东
    */
   postRequest(url, data, header = this._header) {
     return this.requestAll(url, data, header, 'POST')
@@ -46,8 +51,9 @@ class request {
 
   /**
    * 网络请求
+   * author: 刘环东
    */
-  requestAll(url, data, header, method) {
+  requestAll(url, data, header, method) {  
     return new Promise((resolve, reject) => {
       wx.request({
         url: url,
@@ -55,6 +61,7 @@ class request {
         header: header,
         method: method,
         success: (res => {
+          // if (res.code === 0) {
           if (res.statusCode === 200) {
             //200: 服务端业务处理正常结束
             resolve(res)
