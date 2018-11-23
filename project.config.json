@@ -39,9 +39,10 @@
 			"current": 0,
 			"list": [
 				{
-					"id": -1,
-					"name": "1",
-					"pathName": "pages/cityList/cityList"
+					"id": 0,
+					"name": "list",
+					"pathName": "pages/cityList/cityList",
+					"query": ""
 				}
 			]
 		}

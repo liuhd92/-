@@ -1,0 +1,83 @@
+<view  class="orderDetail">
+    <view>
+        <map id="orderMap">
+            <!-- <cover-view  class="order-map-cover" ></cover-view> -->
+            <cover-view class="footTip">
+                <cover-view>
+                    <cover-view></cover-view>
+                    <cover-image  class="refreshMap"src="https://vfile.meituan.net/paotui/jllwg775368.png"></cover-image>
+                </cover-view>
+                
+            </cover-view>
+        </map>
+        <view class="fake-map" hidden="true">
+            3213213213213
+            <image src="https://vfile.meituan.net/paotui/jfj3paam5hfr.png" style="width: 100%;height: 100%;"></image>
+        </view>
+    </view>
+    <view class="cards" >
+        <view class="orderStatus card card1">
+            <order-status >第三方申达股份</order-status>
+        </view>
+        
+        <view class="orderInfo card card1">
+            <order-info >沙发斯蒂芬</order-info>
+        </view>
+        <view class="insurance card">
+            <text class="grey">货损险</text>
+            <view class="insuranceStatus">
+                <text class="canceled" hidden="true">已取消</text>
+                <text class="signing"  hidden="true">正在出保</text>
+                <view class="signed"  >
+                    <text>已出保</text>
+                    <image src="https://vfile.meituan.net/paotui/jcmuqxs2uj714i.png"></image>
+                </view>
+            </view>
+        </view>
+        <view class="orderNumAndTime card">
+            <view class="fetchTime" >
+                <text class="grey">取件时间</text>
+                <text class="time">2018-1-1</text>
+            </view>
+            <view class="remark"  hidden="true">
+                <text class="grey">
+                    <text class="letter2">备</text>注</text>
+                <text class="remarkText">速度恢复健康的合法</text>
+            </view>
+            <view class="orderNum">
+                <text class="grey">订单号码</text>
+                <text class="num">5213232323232</text>
+                <button  class="sm copy lxVisible" >复制</button>
+            </view>
+            <view class="orderTime">
+                <text class="grey">下单时间</text>
+                <text class="time">2018-1-654</text>
+            </view>
+        </view>
+        <view class="comment card"  hidden="true">
+            <view class="grey">我的评价</view>
+            <view >
+        
+        <image class="comment-icon" src="/imgs/rightArrow.png"></image>
+            </view>
+        </view>
+        <view  class="service card"  hidden="true">
+            <image class="phoneImg" src="../../imgs/phone.png"></image>
+            <text>联系客服</text>
+        </view>
+    </view>
+    
+    <!-- 弹框 -->
+    <modal class="modal" hidden="hidden">
+        <view>
+            <image class="order-tip-arrow" src="https://p0.meituan.net/paotui/jnbmayig376.png"></image>
+            <image class="order-tip-title" src="https://p0.meituan.net/paotui/jnbmdrmpj6e.png"></image>
+            <image class="order-tip-example" src="https://p0.meituan.net/paotui/jnbn7t3gr0b.png"></image>
+            <button  class="order-tip-button">技能get</button>
+        </view>
+    </modal>
+    <error-page></error-page>
+    <navigator>
+        <image class="returnIndex" src="https://vfile.meituan.net/paotui/jfxep277dndn29.png"></image>
+    </navigator>
+</view>
