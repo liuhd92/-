@@ -1,0 +1,265 @@
+page {
+    height: 100%;
+    background: #f4f4f4;
+    font-size: 28rpx;
+    color: #333;
+}
+
+.bold-text {
+    font-weight: bold;
+}
+
+map {
+    width: 100%;
+    height: 600rpx;
+    position: relative;
+}
+
+.fake-map {
+    width: 100%;
+    height: 600rpx;
+}
+
+.footTip {
+    position: absolute;
+    bottom: 0;
+    width: 94%;
+    margin-left: 3%;
+}
+
+.tipContent {
+    position: relative;
+}
+
+.trumpet {
+    width: 70rpx;
+    height: 70rpx;
+    position: absolute;
+    top: 8rpx;
+    z-index: 3;
+}
+
+.tipText {
+    width: 82%;
+    float: right;
+    white-space: normal;
+    padding: 12rpx 40rpx 12rpx 54rpx;
+    color: #fff;
+    font-size: 24rpx;
+    background-origin: padding-box;
+    background: rgba(0,0,0,0.5);
+    height: 62rpx;
+    line-height: 62rpx;
+}
+
+.tipTextInner {
+    white-space: normal;
+    display: inline-block;
+    line-height: 1.3;
+}
+
+.refreshMap {
+    display: inline-block;
+    width: 70rpx;
+    height: 70rpx;
+}
+
+.cards {
+    padding: 30rpx;
+}
+
+.card {
+    background: #fff;
+    padding: 30rpx;
+    padding-bottom: 0;
+    margin-bottom: 20rpx;
+}
+
+.grey {
+    color: #999;
+}
+
+.insurance {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 30rpx;
+}
+
+.insurance image {
+    width: 12rpx;
+    height: 22rpx;
+}
+
+.insuranceStatus {
+    text-align: right;
+}
+
+.insuranceStatus .canceled {
+    color: #999;
+}
+
+.insuranceStatus .signing {
+    color: #ffb000;
+}
+
+.insuranceStatus .signed {
+    color: #68c473;
+}
+
+.insuranceStatus text {
+    margin-right: 10rpx;
+}
+
+.orderNumAndTime {
+    padding-bottom: 30rpx;
+}
+
+.orderNum,.remark,.fetchTime {
+    margin-bottom: 30rpx;
+}
+
+.remark {
+    display: flex;
+}
+
+.time,.num,.remarkText {
+    margin-left: 30rpx;
+    word-break: break-all;
+}
+
+.remark .letter2 {
+    letter-spacing: 2em;
+}
+
+.copy {
+    float: right;
+}
+
+.comment {
+    display: flex;
+    padding-bottom: 30rpx;
+    justify-content: space-between;
+}
+
+.comment-icon {
+    margin-left: 10rpx;
+    width: 12rpx;
+    height: 22rpx;
+}
+
+.service {
+    text-align: center;
+    padding-bottom: 30rpx;
+}
+
+.service .phoneImg {
+    width: 34rpx;
+    height: 34rpx;
+    vertical-align: middle;
+    margin-right: 20rpx;
+}
+
+.returnIndex {
+    width: 120rpx;
+    height: 120rpx;
+    position: fixed;
+    bottom: 60rpx;
+    right: 60rpx;
+}
+
+.slideContent {
+    margin: 40rpx 30rpx;
+}
+
+.tip-fee-total {
+    text-align: center;
+    margin-bottom: 30rpx;
+    font-size: 28rpx;
+    color: #666666;
+    letter-spacing: 0.4rpx;
+    line-height: 28rpx;
+}
+
+.order-map-cover {
+    width: 100%;
+    height: 100%;
+}
+
+.order-map {
+    position: relative;
+}
+
+.order-map-cover {
+    background: rgba(0,0,0,0.3);
+    z-index: 100;
+}
+
+.product-pay-instruction {
+    padding: 30rpx;
+    font-size: 28rpx;
+    color: #000000;
+    height: 636rpx;
+}
+
+.product-pay-instruction-icon {
+    width: 17rpx;
+    height: 10rpx;
+}
+
+.order-tip-arrow {
+    position: absolute;
+    left: 624rpx;
+    top: 59rpx;
+    width: 33rpx;
+    height: 110rpx;
+}
+
+.order-tip-title {
+    position: absolute;
+    left:-35rpx;
+    top:58rpx;
+    width: 479rpx;
+    height: 48rpx;
+}
+
+.order-tip-content {
+    font-size: 32rpx;
+    color: #FFFFFF;
+    position: absolute;
+    display: flex;
+    align-items: center;
+}
+
+.order-tip-example {
+    top: 286rpx;
+    left: 85rpx;
+    position: absolute;
+    width: 580rpx;
+    height: 230rpx;
+}
+
+.order-tip-button {
+    border: 2rpx solid #FFFFFF;
+    border-radius: 4rpx;
+    background: none;
+    font-size: 28rpx;
+    color: #FFFFFF;
+    width: 240rpx;
+    height: 70rpx;
+    top: 801rpx;
+    left: calc(50% - 120rpx);
+    font-weight: bold;
+}
+.modal{
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+}
+.card1{
+  line-height: 30RPX;
+  padding: 30rpx;
+  color: #999;
+  
+}

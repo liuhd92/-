@@ -1,0 +1,13 @@
+<!--pages/orderList/orderList.wxml-->
+<view class="container">
+  <!-- tab栏目 -->
+  <scroll-view scroll-x="true" class="scrollTab">
+      <block wx:for="{{scrollData}}" wx:for-item="scrollItem" wx:for-index="curscroll" wx:key="curscroll" >
+        <view class="nav-item {{currentTab == curscroll ?'active':''}}"  data-current="{{curscroll}}" bindtap='scrollClick'>{{scrollItem.text}}</view>
+      </block>
+  </scroll-view>
+  <!-- 页面内容 -->
+  <view class="scrollCon">
+      <!--  -->
+  </view>
+</view>

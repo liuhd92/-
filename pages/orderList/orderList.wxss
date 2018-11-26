@@ -1,0 +1,32 @@
+/* pages/orderList/orderList.wxss */
+.container{
+  height: auto;
+
+}
+.scrollTab{
+  padding-left: 20rpx;
+  height: 50rpx;
+  overflow: hidden;
+  background: #fff;
+  position: fixed;
+  left: 0;
+  top: 0;
+}
+.nav-item{
+  color: #666;
+  /* margin-right: 20rpx; */
+  width: 20%;
+  float: left;
+  text-align: center;
+}
+.nav-item:last-child{
+  margin-right: 0;
+}
+.active{
+  color: red;
+}
+.scrollCon{
+  overflow: hidden;
+  background: #fff;
+  padding: 0 30rpx;
+}
