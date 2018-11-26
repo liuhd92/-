@@ -22,6 +22,17 @@ Page({
     currentData:0
 
   },
+  getOrderList: function(e){
+    app.paotui.getOrderList(1, 0)
+    .then(res => {
+      console.log('订单列表获取成功');
+      console.log(res);
+    })
+    .catch(res => {
+      console.log('订单列表获取失败');
+      console.log(res);
+    })
+  },
   //事件处理函数
   bindViewTap: function() {
     wx.navigateTo({
@@ -54,6 +65,11 @@ Page({
   getPhoneNumber: function(res){
     console.log(res)
   },
+
+  onShow: function(){
+    this.getOrderList();
+  },
+
   onLoad: function () {
     // 获取当前位置
     var that=this
