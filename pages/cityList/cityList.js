@@ -1,66 +1,26 @@
-// pages/cityList/cityList.js
+// pages/demo/demo.js
+let City = require('../../utils/allcity.js');
+
 Page({
 
-  /**
-   * 页面的初始数据
-   */
   data: {
-
+    city:City
   },
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {
-
+  bindtap(e){
+    console.log(e.detail)
   },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
+  input(e){
+    this.value = e.detail.value
   },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
+  searchMt(){
+    // 当没有输入的时候，默认inputvalue 为 空字符串，因为组件 只能接受 string类型的 数据 
+    if(!this.value){
+      this.value = '';
+    }
+    this.setData({
+      value:this.value
+    })
   }
+  
 })
