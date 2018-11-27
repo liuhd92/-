@@ -1,4 +1,8 @@
 // component/wx-index-list/wx-index-list.js
+//获取应用实例
+const app = getApp();
+var QQMapWX = require('../../libs/qqmap-wx-jssdk.js');
+var qqmapsdk;
 Component({
   /**
    * 组件的属性列表
@@ -20,7 +24,7 @@ Component({
       type:String,
       value:"",
       observer: function (newVal, oldVal) { 
-        console.log(newVal)
+        //console.log(newVal)
         this.value = newVal;
         this.searchMt();
       }
@@ -35,9 +39,20 @@ Component({
   },
   ready() {
     let data = this.data.data;
+    let that = this;
     this.resetRight(data);
     if (this.data.myCity) {
-      this.getCity()
+      // this.getCity(this)
+      console.log(this);
+      wx.getLocation({
+        type: 'wgs84',
+        success: function (res) {
+          that.latitude = res.latitude;
+          that.longitude = res.longitude;
+          that.locationMt(that)
+        }
+      })
+
     }
   },
   methods: {
@@ -52,20 +67,7 @@ Component({
         rightArr
       })
     },
-    getCity() {
-      wx.getLocation({
-        type: 'wgs84',
-        success: function (res) {
-          console.log(res.latitude)
-          console.log(res.longitude)
-          console.log(this)
-          // this.latitude = res.latitude;
-          // this.longitude = res.longitude;
-          console.log(res)
-          return false;
-        }
-      })
-    },
+
     // 右侧字母点击事件
     jumpMt(e) {
       let jumpNum = e.currentTarget.dataset.id;
@@ -73,8 +75,7 @@ Component({
     },
     // 列表点击事件
     detailMt(e) {
-      let detail = e.currentTarget.dataset.detail;
-      
+      let detail = e.currentTarget.dataset.detail || e._relatedInfo.anchorTargetText;      
       let myEventOption = {
         bubbles: false,//事件是否冒泡
         composed: false,//事件是否可以穿越组件边界
@@ -86,12 +87,10 @@ Component({
     // 获取搜索输入内容
     input(e) {
       this.value = e.detail.value;
+      // 基础搜索功能
       this._search();
     },
-    // 基础搜索功能
-    // searchMt() {
-    //   this._search();
-    // },
+
     _search(){
       let data = this.data.data;
       let newData = [];
@@ -118,9 +117,35 @@ Component({
       this.resetRight(newData);
     },
     // 城市定位
-    locationMt() {
-      // TODO 暂时没有实现 定位自己的城市，需要引入第三方api
-
+    locationMt(that) {
+      if(that.type != 'tap'){
+        // 实例化API核心类
+        var qqMap = new QQMapWX({
+          key: app.globalData.qqmap_key
+        });
+        // 当前城市信息
+        qqMap.reverseGeocoder({
+          location: {
+            latitude: that.latitude,
+            longitude: that.longitude
+          },
+          success: function (res) {
+            // 设置当前城市
+            that.setData({
+              myCity: res.result.address_component.city
+            })
+          },
+          fail: function (res) {
+            console.log(res);
+          },
+          complete: function (res) {
+            console.log(res);
+          }
+        });
+      } else {
+        console.log('fuck')
+      }
+      
     }
 
   }

@@ -6,7 +6,7 @@ var city = [
     item: [
 
       {
-        "name": "北京",
+        "name": "北京市",
         "key": "热门",
         "test":"testValue"
       },

@@ -15,7 +15,7 @@
       <view wx:if="{{myCity}}">
         <view class='list-title'>我的位置</view>
         <view class='list-horizontal'>
-          <view class='list-name {{idx === 0 ?"":"border"}}' data-detail="{{city}}" catchtap='locationMt'>
+          <view class='list-name {{idx === 0 ?"":"border"}}' data-detail="{{city}}" catchtap='detailMt'>
             {{myCity}}
           </view>
         </view>

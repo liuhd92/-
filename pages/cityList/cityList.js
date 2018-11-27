@@ -8,6 +8,7 @@ Page({
   },
 
   bindtap(e){
+    console.log(e)
     console.log(e.detail)
   },
   input(e){
