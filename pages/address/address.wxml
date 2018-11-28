@@ -1,0 +1,29 @@
+<view class="container">
+    <view class="xzdz">
+      <input type='text' placeholder='sjdh' readonly="readonly"></input>
+      <view><image src='/imgs/rightArrow.png'></image></view>
+    </view>
+    <view class="xzdz">
+      <input type='text' placeholder='楼牌/门牌号,如：4单元301' placeholder-style='color:#ccc;'></input>
+    </view>
+    <view class="xzdz">
+      <input type='text' placeholder='联系人' placeholder-style='color:#ccc;' class="haveborder"></input>
+      <input type='text' placeholder='手机号' placeholder-style='color:#ccc;'></input>
+    </view>
+    <view class="xzdz xzdz1"> 
+      <label style="margin-right:20rpx;">
+        <input type='radio' name="sex" data-num='0' style="background:{{num==0?'url(/imgs/radioSelected.png)':'url(/imgs/radio.png)'}} no-repeat center left;background-size:34rpx 34rpx;" value='先生' catchtap='clickMe' >先生</input>
+      </label>
+      <label >
+        <input type='radio'data-num='1' name="sex" value='女士' style="background:{{num==1?'url(/imgs/radioSelected.png)':'url(/imgs/radio.png)'}} no-repeat center left;background-size:34rpx 34rpx;" catchtap='clickMe'>女士</input>
+      </label>
+    </view>
+    <view class="save">
+       
+        <image src="{{click==1?'/imgs/checkboxSelected.png':''}}" hidden="{{hidden?'':'true'}}" data-click="1"  catchtap='clickMe1'  ></image>
+        <image src="{{click==0?'':'/imgs/checkboxSelected.png'}}" hidden="{{hidden?'true':''}}" data-click="0"  catchtap='clickMe1'  ></image>
+        <view>保存到地址簿</view>
+        
+    </view>
+    <view class="sure" >确定</view>
+</view>
