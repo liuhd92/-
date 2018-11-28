@@ -839,8 +839,8 @@ margin-right: 10px;
   flex: 1
 }
 .adresstext view{
-  flex: 1;
-  text-align: right;
+  /* flex: 1; */
+  /* text-align: right; */
   color: #348BED;
 }
 .goodsInfo {

@@ -50,7 +50,15 @@
                 <view class="adressinput">
                   <image src="/imgs/sendPoint.png" class="adressicon"></image>
                   <view class="adresstext">
-                    <view style='color:#999999;padding-right:309rpx;' bindtap='fromAddress'>从哪里发出发</view>
+                    <view style='color:#999999;' bindtap='fromAddress'>
+                    <block wx:if="{{addressDetail==''}}">
+                      从哪里出发
+                    </block>
+                    <block wx:else>
+                      <view style='color:black;'>{{addressDetail}}</view>
+                    </block>
+                    <view style='color:#999999; font-size:13px;' hidden="{{addressHide}}">{{addressUser}}</view>
+                    </view>
                     <view bindtap="chooseAddress">地址簿</view>
                   </view>
                   
@@ -58,7 +66,15 @@
                 <view class="adressinput">
                   <image src="/imgs/receivePoint.png" class="adressicon"></image>
                   <view class="adresstext">
-                    <view style='color:#999999;padding-right:364rpx;' bindtap='toAddress'>送到哪里去</view>
+                    <view style='color:#999999;' bindtap='toAddress'>
+                      <block wx:if="{{addressDetailTo==''}}">
+                        送到哪里去
+                      </block>
+                      <block wx:else>
+                        <view style='color:black;'>{{addressDetailTo}}</view>
+                      </block>
+                      <view style='color:#999999; font-size:13px;' hidden="{{addressHideTo}}">{{addressUserTo}}</view>
+                    </view>
                     <view bindtap="chooseAddress">地址簿</view>
                   </view> 
                 </view>

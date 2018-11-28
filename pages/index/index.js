@@ -14,6 +14,10 @@ Page({
     motto: 'Hello World',
     userInfo: {},
     hasUserInfo: false,
+    addressHide: true,
+    addressHideTo: true,
+    addressDetail: '',
+    addressDetailTo: '',
     mapData: {
       scale: 16,
       markers: [],
@@ -40,45 +44,59 @@ Page({
   },
   fromAddress: function () {
     let that = this;
-    wx.chooseLocation({
-      success: function (res) {
-        console.log('-----------chooseaddress-----------ok')
+    wx.chooseAddress({
+      success: res=>{
         console.log(res)
-        console.log(res.latitude)
-        console.log(res.longitude )
-        if (res.errMsg == "chooseLocation:ok"){
-          wx.setStorageSync('fromaddress_lat', res.latitude)
-          wx.setStorageSync('fromaddress_lng', res.longitude)
-        } else {
-          console.log('fuck~~~~~~~~~~~~~~~~~~')
-        }
-        // wx.setStorageSync('fromaddress', data)
-      },
-      fail: function (res) {
-        console.log('-----------chooseaddress-----------fail')
-        console.log(res)
-      },
-      complete: function (res) {
-        console.log('-----------chooseaddress-----------done')
-        console.log(res)
-      },
+        wx.setStorageSync('fromaddress_detail', JSON.stringify(res));
+        qqMap.geocoder({
+          address: res.cityName+res.countryName+res.detailInfo,
+          success: function (qq_res) {
+            if (qq_res.message == 'query ok') {
+  
+              console.log(qq_res)
+              wx.setStorageSync('fromaddress_lat', qq_res.result.location.lat);
+              wx.setStorageSync('fromaddress_lng', qq_res.result.location.lng);
+              that.setData({
+                addressHide: false,
+                addressDetail: res.detailInfo.length>19 ? res.detailInfo.slice(0, 17)+'...' : res.detailInfo,
+                addressUser: res.userName + '  ' +res.telNumber,
+              })
+
+              wx.navigateBack({
+                // url: '../index/index?lat=' + res.result.location.lat + '&lng=' + res.result.location.lng,
+                url: '../index/index',
+              })
+            }
+          },
+          fail: function (res) {
+            console.log(res);
+          },
+          complete: function (res) {
+            console.log(res);
+          }
+        });
+      }
     })
+    
   },
 
   toAddress: function () {
-    wx.chooseLocation({
-      success: function (res) {
-        console.log('-----------chooseaddress-----------ok')
+    let that = this;
+    wx.chooseAddress({
+      success: res => {
         console.log(res)
-      },
-      fail: function (res) {
-        console.log('-----------chooseaddress-----------fail')
-        console.log(res)
-      },
-      complete: function (res) {
-        console.log('-----------chooseaddress-----------done')
-        console.log(res)
-      },
+        wx.setStorageSync('toaddress_detail', JSON.stringify(res));
+        that.setData({
+          addressHideTo: false,
+          addressDetailTo: res.detailInfo.length > 19 ? res.detailInfo.slice(0, 17) + '...' : res.detailInfo,
+          addressUserTo: res.userName + '  ' + res.telNumber,
+        })
+
+        // wx.navigateBack({
+        //   // url: '../index/index?lat=' + res.result.location.lat + '&lng=' + res.result.location.lng,
+        //   url: '../index/index',
+        // })
+      }
     })
   },
 
@@ -141,6 +159,7 @@ Page({
     let that = this;
     
     console.log('----------localLocation----------');
+    
     // 当前城市信息
     qqMap.reverseGeocoder({
       location: {
@@ -162,8 +181,12 @@ Page({
         console.log(res);
       },
       complete: function (res) {
-        wx.removeStorageSync('fromaddress_lat')
-        wx.removeStorageSync('fromaddress_lng')
+        console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+        console.log(wx.getStorageSync('toaddress_detail'));
+        if(wx.getStorageSync('toaddress_detail') == ''){
+          wx.removeStorageSync('fromaddress_lat')
+          wx.removeStorageSync('fromaddress_lng')
+        }
       }
     });
   },
