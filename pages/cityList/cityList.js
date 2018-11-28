@@ -22,11 +22,13 @@ Page({
       success: function (res) {
         console.log(res);
         if(res.message == 'query ok'){
-          var pages = getCurrentPages();//当前页面栈
-          if (pages.length > 1){
-            var beforPage = pages[pages.length-2]; // 活的上一个页面实例对象
-            beforPage.localLocation(res.result.location.lat, res.result.location.lng);
-          }
+          // var pages = getCurrentPages();//当前页面栈
+          // if (pages.length > 1){
+          //   var beforPage = pages[pages.length-2]; // 活的上一个页面实例对象
+          //   beforPage.localLocation(res.result.location.lat, res.result.location.lng);
+          // }
+          wx.setStorageSync('fromaddress_lat', res.result.location.lat)
+          wx.setStorageSync('fromaddress_lng', res.result.location.lng)
 
 
           wx.navigateBack({

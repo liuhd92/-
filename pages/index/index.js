@@ -39,10 +39,19 @@ Page({
     })
   },
   fromAddress: function () {
+    let that = this;
     wx.chooseLocation({
       success: function (res) {
         console.log('-----------chooseaddress-----------ok')
         console.log(res)
+        console.log(res.latitude)
+        console.log(res.longitude )
+        if (res.errMsg == "chooseLocation:ok"){
+          wx.setStorageSync('fromaddress_lat', res.latitude)
+          wx.setStorageSync('fromaddress_lng', res.longitude)
+        } else {
+          console.log('fuck~~~~~~~~~~~~~~~~~~')
+        }
         // wx.setStorageSync('fromaddress', data)
       },
       fail: function (res) {
@@ -61,7 +70,6 @@ Page({
       success: function (res) {
         console.log('-----------chooseaddress-----------ok')
         console.log(res)
-        // wx.setStorageSync('fromaddress', data)
       },
       fail: function (res) {
         console.log('-----------chooseaddress-----------fail')
@@ -154,6 +162,8 @@ Page({
         console.log(res);
       },
       complete: function (res) {
+        wx.removeStorageSync('fromaddress_lat')
+        wx.removeStorageSync('fromaddress_lng')
       }
     });
   },
@@ -168,7 +178,7 @@ Page({
       success(res) {
         console.log('----------定位成功----------');
         console.log(res)
-        that.localLocation(res.latitude, res.longitude);
+        that.localLocation(wx.getStorageSync('fromaddress_lat') || res.latitude, wx.getStorageSync('fromaddress_lng') || res.longitude);
       },
       fail(res) {
         console.log('---------定位失败----------');
