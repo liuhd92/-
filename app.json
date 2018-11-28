@@ -1,16 +1,17 @@
 {
-  "pages":[
+  "pages": [
+    "pages/index/index",
     "pages/orderList/orderList",
     "pages/orderDetail/orderDetail",
     "pages/goodInfo/goosInfo",
     "pages/cityList/cityList",
-    "pages/index/index",
+    "pages/test/test",
     "pages/logs/logs"
   ],
-  "window":{
-    "backgroundTextStyle":"light",
+  "window": {
+    "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "跑腿",
-    "navigationBarTextStyle":"black"
+    "navigationBarTextStyle": "black"
   }
 }

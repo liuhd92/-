@@ -1,6 +1,11 @@
 //index.js
 //获取应用实例
 const app = getApp();
+var QQMapWX = require('../../libs/qqmap-wx-jssdk.js');
+var qqmapsdk;
+var qqMap = new QQMapWX({
+  key: app.globalData.qqmap_key
+});
 //用户登陆状态
 const login_status = app.globalData.login_status;
 
@@ -33,6 +38,42 @@ Page({
       console.log(res);
     })
   },
+  fromAddress: function () {
+    wx.chooseLocation({
+      success: function (res) {
+        console.log('-----------chooseaddress-----------ok')
+        console.log(res)
+        // wx.setStorageSync('fromaddress', data)
+      },
+      fail: function (res) {
+        console.log('-----------chooseaddress-----------fail')
+        console.log(res)
+      },
+      complete: function (res) {
+        console.log('-----------chooseaddress-----------done')
+        console.log(res)
+      },
+    })
+  },
+
+  toAddress: function () {
+    wx.chooseLocation({
+      success: function (res) {
+        console.log('-----------chooseaddress-----------ok')
+        console.log(res)
+        // wx.setStorageSync('fromaddress', data)
+      },
+      fail: function (res) {
+        console.log('-----------chooseaddress-----------fail')
+        console.log(res)
+      },
+      complete: function (res) {
+        console.log('-----------chooseaddress-----------done')
+        console.log(res)
+      },
+    })
+  },
+
   //事件处理函数
   bindViewTap: function() {
     wx.navigateTo({
@@ -60,36 +101,110 @@ Page({
   onMapRegionChange: function (e) {//点击地图
     "end" !== e.type && this.data.pinTextVisible && this.setData({
       pinTextVisible: !1
-    }), "end" !== e.type || void 0 !== this.data.sendAddress.id && "buy" !==  this.data.pageMode || this.getCenterLocation();
+    }), "end" !== e.type || void 0 !== this.data.sendAddress.id && "buy" !==  this.data.pageMode// || //this.getCenterLocation();
   },
+
   getPhoneNumber: function(res){
     console.log(res)
   },
 
   onShow: function(){
     this.getOrderList();
+    this.onLoad();
   },
 
-  onLoad: function () {
-    // 获取当前位置
-    var that=this
-    wx.getLocation({
-      type: 'wgs84',
-      success(res) {
-        const latitude = res.latitude
-        const longitude = res.longitude
-        const speed = res.speed
-        const accuracy = res.accuracy
-        console.log(latitude);
-        console.log(longitude);
+  onTapCity: function(){
+    wx.navigateTo({
+      url: '../cityList/cityList',
+      success: function(res) {},
+      fail: function(res) {},
+      complete: function(res) {},
+    })
+  },
+  onShow: function(){
+    let that = this;
+    this.onLoad();
+  },
+
+  /**
+   * 地址逆解析
+   */
+  localLocation: function(lat, lng){
+    let that = this;
+    
+    console.log('----------localLocation----------');
+    // 当前城市信息
+    qqMap.reverseGeocoder({
+      location: {
+        latitude: lat,
+        longitude: lng
+      },
+      success: function (res) {
+        console.log(res)
+        // 设置当前城市
         that.setData({
-          lat: res.latitude,
-          lng: res.longitude
+          myCity: res.result.address_component.city,
+          mapData: {
+            lng: lng,
+            lat: lat
+          }
         })
+      },
+      fail: function (res) {
+        console.log(res);
+      },
+      complete: function (res) {
+      }
+    });
+  },
+
+  onLoad: function (e) {
+    var that = this
+    // 获取当前位置
+    var latitude = '', longitude = '';
+
+    wx.getLocation({
+      type: 'gcj02',
+      success(res) {
+        console.log('----------定位成功----------');
+        console.log(res)
+        that.localLocation(res.latitude, res.longitude);
+      },
+      fail(res) {
+        console.log('---------定位失败----------');
+        console.log(res)
+        if (res.errMsg == 'getLocation:fail auth deny') {
+          wx.showModal({
+            title: '',
+            content: '您尚未授权小程序获取地理位置 / 通讯地址，是否进入设置页面打开？',
+            success: function (res) {
+              if (res.cancel) {
+                //点击取消,默认隐藏弹框
+                wx.showToast({
+                  title: '点击了取消',
+                })
+              } else {
+                // 打开设置页
+                wx.openSetting({
+                  success: function (res) {
+                    console.log(res)
+                    
+                  },
+                  fail: function (res) {
+                    console.log(res)
+                  }
+                })
+              }
+            }
+          })
+        }
+      },
+      complete(res) {
+        console.log('---------定位结束----------')
+        console.log(res)
       }
     })
-    
-    console.log('login_status : ' + login_status)
+
     
     if (app.globalData.userInfo) {
       this.setData({
@@ -120,6 +235,12 @@ Page({
     // 地图
   },
 
+  locFormat: function (e) {
+    if (Number.isNaN(e) || null === e || "null" === e || void 0 === e || "undefined" === e) return 0;
+    var t = Math.abs(e);
+    return 0 <= t && t <= 180 ? Math.round(1e6 * e) : Math.round(e);
+  },
+
   chooseAddress: function(e){
     wx.chooseAddress({
       success: function (res) {
@@ -132,6 +253,34 @@ Page({
         console.log(res.detailInfo)
         console.log(res.nationalCode)
         console.log(res.telNumber)
+      },
+      fail: function(res){
+        
+        console.log(res)
+        if (res.errMsg == 'chooseAddress:fail auth deny'){
+          wx.showModal({
+            title: '',
+            content: '您尚未授权小程序获取地理位置 / 通讯地址信息，是否进入设置页面打开？',
+            success: function (res) {
+              if (res.cancel) {
+                //点击取消,默认隐藏弹框
+                wx.showToast({
+                  title: '点击了取消',
+                })
+              } else {
+                // 打开设置页
+                wx.openSetting({
+                  success: function (res) {
+
+                  },
+                  fail: function (res) {
+
+                  }
+                })
+              }
+            }
+          })
+        }
       }
     })
   },

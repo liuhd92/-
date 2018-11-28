@@ -5,7 +5,7 @@
         </view>
         <image class="slogan" mode="aspectFit" src="https://vfile.meituan.net/paotui/jfj3nmqp8j8aor.png"></image>
         <view bindtap="onTapCity" class="cityContainer">
-        北京
+        {{myCity}}
       <image class="cityIcon" mode="aspectFit" src="https://vfile.meituan.net/paotui/jfj3ojkyhk6gvi.png"></image>
         </view>
   </view>
@@ -18,7 +18,7 @@
           <!-- 待支付 -->
             <cover-view class="orderText" wx:if="{{waitForPaidOrderIds.length>0}}">有1个待支付的订单 </cover-view>
             <!-- 进行中 -->
-            <cover-view class="orderText" wx:else>有几个个进行中的订单 </cover-view>
+            <cover-view class="orderText" wx:else>有几个进行中的订单 </cover-view>
             <!-- 向左箭头 -->
             <cover-image class="rightArrow orderArrow" src="https://vfile.meituan.net/paotui/jfj3l1kiryhkt9.png"></cover-image>
         </cover-view>
@@ -50,16 +50,16 @@
                 <view class="adressinput">
                   <image src="/imgs/sendPoint.png" class="adressicon"></image>
                   <view class="adresstext">
-                    <input placeholder="从哪里发出" ></input>
-                    <view>地址簿</view>
+                    <view style='color:#999999;padding-right:309rpx;' bindtap='fromAddress'>从哪里发出发</view>
+                    <view bindtap="chooseAddress">地址簿</view>
                   </view>
                   
                 </view>
                 <view class="adressinput">
                   <image src="/imgs/receivePoint.png" class="adressicon"></image>
                   <view class="adresstext">
-                    <input placeholder="送到哪里去"  ></input>
-                    <view>地址簿</view>
+                    <view style='color:#999999;padding-right:364rpx;' bindtap='toAddress'>送到哪里去</view>
+                    <view bindtap="chooseAddress">地址簿</view>
                   </view> 
                 </view>
            </view>
@@ -103,3 +103,4 @@
         </view>
     </view>
 </view>
+<auth-modal bind:click-cancel="onLocationAuthModalCancel" bind:click-confirm="onLocationAuthModalConfirm" bind:set-end="onSettingEnd" content="检测到您没有打开美团跑腿的地理位置权限，是否去设置打开？" show="{{locationAuthModalVisible}}" textCancel="取消" textOk="确定"></auth-modal>

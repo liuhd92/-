@@ -75,7 +75,7 @@ Component({
     },
     // 列表点击事件
     detailMt(e) {
-      let detail = e.currentTarget.dataset.detail || e._relatedInfo.anchorTargetText;      
+      let detail = e.currentTarget.dataset.detail || {'name':e._relatedInfo.anchorTargetText, 'key': 'myLocation'}
       let myEventOption = {
         bubbles: false,//事件是否冒泡
         composed: false,//事件是否可以穿越组件边界
