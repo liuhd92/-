@@ -181,8 +181,6 @@ Page({
         console.log(res);
       },
       complete: function (res) {
-        console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-        console.log(wx.getStorageSync('toaddress_detail'));
         if(wx.getStorageSync('toaddress_detail') == ''){
           wx.removeStorageSync('fromaddress_lat')
           wx.removeStorageSync('fromaddress_lng')

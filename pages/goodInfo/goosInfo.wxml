@@ -1,16 +1,17 @@
 <view class="goodsContainer">
     <view class="goodsTypes">
-        <tag-list></tag-list>
+        <tag-list bind:selected="selectedGoodsType" defaultSelect="{{defaultSelect}}" tagList="{{goodsTypes}}" tagWidth="208rpx">
+        </tag-list>
     </view>
     <view class="goodsTitle big">重量</view>
-    <view class="goodsTitle" style="color: #FA9817;">小于5公斤</view>
-    <view class="goodsTitle" style="color: #FA9817;" hidden>{{goodsWeight}}公斤</view>
+    <view class="goodsTitle" style="color: #FA9817;" wx:if="{{goodsWeight<5}}">小于5公斤</view>
+    <view class="goodsTitle" style="color: #FA9817;" wx:else>{{goodsWeight}}公斤</view>
     <view>
-        <slider activeColor="#FFB000" backgroundColor="#EDEDED"></slider>
+        <slider activeColor="#FFB000" backgroundColor="#EDEDED" bindchange="chooseWeight" bindchanging="changeingWeight" class="weightSlider" max="20" min="4" value="{{goodsWeight}}"></slider>
         <view class="weightLabel">
             <text>小于5公斤</text>
             <text>20公斤</text>
         </view>
     </view>
-    <button  class="confirmBtn lg">确定</button>
+    <button bindtap="clickConfirmBtn" class="confirmBtn lg {{selectedType>-1?'primary':'disabled'}}">确定</button>
 </view>

@@ -29,6 +29,10 @@ class paotui {
     return this._request.postRequest(this._baseUrl + 'buyOrder/order_list', data, this._defaultHeader).then(res => res.data);
   }
 
+  getGoodsList(type) {
+    let data = { type: type }
+    return this._request.postRequest(this._baseUrl +'goods/goods_list', data, this._defaultHeader).then(res => res.data);
+  }
   /**
    * 获取所有课程
    */
