@@ -4,7 +4,7 @@
     "pages/cityList/cityList",
     "pages/orderList/orderList",
     "pages/orderDetail/orderDetail",
-    "pages/goodInfo/goosInfo",
+    "pages/goodsInfo/goodsInfo",
     "pages/address/address",
     "pages/logs/logs"
   ],

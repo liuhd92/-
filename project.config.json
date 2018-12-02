@@ -70,9 +70,9 @@
 					"query": ""
 				},
 				{
-					"id": -1,
+					"id": 5,
 					"name": "goodsInfo",
-					"pathName": "pages/goodInfo/goosInfo",
+					"pathName": "pages/goodsInfo/goodsInfo",
 					"query": ""
 				}
 			]
