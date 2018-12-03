@@ -16,11 +16,13 @@ Page({
    * 页面的初始数据
    */
   data: {
-    selectedType: -1,
-    selectedName: "",
     goodsTypes: null,
+    selectedType: 71,
+    selectedName: "餐饮",
+    defaultSelect: {},
+    goodsWeight: 1,
+    tagWidth: 99,
   },
-
   selectedGoodsType: function (e) {
     this.setData({
       selectedType: e.detail.id,
@@ -37,7 +39,36 @@ Page({
       goodsWeight: 4 === e.detail.value ? 1 : e.detail.value
     });
   },
-
+  chooseItem: function (e) {
+    var t = e.target.dataset.value;
+    console.log(e.target.dataset.value)
+    if (t && !t.disabled){
+      this.setData({
+      selectedType: e.target.dataset.value
+    })
+    }
+  },
+  clickConfirmBtn: function (e) {
+    if (-1 !== this.data.selectedType) {
+      console.log(this.data.goodsWeight)
+      var goodsWeight = this.data.goodsWeight == 1 ? '小于5公斤' : this.data.goodsWeight+'公斤' ;
+      var goodsId = this.data.selectedType.id;
+      var goodsName = this.data.selectedType.text
+      wx.setStorageSync('qsj', goodsName+'、'+goodsWeight);
+      wx.setStorageSync('qsj_id', goodsId);
+      wx.setStorageSync('qsj_name', goodsName);
+      wx.setStorageSync('qsj_weight', this.data.goodsWeight);
+      wx.navigateBack({
+        
+      })
+    } else {
+      wx.showToast({
+        icon: "none",
+        title: "请先选择物品类型"
+      });
+    }
+    
+  },
   getGoodsList: function (e) {
     let that = this;
     app.paotui.getGoodsList(2)
@@ -49,17 +80,14 @@ Page({
         if(res.code == 0){
           for(var i in res.data){
             var detail = {};
-            detail['selectedType'] = res.data[i].id
-            detail['selectedName'] = res.data[i].name
-            // console.log(i)
-            // console.log(res.data[i]);
+            detail['id'] = res.data[i].id
+            detail['text'] = res.data[i].name
             goodsTypes[i] = detail;
           }
         }
 
         that.setData({
-          goodsTypes: goodsTypes,
-          test: 123,
+          tagList: goodsTypes,
         })
           console.log(goodsTypes);
       })
@@ -73,6 +101,16 @@ Page({
    */
   onLoad: function (options) {
     this.getGoodsList();
+    console.log(wx.getStorageSync('qsj_id'))
+    this.setData({
+      goodsWeight: wx.getStorageSync('qsj_weight') || 0,
+      selectedType: { 'id': wx.getStorageSync('qsj_id'), 'text': wx.getStorageSync('qsj_name')},
+      
+    })
+   
+    console.log(wx.getStorageSync('qsj_name'))
+    console.log(wx.getStorageSync('qsj_weight'))
+    
   },
 
   /**

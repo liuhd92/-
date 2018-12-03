@@ -28,7 +28,8 @@ Page({
     ongoingOrderIds:[],
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     // 取送件代购切换
-    currentData:0
+    currentData:0,
+    qsjValue: '',
 
   },
   getOrderList: function(e){
@@ -263,7 +264,12 @@ Page({
         }
       })
     }
-    // 地图
+    // 取送件内容
+    if (wx.getStorageSync('qsj')){
+      that.setData({
+        qsjValue: wx.getStorageSync('qsj')
+      })
+    }
   },
 
   locFormat: function (e) {

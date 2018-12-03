@@ -50,7 +50,7 @@
                 <view class="adressinput">
                   <image src="/imgs/sendPoint.png" class="adressicon"></image>
                   <view class="adresstext">
-                    <view style='color:#999999;width:304px' bindtap='fromAddress'>
+                    <view style='color:#999999;width:264px' bindtap='fromAddress'>
                     <block wx:if="{{addressDetail==''}}">
                       从哪里出发
                     </block>
@@ -66,7 +66,7 @@
                 <view class="adressinput">
                   <image src="/imgs/receivePoint.png" class="adressicon"></image>
                   <view class="adresstext">
-                    <view style='color:#999999;width:304px' bindtap='toAddress'>
+                    <view style='color:#999999;width:264px' bindtap='toAddress'>
                       <block wx:if="{{addressDetailTo==''}}">
                         送到哪里去
                       </block>
@@ -82,7 +82,9 @@
             <goods-item class="goodInfoBox"   id="goodsItem">
               <view class="goodsInfo infoContainer">
                   <image class="goodsIconBefore"src="/imgs/rectangle.png"></image>
-                  <view class="goodsText placeholder" >要配送的物品类型、重量</view>
+                    <block wx:if="{{qsjValue == ''}}">
+                    <navigator url="../goodsInfo/goodsInfo" class="goodsText placeholder">要配送的物品类型、重量</navigator></block>
+                    <block wx:else><navigator url="../goodsInfo/goodsInfo" >{{qsjValue}}</navigator></block>
                   <image class="rightArrow"src="/imgs/rightArrow.png"></image>
               </view>
             </goods-item>
