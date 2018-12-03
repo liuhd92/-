@@ -49,7 +49,8 @@ Page({
     }
   },
   clickConfirmBtn: function (e) {
-    if (-1 !== this.data.selectedType) {
+    console.log(this.data)
+    if ('' !== this.data.selectedType.id) {
       console.log(this.data.goodsWeight)
       var goodsWeight = this.data.goodsWeight == 1 ? '小于5公斤' : this.data.goodsWeight+'公斤' ;
       var goodsId = this.data.selectedType.id;
@@ -103,7 +104,7 @@ Page({
     this.getGoodsList();
     console.log(wx.getStorageSync('qsj_id'))
     this.setData({
-      goodsWeight: wx.getStorageSync('qsj_weight') || 0,
+      goodsWeight: wx.getStorageSync('qsj_weight') || 1,
       selectedType: { 'id': wx.getStorageSync('qsj_id'), 'text': wx.getStorageSync('qsj_name')},
       
     })
