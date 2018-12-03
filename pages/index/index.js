@@ -92,11 +92,6 @@ Page({
           addressDetailTo: res.detailInfo.length > 19 ? res.detailInfo.slice(0, 17) + '...' : res.detailInfo,
           addressUserTo: res.userName + '  ' + res.telNumber,
         })
-
-        // wx.navigateBack({
-        //   // url: '../index/index?lat=' + res.result.location.lat + '&lng=' + res.result.location.lng,
-        //   url: '../index/index',
-        // })
       }
     })
   },

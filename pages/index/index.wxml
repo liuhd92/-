@@ -83,7 +83,7 @@
               <view class="goodsInfo infoContainer">
                   <image class="goodsIconBefore"src="/imgs/rectangle.png"></image>
                     <block wx:if="{{qsjValue == ''}}">
-                    <navigator url="../goodsInfo/goodsInfo" class="goodsText placeholder">要配送的物品类型、重量</navigator></block>
+                    <navigator url="../goodsInfo/goodsInfo" style="{{addressDetail != '' && addressDetailTo != '' ? 'color:red' : '' }}" class="goodsText placeholder">要配送的物品类型、重量</navigator></block>
                     <block wx:else><navigator url="../goodsInfo/goodsInfo" >{{qsjValue}}</navigator></block>
                   <image class="rightArrow"src="/imgs/rightArrow.png"></image>
               </view>
