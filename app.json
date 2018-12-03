@@ -1,17 +1,18 @@
 {
-  "pages":[
+  "pages": [
     "pages/index/index",
     "pages/cityList/cityList",
     "pages/orderList/orderList",
     "pages/orderDetail/orderDetail",
     "pages/goodsInfo/goodsInfo",
     "pages/address/address",
-    "pages/logs/logs"
+    "pages/logs/logs",
+    "pages/orderConfirm/orderConfirm"
   ],
-  "window":{
-    "backgroundTextStyle":"light",
+  "window": {
+    "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "跑腿",
-    "navigationBarTextStyle":"black"
+    "navigationBarTextStyle": "black"
   }
 }
