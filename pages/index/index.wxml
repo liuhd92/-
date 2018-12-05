@@ -40,8 +40,8 @@
     
     <view class="main-form">
         <view class="form-tabs" id="form-tabs">
-            <view bindtap="togglePageMode" data-current = "0" class='form-tab-btn left {{currentData == 0 ? "active" : ""}}' bindtap='checkCurrent' >取送件</view>
-            <view bindtap="togglePageMode" data-current = "1" class='form-tab-btn right {{currentData == 1 ? "active" : ""}}' bindtap='checkCurrent'>代购<view class="buy-badge">同城</view>
+            <view bindtap="togglePageMode" data-current = "0" class='form-tab-btn left {{currentData == 0 ? "active" : ""}}' bindtap='checkCurrent' >取送件1</view>
+            <view bindtap="togglePageMode" data-current = "1" class='form-tab-btn right {{currentData == 1 ? "active" : ""}}' bindtap='checkCurrent'>代购2<view class="buy-badge">同城</view>
             </view>
         </view>
        

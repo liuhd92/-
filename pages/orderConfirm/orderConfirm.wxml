@@ -1,0 +1,124 @@
+<view class="container {{isIpx?'fix-iphonex-wrap':''}}" style="{{containerStyle}}">
+    <map id="orderMap" latitude="{{orderMap.latitude}}" longitude="{{orderMap.longitude}}" markers="{{orderMap.markers}}">
+        <cover-view catchtap="clickOrderMapCover" class="order-map-cover" wx:if="{{orderMap.displayCover}}"></cover-view>
+        <cover-image class="centerPoint" src="https://vfile.meituan.net/paotui/jfj3t6pvpb9.png" wx:if="{{showPin}}"></cover-image>
+    </map>
+        <goods-info bindtap="clickGoodsInfo" goodsTypeName="{{goodsInfoObj.goodsTypeName}}" weight="{{goodsInfoObj.goodsWeight}}">
+      <view class="goodsInfo infoContainer">
+      <image class="goodsIconBefore" src="/imgs/rectangle.png"></image>
+      <view class="goodsText" wx:if="{{goodsTypeName}}">{{goodsTypeName}}、{{_displayWeight}}</view>
+      <view class="goodsText {{highlight?'highlight':'placeholder'}}" wx:else>要配送的物品类型、重量</view>
+      <image class="rightArrow" src="/imgs/rightArrow.png"></image>
+  </view>
+
+    </goods-info>
+    <view class="addrBlock infoContainer">
+        <address-item address="{{sendAddress}}" bind:tapAddressContent="handleSendAddressContentTap" bind:tapAddressNote="handleSendAddressNoteTap" hasAddressNote="{{!isAddressDegrade}}" hasAddressNoteBorder="true" hasBorderBottom="{{!isAddressDegrade}}" iconType="1" placeholder="物品从哪里送出">
+        <view class="addressItem">
+          <image class="addressIcon" src="/imgs/sendPoint.png"></image>
+          <view bind:tap="handleAddressContentTap" class="addressBox" style="height: 73px">
+            <view class="addressContent placeholder">物品从哪里送出</view>
+            <view catch:tap="handleAddressNoteTap" class="addressNoteBox">
+              <view class="addressNote has-border"> 地址薄 </view>
+            </view>
+          </view>
+        </view>
+        </address-item>
+        <address-item address="{{receiveAddress}}" bind:tapAddressContent="handleReceiveAddressContentTap" bind:tapAddressNote="handleReceiveAddressNoteTap" hasAddressNote="{{!isAddressDegrade}}" hasAddressNoteBorder="true" iconType="2" placeholder="物品要送达哪里">
+          <view class="addressItem noBorder">
+            <image class="addressIcon" src="/imgs/receivePoint.png"></image>
+            <view bind:tap="handleAddressContentTap" class="addressBox"style="height: 73px">
+              <view class="addressContent placeholder">物品要送达哪里</view>
+              <view catch:tap="handleAddressNoteTap" class="addressNoteBox">
+                <view class="addressNote has-border"> 地址薄 </view>
+              </view>
+            </view>
+          </view>
+        </address-item>
+    </view>
+    <view bindtap="clickCoupon" class="couponBlock">
+        <list-item item="{{couponObj}}">
+          <view class="infoContainerss blockContentss">
+            <view class="contentLeftss">红包</view>
+            <text class="contentRightss placeholderss"> 暂无可用红包</text>
+            <image class="rightArrow" src="/imgs/rightArrow.png"></image>
+          </view>
+        </list-item>
+    </view>
+    <view class="addInfo infoContainer">
+        <view bindtap="clickComment" class="comment blockContent borderBtm">
+            <view style="margin-bottom: 30rpx;">备注：</view>
+            <view class="inputContainer" wx:if="{{commentObj.isEditing}}">
+                <input bindblur="inputBlur" class="commentInput" focus="true" maxlength="50" value="{{commentObj.text}}"></input>
+            </view>
+            <view capture-catch:touchstart="deleteRemark" class="delContainer" wx:if="{{commentObj.isEditing}}">
+                <image class="commentDel" src="https://vfile.meituan.net/paotui/jfj3y1d4rjatt9.png"></image>
+            </view>
+            <view class="commentContent" wx:elif="{{commentObj.text.length>0}}">{{commentObj.text}}</view>
+            <view class="commentContent placeholderss" style="margin-bottom: 30rpx;" wx:else>物品描述或送件要求</view>
+        </view>
+        <list-item bindtap="clickTip" item="{{tipObj}}">
+          <view class="infoContainerss blockContentss borderBtmss">
+            <view class="contentLeftss">小费</view>
+            <text class="contentRightss placeholderss"> 加小费抢单更快哦</text>
+            <image class="rightArrow" src="/imgs/rightArrow.png"></image>
+          </view>
+        </list-item>
+        <!-- <list-item bindtap="clickInsurance" item="{{insuranceObj}}" wx:if="{{insuranceSlide.insurances&&insuranceSlide.insurances.length>0}}"></list-item> -->
+        <list-item  item="{{timeObj}}">
+        <!-- bindtap="clickTime" -->
+          <view class="infoContainerss blockContentss">
+            <view class="contentLeftss">取件时间</view>
+            <view wx:if="{{time == ''}}"  bindchange="bindTimeChange">
+              <!-- <text class="contentRightsss" bindchange="bindTimeChange">立即取件</text> -->
+              <picker hidden="false" mode="time" bindchange="bindTimeChange" value="{{time}}" start="09:01" end="21:01">
+                <view class="picker">
+                  <text class="contentRightsss">立即取件{{time}}</text>
+                </view>
+              </picker>
+              
+            </view>
+            <view wx:else>
+              <picker mode="time" value="{{time}}" bindchange="bindTimeChange">
+                <view class="picker">
+                  <text class="contentRightsss" style="{{time_style}}">
+                    <block wx:if="{{time == ''}}">立即领取</block>
+                    <block wx:else>今日 {{time}}</block>
+                    
+                  </text>
+                </view>
+              </picker>
+            </view>
+            <image class="rightArrow" src="/imgs/rightArrow.png"></image>
+            
+          </view>
+        </list-item>
+    </view>
+    <view class="extra-fee {{isIpx?'extra-fee-ipx':''}}" wx:if="{{hasExtraFee}}">
+        <view class="extra-fee-reason">{{extraFeeReason}}</view>
+    </view>
+    <submit-footer bind:show-price="clickTotalFee" bind:submit="orderSumit" class="submit" label="总价" price="{{totalFee}}"></submit-footer>
+    <foot-slide bind:click-bg="clickTipCancel" bind:click-cancel="clickTipCancel" bind:click-confirm="tipConfirm" disableRight="{{tipSlide.disableRight}}" show="{{tipSlide.show}}" slideStatus="{{tipSlide.slideStatus}}" style="z-index: 1300;" title="小费">
+        <view class="slideContent" slot="slideContent">
+            <tip-content bind:confirm="setTipValue" bind:overflow="setTipValueOverflow" class="tip-content" show="{{tipSlide.show}}" state="{{tipSlide.state}}" tipFee="{{tipSlide.tipFee}}" tipTags="{{tipSlide.tipTags}}" tipfeeMax="{{tipSlide.tipfeeMax}}"></tip-content>
+        </view>
+    </foot-slide>
+</view>
+
+
+
+<view class="iphone-x-wrapper" style="{{iphonexWrapperStyle}}">
+    <view class="submit-footer" style="{{submitFooterStyle}}">
+        <view bindtap="tapPriceBlock" class="price-block">
+            <text class="label">{{label}}</text>
+            <view class="price">
+                <text class="price-unit">￥</text>
+                <text class="price-value">{{displayPrice||'-'}}</text>
+            </view>
+            <image class="right-arrow" src="https://vfile.meituan.net/paotui/jfj3l1kiryhkt9.png"></image>
+        </view>
+        <form bindsubmit="onSubmitTap" class="submit-btn" reportSubmit="true">
+            <button class="submit-btn" formType="submit">提交订单</button>
+        </form>
+    </view>
+</view>

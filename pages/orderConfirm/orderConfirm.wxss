@@ -1,0 +1,588 @@
+page {
+    height: 100%;
+}
+
+.container {
+    justify-content: flex-start;
+    padding-bottom: 130rpx;
+    box-sizing: border-box;
+}
+
+.rightArrow {
+    width: 10rpx;
+    height: 16rpx;
+}
+
+#orderMap {
+    width: 100%;
+    height: 360rpx;
+    position: relative;
+}
+
+.centerPoint {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 40rpx;
+    height: 57rpx;
+}
+
+.notShow {
+    display: none;
+}
+
+.couponBlock {
+    background-color: #fff;
+    box-shadow: 0 0 10rpx 0 rgba(0,0,0,0.06);
+    border-radius: 3rpx;
+    margin-bottom: 20rpx;
+}
+
+.infoContainer {
+    background-color: #fffeee;
+    box-shadow: 0 0 10rpx 0 rgba(0,0,0,0.06);
+    border-radius: 3rpx;
+    color: #333333;
+    font-size: 26rpx;
+    line-height: 33rpx;
+    margin-bottom: 20rpx;
+}
+
+.blockContent {
+    width: 652rpx;
+    min-height: 40rpx;
+    padding: 30rpx 28rpx 30rpx 30rpx;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.borderBtm {
+    border-bottom: 1rpx solid #E5E5E5;
+}
+
+.contentLeft {
+    width: 114rpx;
+}
+
+.contentRight {
+    width: 500rpx;
+    margin-right: 20rpx;
+    text-align: right;
+}
+
+.rightArrow {
+    width: 10rpx;
+    height: 16rpx;
+}
+
+.addrBlock {
+    min-height: 269rpx;
+    position: relative;
+}
+
+.couponAmount {
+    color: #FB4E44;
+}
+
+.addInfo:last-child {
+    border-bottom: none;
+}
+
+.comment {
+    justify-content: flex-start;
+    padding-bottom: 0;
+    height: 70rpx;
+}
+
+.commentContent {
+    max-width: 562rpx;
+    margin-left: 10rpx;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-bottom: 30rpx;
+}
+
+.inputContainer {
+    display: flex;
+    align-items: center;
+}
+
+.commentInput {
+    width: 522rpx;
+    height: 37rpx;
+    line-height: 37rpx;
+    min-height: 36rpx;
+    margin-right: 10rpx;
+    margin-bottom: 30rpx;
+}
+
+.delContainer {
+    height: 100rpx;
+    width: 60rpx;
+    margin-left: auto;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: -30rpx;
+    margin-right: -28rpx;
+}
+
+.commentDel {
+    width: 26rpx;
+    height: 26rpx;
+    margin-right: 28rpx;
+}
+
+.placeholderss {
+    color: #ccc;
+}
+
+.protocolBlock {
+    width: 710rpx;
+    margin-top: 10rpx;
+    margin-bottom: 40rpx;
+    font-size: 24rpx;
+    line-height: 28rpx;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.protocolRadio {
+    width: 34rpx;
+    height: 34rpx;
+    margin-left: 10rpx;
+}
+
+.protocolText {
+    color: #BFBFBF;
+    margin-left: 10rpx;
+}
+
+.protocolLink {
+    color: #999999;
+}
+
+.extra-fee {
+    width: 710rpx;
+    background-color: #FFF1CF;
+    padding: 14rpx 20rpx;
+    opacity: 0.95;
+    font-size: 24rpx;
+    color: #333333;
+    margin: auto;
+    position: fixed;
+    left: 0;
+    bottom: 130rpx;
+}
+
+.extra-fee-ipx {
+    bottom: 176rpx;
+}
+
+.extra-fee-reason {
+    line-height: 33rpx;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+.orderBottom {
+    width: 100%;
+    height: 94rpx;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    border-top: 1rpx solid #ddd;
+}
+
+.priceBlock {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: #fff;
+}
+
+.totalText {
+    margin: 8rpx 10rpx 0 30rpx;
+    font-size: 24rpx;
+    color: #666666;
+}
+
+.price {
+    margin-right: 20rpx;
+    color: #FB4E44;
+}
+
+.priceUnit {
+    font-size: 24rpx;
+}
+
+.priceValue {
+    font-size: 40rpx;
+}
+
+.submitBtn {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: linear-gradient(-180deg,#FFD05C 0%,#FEBF2B 100%);
+    color: #333333;
+    font-size: 32rpx;
+    line-height: 45rpx;
+}
+
+.submitBtn button {
+    background: none;
+    border: none;
+    width: 375rpx;
+    height: 95rpx;
+}
+
+.slideContent {
+    margin: 40rpx 30rpx;
+}
+
+.price-rule {
+    height: 90rpx;
+    display: flex;
+    align-items: center;
+    font-size: 24rpx;
+    color: #348BED;
+}
+
+.submit {
+    position: fixed;
+    width: 100%;
+    z-index: 1200;
+    margin-top: auto;
+    bottom: 0;
+}
+
+.tip-content {
+    z-index: 1300;
+}
+
+.order-map-cover {
+    width: 100%;
+    height: 360rpx;
+}
+
+.order-map-cover {
+    background: rgba(0,0,0,0.3);
+    z-index: 100;
+}
+
+.infoContainer {
+    background-color: #fff;
+    box-shadow: 0 0 10rpx 0 rgba(0,0,0,0.06);
+    border-radius: 3rpx;
+    color: #333333;
+    font-size: 28rpx;
+}
+
+.goodsInfo {
+    width: 654rpx;
+    height: 100rpx;
+    padding: 0 28rpx;
+    margin-bottom: 20rpx;
+    display: flex;
+    align-items: center;
+}
+
+.goodsIconBefore {
+    width: 12rpx;
+    height: 12rpx;
+    position: relative;
+    left: 1rpx;
+}
+
+.rightArrow {
+    width: 10rpx;
+    height: 16rpx;
+    margin-left: auto;
+}
+
+.goodsText {
+    margin-left: 20rpx;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+}
+
+.placeholder {
+    color: #999999;
+}
+
+.highlight {
+    color: #FB4E44;
+}
+
+
+.addressItem {
+    width: 680rpx;
+    padding-left: 28rpx;
+    display: flex;
+    align-items: center;
+    font-size: 28rpx;
+}
+
+.addressBox {
+    height: 134rpx;
+    flex: 1;
+    border-bottom: 1rpx solid #E5E5E5;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.noBorder .addressBox {
+    border: none;
+}
+
+.addressIcon {
+    margin: 0 20rpx 0 0;
+    width: 14rpx;
+    height: 14rpx;
+    flex-shrink: 0;
+}
+
+.addressContent {
+    color: #333333;
+    padding-right: 30rpx;
+}
+
+.addressContact text {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.addressContact .name {
+    max-width: 417rpx;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    margin-right: 20rpx;
+}
+
+.addressLocation {
+    line-height: 40rpx;
+}
+
+.ellipsisLocation {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    word-break: break-all;
+}
+
+.addressContact {
+    color: #999999;
+    font-size: 24rpx;
+    line-height: 38rpx;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    word-break: break-all;
+}
+
+.towLine {
+    -webkit-line-clamp: 2;
+}
+
+.addressNoteBox {
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.addressNote {
+    font-size: 28rpx;
+    color: #348BED;
+    width: 142rpx;
+    height: 60rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-left: 1rpx solid;
+    border-color: transparent;
+    flex-shrink: 0;
+}
+
+.addressNote.has-border {
+    border-color: #F0F0F0;
+}
+
+.addressArrow {
+    width: 10rpx;
+    height: 16rpx;
+    margin-left: auto;
+    margin-right: 28rpx;
+}
+
+.placeholder {
+    color: #999999;
+}
+
+.gray {
+    color: #999;
+    margin-left: 20rpx;
+}
+
+
+
+.infoContainerss {
+    color: #333333;
+    font-size: 26rpx;
+    line-height: 33rpx;
+}
+
+.blockContentss {
+    width: 652rpx;
+    min-height: 40rpx;
+    padding: 30rpx 28rpx 30rpx 30rpx;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.borderBtmss {
+    border-bottom: 1rpx solid #E5E5E5;
+}
+
+.contentLeftss {
+    width: 114rpx;
+}
+
+.contentRightss {
+    width: 500rpx;
+    margin-right: 20rpx;
+    text-align: right;
+}
+
+.contentRightsss {
+    width:500rpx;
+    text-align:right;
+    margin-left:403rpx;
+}
+
+.rightArrow {
+    width: 10rpx;
+    height: 16rpx;
+}
+
+.placeholderss {
+    color: #ccc;
+    
+}
+
+
+.indicator {
+    height: 18%;
+}
+
+.time-block {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36rpx;
+    color: #333333;
+}
+
+
+
+
+.iphone-x-wrapper {
+    background-color: #fff;
+    position:fixed;
+    bottom:0;
+    left:0;
+    z-index:1;
+    width: 100%;
+}
+
+.submit-footer {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    height: 130rpx;
+    margin-top: auto;
+    background: #FFFFFF;
+    box-shadow: 0 -2rpx 4rpx 0 rgba(0,0,0,0.05);
+}
+
+.price-block {
+    width: 50%;
+    display: flex;
+    align-items: baseline;
+    padding-left: 40rpx;
+    font-size: 24rpx;
+}
+
+.label {
+    color: #666;
+    margin-right: 10rpx;
+}
+
+.price {
+    display: flex;
+    align-items: baseline;
+    margin-right: 20rpx;
+    color: #FB4E44;
+}
+
+.price-block .price-unit {
+    font-size: 24rpx;
+}
+
+.price-block .price-value {
+    font-size: 40rpx;
+}
+
+.right-arrow {
+    width: 10rpx;
+    height: 16rpx;
+    align-self: center;
+}
+
+form.submit-btn {
+    margin-right: 20rpx;
+    border: none;
+    border-radius: 3rpx;
+}
+
+button.submit-btn {
+    border: none;
+}
+
+.submit-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 355rpx;
+    height: 90rpx;
+    background-image: linear-gradient(-180deg,#FFD05C 0%,#FEBF2B 100%);
+    color: #333333;
+    font-size: 32rpx;
+    line-height: 45rpx;
+}

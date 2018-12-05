@@ -11,6 +11,7 @@ const login_status = app.globalData.login_status;
 
 Page({
   data: {
+    pageMode: "delivery",
     motto: 'Hello World',
     userInfo: {},
     hasUserInfo: false,
@@ -96,6 +97,36 @@ Page({
     })
   },
 
+  togglePageMode: function (e) {
+    console.log('11111111111111')
+    return false;
+    var t = e.currentTarget.dataset.pageMode;
+    t !== this.data.pageMode && (this.setData({
+      pageMode: t
+    }), this.updateMapArea({
+      nearbyRiderPointList: this.data.nearbyRiderPointList,
+      ongoingOrderIds: this.data.ongoingOrderIds,
+      waitForPaidOrderIds: this.data.waitForPaidOrderIds,
+      bubbleText: ""
+    }), this.updateFromIndexApi()), "delivery" === t ? g.default.click("b_fh8jaa6g") : g.default.click("b_3e46tnp2");
+  },
+
+  jumpToOrder: function(e){
+    console.log(e.data.addressDetail)
+    console.log(e.data.addressUser)
+    console.log(e.data.addressDetailTo)
+    console.log(e.data.addressUserTo)
+    console.log(e.data.qsjValue)
+    console.log(e.data)
+    if((e.data.addressDetail && e.data.addressUser) && (e.data.addressDetailTo && e.data.addressUserTo) && (e.data.qsjValue)){
+      // wx.navigateTo({
+      //   url: '../orderConfirm/orderConfirm',
+      // })
+      console.log(this.data.currentData)
+    }
+    // console.log(e)
+  },
+
   //事件处理函数
   bindViewTap: function() {
     wx.navigateTo({
@@ -111,6 +142,8 @@ Page({
   },
   //点击切换，滑块index赋值
   checkCurrent: function (e) {
+    console.log(e)
+    return false;
     const that = this;
     if (that.data.currentData === e.target.dataset.current) {
       return false;
@@ -177,15 +210,16 @@ Page({
         console.log(res);
       },
       complete: function (res) {
-        if(wx.getStorageSync('toaddress_detail') == ''){
-          wx.removeStorageSync('fromaddress_lat')
-          wx.removeStorageSync('fromaddress_lng')
-        }
+        // if(wx.getStorageSync('toaddress_detail') == ''){
+        //   wx.removeStorageSync('fromaddress_lat')
+        //   wx.removeStorageSync('fromaddress_lng')
+        // }
       }
     });
   },
 
   onLoad: function (e) {
+    this.jumpToOrder(this);
     var that = this
     // 获取当前位置
     var latitude = '', longitude = '';
