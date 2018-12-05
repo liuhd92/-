@@ -7,8 +7,8 @@
 import request from './request.js'
 class paotui {
   constructor() {
-    // this._baseUrl = 'https://t.tiandaoedu.cn/api/'
-    this._baseUrl = 'http://www.paotui.org/api/'
+    this._baseUrl = 'https://t.tiandaoedu.cn/api/'
+    // this._baseUrl = 'http://www.paotui.org/api/'
     this._defaultHeader = { 'content-type': 'application/x-www-form-urlencoded' }
     this._request = new request
     this._request.setErrorHandler(this.errorHander)

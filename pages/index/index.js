@@ -46,22 +46,23 @@ Page({
   },
   fromAddress: function () {
     let that = this;
+    console.log('12345');
     wx.chooseAddress({
       success: res=>{
         console.log(res)
         wx.setStorageSync('fromaddress_detail', JSON.stringify(res));
         qqMap.geocoder({
-          address: res.cityName+res.countryName+res.detailInfo,
+          address: res.cityName + res.countryName + res.detailInfo,
           success: function (qq_res) {
             if (qq_res.message == 'query ok') {
-  
+
               console.log(qq_res)
               wx.setStorageSync('fromaddress_lat', qq_res.result.location.lat);
               wx.setStorageSync('fromaddress_lng', qq_res.result.location.lng);
               that.setData({
                 addressHide: false,
-                addressDetail: res.detailInfo.length>19 ? res.detailInfo.slice(0, 17)+'...' : res.detailInfo,
-                addressUser: res.userName + '  ' +res.telNumber,
+                addressDetail: res.detailInfo.length > 19 ? res.detailInfo.slice(0, 17) + '...' : res.detailInfo,
+                addressUser: res.userName + '  ' + res.telNumber,
               })
 
               wx.navigateBack({
@@ -88,6 +89,22 @@ Page({
       success: res => {
         console.log(res)
         wx.setStorageSync('toaddress_detail', JSON.stringify(res));
+        qqMap.geocoder({
+          address: res.cityName + res.countryName + res.detailInfo,
+          success: function (qq_res) {
+            if (qq_res.message == 'query ok') {
+
+              console.log(qq_res)
+              wx.setStorageSync('toaddress_lat', qq_res.result.location.lat);
+              wx.setStorageSync('toaddress_lng', qq_res.result.location.lng);
+              that.setData({
+                addressHide: false,
+                addressDetailTo: res.detailInfo.length > 19 ? res.detailInfo.slice(0, 17) + '...' : res.detailInfo,
+                addressUserTo: res.userName + '  ' + res.telNumber,
+              })
+            }
+          }
+        });
         that.setData({
           addressHideTo: false,
           addressDetailTo: res.detailInfo.length > 19 ? res.detailInfo.slice(0, 17) + '...' : res.detailInfo,
@@ -97,31 +114,20 @@ Page({
     })
   },
 
-  togglePageMode: function (e) {
-    console.log('11111111111111')
-    return false;
-    var t = e.currentTarget.dataset.pageMode;
-    t !== this.data.pageMode && (this.setData({
-      pageMode: t
-    }), this.updateMapArea({
-      nearbyRiderPointList: this.data.nearbyRiderPointList,
-      ongoingOrderIds: this.data.ongoingOrderIds,
-      waitForPaidOrderIds: this.data.waitForPaidOrderIds,
-      bubbleText: ""
-    }), this.updateFromIndexApi()), "delivery" === t ? g.default.click("b_fh8jaa6g") : g.default.click("b_3e46tnp2");
-  },
-
   jumpToOrder: function(e){
     console.log(e.data.addressDetail)
     console.log(e.data.addressUser)
     console.log(e.data.addressDetailTo)
     console.log(e.data.addressUserTo)
     console.log(e.data.qsjValue)
-    console.log(e.data)
+    if(e.data.currentData == 0){
+      var url = '../orderConfirm/orderConfirm';
+    }
+    
     if((e.data.addressDetail && e.data.addressUser) && (e.data.addressDetailTo && e.data.addressUserTo) && (e.data.qsjValue)){
-      // wx.navigateTo({
-      //   url: '../orderConfirm/orderConfirm',
-      // })
+      wx.navigateTo({
+        url: url,
+      })
       console.log(this.data.currentData)
     }
     // console.log(e)
@@ -133,18 +139,13 @@ Page({
       url: '../logs/logs'
     })
   },
-  //获取当前取件代购的index
-  bindchange: function (e) {
-    const that = this;
-    that.setData({
-      currentData: e.detail.current
-    })
-  },
+  
   //点击切换，滑块index赋值
   checkCurrent: function (e) {
-    console.log(e)
-    return false;
+    this.onLoad()
     const that = this;
+    // console.log(that.data.currentData)
+    console.log(e.target.dataset.current)
     if (that.data.currentData === e.target.dataset.current) {
       return false;
     } else {
@@ -219,8 +220,7 @@ Page({
   },
 
   onLoad: function (e) {
-    this.jumpToOrder(this);
-    var that = this
+    var that = this;
     // 获取当前位置
     var latitude = '', longitude = '';
 
@@ -229,7 +229,12 @@ Page({
       success(res) {
         console.log('----------定位成功----------');
         console.log(res)
-        that.localLocation(wx.getStorageSync('fromaddress_lat') || res.latitude, wx.getStorageSync('fromaddress_lng') || res.longitude);
+        console.log(that)
+        if (that.data.currentData == 0){
+          that.localLocation(wx.getStorageSync('fromaddress_lat') || res.latitude, wx.getStorageSync('fromaddress_lng') || res.longitude);
+        } else {
+          that.localLocation(res.latitude, res.longitude);
+        }
       },
       fail(res) {
         console.log('---------定位失败----------');
@@ -263,6 +268,7 @@ Page({
       complete(res) {
         console.log('---------定位结束----------')
         console.log(res)
+        that.jumpToOrder(that);
       }
     })
 

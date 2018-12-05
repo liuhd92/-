@@ -1,10 +1,19 @@
 // pages/orderConfirm/orderConfirm.js
+//获取应用实例
+const app = getApp();
+var QQMapWX = require('../../libs/qqmap-wx-jssdk.js');
+var qqmapsdk;
+var qqMap = new QQMapWX({
+  key: app.globalData.qqmap_key
+});
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    markers: [],
+    covers:[],
     time: '',
     time_style: 'margin-left:403rpx;',
     scrollTop: 0,
@@ -136,11 +145,256 @@ Page({
       "timeSlide.hideType": e
     });
   },
+
+  localLocation: function (lat, lng) {
+    let that = this;
+
+    console.log('----------localLocation----------');
+
+    // 当前城市信息
+    qqMap.reverseGeocoder({
+      location: {
+        latitude: lat,
+        longitude: lng
+      },
+      success: function (res) {
+        console.log(res)
+        // 设置当前城市
+        that.setData({
+          myCity: res.result.address_component.city,
+          mapData: {
+            lng: lng,
+            lat: lat
+          }
+        })
+      },
+      fail: function (res) {
+        console.log(res);
+      },
+      complete: function (res) {
+        // if(wx.getStorageSync('toaddress_detail') == ''){
+        //   wx.removeStorageSync('fromaddress_lat')
+        //   wx.removeStorageSync('fromaddress_lng')
+        // }
+      }
+    });
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    var that = this;
+    // 获取当前位置
+    var latitude = '', longitude = '';
+    var covers = [];
+    var fromaddress = wx.getStorageSync('fromaddress_detail');
+    if (fromaddress != '') {
+      fromaddress = JSON.parse(fromaddress);
 
+      that.setData({
+        addressHide: false,
+        addressDetail: fromaddress.detailInfo.length > 19 ? fromaddress.detailInfo.slice(0, 17) + '...' : fromaddress.detailInfo,
+        addressUser: fromaddress.userName + '  ' + fromaddress.telNumber,
+        "covers": covers.push({
+          'latitude': wx.getStorageSync('fromaddress_lat'),
+          'longitude': wx.getStorageSync('fromaddress_lng'),
+          'iconPath': "/imgs/send1.png",
+        })
+      })
+    }
+    var toaddress = wx.getStorageSync('toaddress_detail');
+    
+    if (toaddress != '') {
+      toaddress = JSON.parse(toaddress);
+
+      that.setData({
+        addressHide: false,
+        addressDetailTo: toaddress.detailInfo.length > 19 ? toaddress.detailInfo.slice(0, 17) + '...' : fromaddress.detailInfo,
+        addressUserTo: toaddress.userName + '  ' + toaddress.telNumber,
+        "covers": covers.push({
+          'latitude': wx.getStorageSync('toaddress_lat'),
+          'longitude': wx.getStorageSync('toaddress_lng'),
+          'iconPath': "/imgs/send1.png",
+        })
+      })
+    }
+    console.log(that.data)
+
+
+
+    wx.getLocation({
+      type: 'gcj02',
+      success(res) {
+        console.log('----------定位成功----------');
+        console.log(res)
+        console.log(that)
+          that.localLocation(wx.getStorageSync('fromaddress_lat') || res.latitude, wx.getStorageSync('fromaddress_lng') || res.longitude);
+      },
+      fail(res) {
+        console.log('---------定位失败----------');
+        console.log(res)
+        if (res.errMsg == 'getLocation:fail auth deny') {
+          wx.showModal({
+            title: '',
+            content: '您尚未授权小程序获取地理位置 / 通讯地址，是否进入设置页面打开？',
+            success: function (res) {
+              if (res.cancel) {
+                //点击取消,默认隐藏弹框
+                wx.showToast({
+                  title: '点击了取消',
+                })
+              } else {
+                // 打开设置页
+                wx.openSetting({
+                  success: function (res) {
+                    console.log(res)
+
+                  },
+                  fail: function (res) {
+                    console.log(res)
+                  }
+                })
+              }
+            }
+          })
+        }
+      },
+      complete(res) {
+        console.log('---------定位结束----------')
+        console.log(res)
+      }
+    })
+
+    // 取送件内容
+    if (wx.getStorageSync('qsj')) {
+      that.setData({
+        qsjValue: wx.getStorageSync('qsj')
+      })
+    }
+  },
+
+  fromAddress: function () {
+    let that = this;
+    wx.chooseAddress({
+      success: res => {
+        console.log(res)
+        wx.setStorageSync('fromaddress_detail', JSON.stringify(res));
+        qqMap.geocoder({
+          address: res.cityName + res.countryName + res.detailInfo,
+          success: function (qq_res) {
+            if (qq_res.message == 'query ok') {
+              console.log(qq_res.result)
+              console.log(qq_res)
+              wx.setStorageSync('fromaddress_lat', qq_res.result.location.lat);
+              wx.setStorageSync('fromaddress_lng', qq_res.result.location.lng);
+              that.setData({
+                addressHide: false,
+                addressDetail: res.detailInfo.length > 19 ? res.detailInfo.slice(0, 17) + '...' : res.detailInfo,
+                addressUser: res.userName + '  ' + res.telNumber,
+                covers: that.data.covers.push({
+                  latitude: qq_res.result.location.lat,
+                  longitude: qq_res.result.location.lng,
+                  iconPath: "/imgs/send1.png",
+                }),
+              })
+
+              wx.navigateBack({
+                // url: '../index/index?lat=' + res.result.location.lat + '&lng=' + res.result.location.lng,
+                url: '../index/index',
+              })
+            }
+          },
+          fail: function (res) {
+            console.log(res);
+          },
+          complete: function (res) {
+            console.log(res);
+          }
+        });
+      }
+    })
+
+  },
+
+  toAddress: function () {
+    let that = this;
+    wx.chooseAddress({
+      success: res => {
+        console.log(res)
+        wx.setStorageSync('toaddress_detail', JSON.stringify(res));
+        qqMap.geocoder({
+          address: res.cityName + res.countryName + res.detailInfo,
+          success: function (qq_res) {
+            if (qq_res.message == 'query ok') {
+
+              console.log(qq_res)
+              wx.setStorageSync('toaddress_lat', qq_res.result.location.lat);
+              wx.setStorageSync('toaddress_lng', qq_res.result.location.lng);
+              that.setData({
+                addressHide: false,
+                addressDetail: res.detailInfo.length > 19 ? res.detailInfo.slice(0, 17) + '...' : res.detailInfo,
+                addressUser: res.userName + '  ' + res.telNumber,
+                covers: that.data.covers.push({
+                  latitude: qq_res.result.location.lat,
+                  longitude: qq_res.result.location.lng,
+                  iconPath: "/imgs/receive1.png",
+                }),
+              })
+              
+            }
+          }
+        });
+        that.setData({
+          addressHideTo: false,
+          addressDetailTo: res.detailInfo.length > 19 ? res.detailInfo.slice(0, 17) + '...' : res.detailInfo,
+          addressUserTo: res.userName + '  ' + res.telNumber,
+        })
+      }
+    })
+  },
+
+  chooseAddress: function (e) {
+    wx.chooseAddress({
+      success: function (res) {
+        console.log(res)
+        console.log(res.userName)
+        console.log(res.postalCode)
+        console.log(res.provinceName)
+        console.log(res.cityName)
+        console.log(res.countyName)
+        console.log(res.detailInfo)
+        console.log(res.nationalCode)
+        console.log(res.telNumber)
+      },
+      fail: function (res) {
+
+        console.log(res)
+        if (res.errMsg == 'chooseAddress:fail auth deny') {
+          wx.showModal({
+            title: '',
+            content: '您尚未授权小程序获取地理位置 / 通讯地址信息，是否进入设置页面打开？',
+            success: function (res) {
+              if (res.cancel) {
+                //点击取消,默认隐藏弹框
+                wx.showToast({
+                  title: '点击了取消',
+                })
+              } else {
+                // 打开设置页
+                wx.openSetting({
+                  success: function (res) {
+
+                  },
+                  fail: function (res) {
+
+                  }
+                })
+              }
+            }
+          })
+        }
+      }
+    })
   },
 
   /**
@@ -161,14 +415,25 @@ Page({
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-
+    
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-
+    var pages = getCurrentPages();
+    var lastpage = pages[pages.length-2];
+    lastpage.setData({
+      'addressDetail': '',
+      'addressUser': '',
+      'addressDetailTo': '',
+      'addressUserTo': '',
+    })
+    wx.removeStorageSync('fromaddress_detail');
+    wx.removeStorageSync('fromaddress_lat');
+    wx.removeStorageSync('fromaddress_lng');
+    wx.removeStorageSync('toaddress_detail');
   },
 
   /**

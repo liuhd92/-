@@ -33,15 +33,15 @@
         <cover-image class="centerPoint" src="https://vfile.meituan.net/paotui/jfj3t6pvpb9.png" ></cover-image>
         <cover-image bindtap="onTapMapRelocate" class="locateIcon" src="https://vfile.meituan.net/paotui/jfj3ts5ft4kj4i.png" ></cover-image>
         <!-- 清除地址 -->
-        <cover-view bindtap="onTapClearAddresses" class="deleteAddr" hidden='hidden'>
+        <cover-view bindtap="onTapClearAddresses" class="deleteAddr" hidden='false'>
             <cover-image class="deleteAddrBtn" src="https://vfile.meituan.net/paotui/jfj3v72uyiizfr.png"></cover-image>
         </cover-view>
     </map>
     
     <view class="main-form">
         <view class="form-tabs" id="form-tabs">
-            <view bindtap="togglePageMode" data-current = "0" class='form-tab-btn left {{currentData == 0 ? "active" : ""}}' bindtap='checkCurrent' >取送件1</view>
-            <view bindtap="togglePageMode" data-current = "1" class='form-tab-btn right {{currentData == 1 ? "active" : ""}}' bindtap='checkCurrent'>代购2<view class="buy-badge">同城</view>
+            <view bindtap="togglePageMode" data-current = "0" class='form-tab-btn left {{currentData == 0 ? "active" : ""}}' bindtap='checkCurrent' >取送件</view>
+            <view bindtap="togglePageMode" data-current = "1" class='form-tab-btn right {{currentData == 1 ? "active" : ""}}' bindtap='checkCurrent'>代购<view class="buy-badge">同城</view>
             </view>
         </view>
        
@@ -59,7 +59,7 @@
                     </block>
                     <view style='color:#999999; font-size:13px;' hidden="{{addressHide}}">{{addressUser}}</view>
                     </view>
-                    <view bindtap="chooseAddress">地址簿</view>
+                    <view bindtap="fromAddress">地址簿</view>
                   </view>
                   
                 </view>
@@ -75,7 +75,7 @@
                       </block>
                       <view style='color:#999999; font-size:13px;' hidden="{{addressHideTo}}">{{addressUserTo}}</view>
                     </view>
-                    <view bindtap="chooseAddress">地址簿</view>
+                    <view bindtap="toAddress">地址簿</view>
                   </view> 
                 </view>
            </view>

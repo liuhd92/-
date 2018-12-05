@@ -1,5 +1,5 @@
 <view class="container {{isIpx?'fix-iphonex-wrap':''}}" style="{{containerStyle}}">
-    <map id="orderMap" latitude="{{orderMap.latitude}}" longitude="{{orderMap.longitude}}" markers="{{orderMap.markers}}">
+    <map id="orderMap" latitude="{{mapData.lat}}" longitude="{{mapData.lng}}" markers="{{markers}}" covers="{{covers}}">
         <cover-view catchtap="clickOrderMapCover" class="order-map-cover" wx:if="{{orderMap.displayCover}}"></cover-view>
         <cover-image class="centerPoint" src="https://vfile.meituan.net/paotui/jfj3t6pvpb9.png" wx:if="{{showPin}}"></cover-image>
     </map>
@@ -16,10 +16,18 @@
         <address-item address="{{sendAddress}}" bind:tapAddressContent="handleSendAddressContentTap" bind:tapAddressNote="handleSendAddressNoteTap" hasAddressNote="{{!isAddressDegrade}}" hasAddressNoteBorder="true" hasBorderBottom="{{!isAddressDegrade}}" iconType="1" placeholder="物品从哪里送出">
         <view class="addressItem">
           <image class="addressIcon" src="/imgs/sendPoint.png"></image>
-          <view bind:tap="handleAddressContentTap" class="addressBox" style="height: 73px">
-            <view class="addressContent placeholder">物品从哪里送出</view>
+          <view bind:tap="fromAddress" class="addressBox" style="height: 73px">
+            <view class="addressContent placeholder">
+              <block wx:if="{{addressDetail==''}}">
+                物品从哪里送出
+              </block>
+              <block wx:else>
+                <view style='color:black;'>{{addressDetail}}</view>
+              </block>
+             <view style='color:#999999; font-size:13px;' hidden="{{addressHide}}">{{addressUser}}</view>
+            </view>
             <view catch:tap="handleAddressNoteTap" class="addressNoteBox">
-              <view class="addressNote has-border"> 地址薄 </view>
+              <view class="addressNote has-border" bindtap="fromAddress"> 地址薄 </view>
             </view>
           </view>
         </view>
@@ -27,10 +35,18 @@
         <address-item address="{{receiveAddress}}" bind:tapAddressContent="handleReceiveAddressContentTap" bind:tapAddressNote="handleReceiveAddressNoteTap" hasAddressNote="{{!isAddressDegrade}}" hasAddressNoteBorder="true" iconType="2" placeholder="物品要送达哪里">
           <view class="addressItem noBorder">
             <image class="addressIcon" src="/imgs/receivePoint.png"></image>
-            <view bind:tap="handleAddressContentTap" class="addressBox"style="height: 73px">
-              <view class="addressContent placeholder">物品要送达哪里</view>
+            <view bind:tap="toAddress" class="addressBox"style="height: 73px">
+              <view class="addressContent placeholder">
+                <block wx:if="{{addressDetailTo==''}}">
+                        送到哪里去
+                      </block>
+                      <block wx:else>
+                        <view style='color:black;'>{{addressDetailTo}}</view>
+                      </block>
+                      <view style='color:#999999; font-size:13px;' hidden="{{addressHideTo}}">{{addressUserTo}}</view>
+              </view>
               <view catch:tap="handleAddressNoteTap" class="addressNoteBox">
-                <view class="addressNote has-border"> 地址薄 </view>
+                <view class="addressNote has-border" bindtap='toAddress'> 地址薄 </view>
               </view>
             </view>
           </view>
