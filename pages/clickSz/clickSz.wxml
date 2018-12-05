@@ -1,0 +1,29 @@
+<view class="block"></view>
+<view class="container container1" >
+    <view class="personList" bindtap='next'>
+      <view class="personone">
+        <image src='/imgs/icon-order.png'></image>
+      </view>
+      <view class="persontwo">
+          <view>服务介绍</view>
+      </view>
+      <view class="personthree">
+        <image src='/imgs/moreArrow.png'></image>
+      </view>
+    </view>
+
+     <view class="personList" bindtap='yhxieyi'>
+      <view class="personone">
+        <image src='/imgs/icon-order.png'></image>
+      </view>
+      <view class="persontwo">
+          <view >用户协议</view>
+      </view>
+      <view class="personthree">
+        <image src='/imgs/moreArrow.png'></image>
+      </view>
+    </view>
+
+ </view>
+<view class="block block1"></view>
+<button>退出登录</button>

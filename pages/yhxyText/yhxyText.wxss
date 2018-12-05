@@ -1,0 +1,57 @@
+/* pages/yhxyText/yhxyText.wxss */
+.container{
+  background: #fff;
+  padding-left: 30rpx;
+  padding-right: 30rpx;
+}
+text{
+  display: block;
+}
+.h1{
+  font-size: 38rpx;
+  font-weight: bold;
+  text-align: left;
+  width: 100%;
+  margin-top: 20rpx;
+  padding-bottom: 10rpx;
+  border-bottom: 1rpx solid #e8e8e8;
+
+}
+.textHeader{
+  width: 100%;
+  padding-top: 30rpx;
+}
+.hraderOne{
+  font-size:30rpx;
+  color: #666;
+  font-weight: bold;
+  width: 100%;
+  margin-bottom: 30rpx;
+  display: block;
+  
+
+}
+.hraderTwo,.hraderThree{
+  width: 100%;
+  font-size: 30rpx;
+  margin-bottom: 30rpx;
+  font-weight: bold;
+   display: block;
+}
+.textCon{
+  width: 100%;
+
+}
+.textConHeader{
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20rpx;
+  width: 100%;
+  text-align: left;
+  
+}
+.textConText{
+  font-size: 30rpx;
+  margin-bottom: 15rpx;
+}

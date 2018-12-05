@@ -1,0 +1,24 @@
+<view class="container">
+    <view class="fwjstext">
+      <text class="boldText">1.跑腿代购是什么？</text>
+      <text class="normalText"> 跑腿代购服务包含代购和取送件。</text>
+      <text class="normalText">代购服务，可以让骑手帮忙购买周边商品，不限品类。例如：小吃、奶茶、咖啡、水果等。骑手接单后1小时内送货上</text>
+      <text class="normalText">取送件服务，可以给同城亲友、同事、合作伙伴递送文件、鲜花、蛋糕等物品，由平台认证的骑手进行配送，专业安全无中转，1小时送达。</text>
+    </view>
+    <view class="fwjstext">
+      <text class="boldText"></text>
+      <text class="normalText">根据页面提示填写商品要求、购买地址、送货地址等信息，在线支付配送费后，由平台认证骑手根据您填写的商品要求，到指定商家或附近商家购买商品。购买成功后1小时内送货上门，商品费用需线下付给骑手。</text>
+    </view>
+     <view class="fwjstext">
+      <text class="boldText">3.取送件怎么用？</text>
+      <text class="normalText">根据页面提示填写发货地址、送货地址等信息，在线支付配送费后，由平台认证骑手上门取件，配送过程专业安全无中转，同城1小时内送达。</text>
+    </view>
+    <view class="fwjstext">
+      <text class="boldText">4.怎么收费？</text>
+      <text class="normalText">按配送距离收费，10元起送（不同地区以产品内实际显示的价格为准）。</text>
+    </view>
+    <view class="fwjstext">
+      <text class="boldText">5.服务有保障么？</text>
+      <text class="normalText">跑腿代购由美团外卖配送团队运营，已在全国范围内开通40个城市。所有跑腿员经平台验证培训，为用户提供安全、专业、有保障的服务。</text>
+    </view>
+</view>

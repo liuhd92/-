@@ -7,7 +7,14 @@
       </block>
   </scroll-view>
   <!-- 页面内容 -->
+  
   <view class="scrollCon">
       <!--  -->
+      <view class="conList">
+          <view class="conHeader">
+            <text></text>
+            <text></text>
+          </view>
+      </view>
   </view>
 </view>

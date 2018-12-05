@@ -1,0 +1,90 @@
+<!--pages/personSet/personSet.wxml-->
+<view class="container">
+  <view class="personHeader">
+    <view class="personImg" >
+      <image src='/imgs/my-image-default.png'></image>
+    </view>
+    <view class="personNc">
+        <view>我的昵称</view>
+    </view>
+  </view>
+ 
+</view>
+ <view class="block"></view>
+ <view class="container container1">
+    <view class="personList" >
+      <view class="personone">
+        <image src='/imgs/icon-order.png'></image>
+      </view>
+      <view class="persontwo">
+          <view>我的订单</view>
+      </view>
+      <view class="personthree">
+        <image src='/imgs/moreArrow.png'></image>
+      </view>
+    </view>
+
+     <view class="personList">
+      <view class="personone">
+        <image src='/imgs/icon-order.png'></image>
+      </view>
+      <view class="persontwo">
+          <view>我的红包</view>
+      </view>
+      <view class="personthree">
+        <image src='/imgs/moreArrow.png'></image>
+      </view>
+    </view>
+
+     <view class="personList">
+      <view class="personone">
+        <image src='/imgs/inviteCoupon.png'></image>
+      </view>
+      <view class="persontwo">
+          <view>邀请好友送红包</view>
+      </view>
+      <view class="personthree">
+        <image src='/imgs/moreArrow.png'></image>
+      </view>
+    </view> 
+
+ </view>
+<view class="block"></view>
+<view class="container container1">
+    <view class="personList" bindtap='clickSz'>
+      <view class="personone">
+        <image src='/imgs/icon-order.png'></image>
+      </view>
+      <view class="persontwo">
+          <view>设置</view>
+      </view>
+      <view class="personthree">
+        <image src='/imgs/moreArrow.png'></image>
+      </view>
+    </view>
+
+     <view class="personList" bindtap='phoneNumber'>
+      <view class="personone">
+        <image src='/imgs/icon-phone.png'></image>
+      </view>
+      <view class="persontwo">
+          <view>联系客服</view>
+      </view>
+      <view class="personthree">
+        <image src='/imgs/moreArrow.png'></image>
+      </view>
+    </view>
+
+     <view class="personList" bindtap='yijianfk'>
+      <view class="personone">
+        <image src='/imgs/icon-feedback.png'></image>
+      </view>
+      <view class="persontwo">
+          <view>意见反馈</view>
+      </view>
+      <view class="personthree">
+        <image src='/imgs/moreArrow.png'></image>
+      </view>
+    </view> 
+
+ </view>

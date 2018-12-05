@@ -1,0 +1,37 @@
+<view class="block"></view>
+<view class="container container1">
+    <view class="personList" bindtap='yhxy'>
+      <view class="persontwo">
+          <view>美团用户协议</view>
+      </view>
+      <view class="personthree">
+        <image src='/imgs/moreArrow.png'></image>
+      </view>
+    </view>
+    <view class="personList" bindtap='ysxy'>
+      <view class="persontwo">
+          <view>隐私协议</view>
+      </view>
+      <view class="personthree">
+        <image src='/imgs/moreArrow.png'></image>
+      </view>
+    </view>
+
+     <view class="personList" bindtap='bmxy'>
+      <view class="persontwo">
+          <view>帮买用户协议</view>
+      </view>
+      <view class="personthree">
+        <image src='/imgs/moreArrow.png'></image>
+      </view>
+    </view> 
+
+    <view class="personList" bindtap='bsxy'>
+      <view class="persontwo">
+          <view>帮送用户协议</view>
+      </view>
+      <view class="personthree">
+        <image src='/imgs/moreArrow.png'></image>
+      </view>
+    </view> 
+ </view>
