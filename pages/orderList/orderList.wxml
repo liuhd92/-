@@ -12,9 +12,74 @@
       <!--  -->
       <view class="conList">
           <view class="conHeader">
-            <text></text>
-            <text></text>
+            <text class="biaoqian">代购</text>
+            <text class="mingcheng">喜茶</text>
+            <text class="zhaungtai">已取消</text>
+          </view>
+          <view class="adressCon">
+              <view class="adress send">
+                <view class="sendPoint">
+                  <image src="/imgs/sendPoint.png"></image>
+                </view>
+                <text class="sendAdress">北京市哪里发</text>
+              </view>
+              <view class="adress">
+                <view class="sendPoint">
+                  <image src="/imgs/receivePoint.png"></image>
+                </view>
+               <view class="receiveAdress">
+                  <text class="receiveHeader">中关村地址</text>
+                  <view class="receiveXinF">
+                      <text class="receiveXin">小情绪</text>
+                      <text class="receiveXin">88888888888</text>
+                  </view>
+               </view> 
+              </view>
+          </view>
+           <view class="datesend">
+            <text class="data">2018-12-08</text>
+            <view class="more"><button class="zailai">再来一单</button></view>
           </view>
       </view>
+
+      <view class="conList">
+          <view class="conHeader">
+            <text class="biaoqian1">取送件</text>
+            <text class="mingcheng">喜茶</text>
+            <text class="zhaungtai">已取消</text>
+          </view>
+          <view class="adressCon">
+              <view class="adress">
+                <view class="sendPoint">
+                  <image src="/imgs/receivePoint.png"></image>
+                </view>
+               <view class="receiveAdress">
+                  <text class="receiveHeader">中关村地址</text>
+                  <view class="receiveXinF">
+                      <text class="receiveXin">小情绪</text>
+                      <text class="receiveXin">88888888888</text>
+                  </view>
+               </view> 
+              </view>
+              <view class="adress">
+                <view class="sendPoint">
+                  <image src="/imgs/receivePoint.png"></image>
+                </view>
+               <view class="receiveAdress">
+                  <text class="receiveHeader">中关村地址</text>
+                  <view class="receiveXinF">
+                      <text class="receiveXin">小情绪</text>
+                      <text class="receiveXin">88888888888</text>
+                  </view>
+               </view> 
+              </view>
+          </view>
+           <view class="datesend">
+            <text class="data">2018-12-08</text>
+            <view class="more"><button class="zailai">再来一单</button></view>
+          </view>
+      </view>
+
+
   </view>
 </view>

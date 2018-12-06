@@ -7,7 +7,7 @@
   padding-left: 20rpx;
   height: 50rpx;
   overflow: hidden;
-  background: #fff;
+ background: #fff;
   position: fixed;
   left: 0;
   top: 0;
@@ -28,14 +28,126 @@
 }
 .scrollCon{
   overflow: hidden;
-  background: #fff;
+  
   padding: 0 30rpx;
-  margin-top: 30rpx;
+  margin-top: 80rpx;
   width: 100%;
 }
 .conList{
   overflow: hidden;
-  box-shadow: 0 0 10rpx rgba(0,0,0,0.5);
+  box-shadow: 0 0 10rpx rgba(0,0,0,0.2);
   background: #fff;
+  padding-left: 30rpx;
+  padding-right: 30rpx;
+  margin-bottom: 30rpx;
 
+}
+.conHeader{
+  display: flex;
+  justify-content: space-between;
+  height: 120rpx;
+  align-items: center;
+  border-bottom: 1rpx dashed #e8e8e8;
+}
+.biaoqian{
+  color:#e05454;
+  background: #f7e0e0;
+  font-size: 20rpx;
+  width: 60rpx;
+  height: 40rpx;
+  display: block;
+  text-align: center;
+  line-height: 40rpx;
+}
+.biaoqian1{
+  color:#1489ab;
+  background: #c3ebf7;
+  font-size: 20rpx;
+  width: 80rpx;
+  height: 40rpx;
+  display: block;
+  text-align: center;
+  line-height: 40rpx;
+}
+.mingcheng{
+  font-size:28rpx;
+  margin-left: 15rpx; 
+  line-height: 40rpx;
+}
+.zhaungtai{
+  font-size: 26rpx;
+  color: #999;
+  flex: 1;
+  text-align: right;
+}
+.adressCon{
+  padding-top: 25rpx;
+  padding-bottom: 25rpx;
+  border-bottom: 1rpx dashed #e8e8e8;
+}
+.adress{
+  display: flex;
+  justify-content: flex-start;
+ 
+  align-items: center;
+  margin-bottom: 10rpx;
+ 
+}
+.sendPoint{
+  line-height: 14rpx;
+}
+.sendPoint image{
+  width: 14rpx;
+  height: 14rpx;
+  margin-right: 20rpx;
+
+}
+.sendAdress{
+  font-size: 26rpx;
+  color: #333;
+
+}
+.receiveHeader{
+  font-size: 26rpx;
+  color: #333;
+  margin-bottom: 10rpx;
+}
+.receiveXinF{
+  display: flex;
+  justify-content: flex-start;
+  overflow: hidden;
+}
+.receiveXin{
+  font-size: 22rpx;
+  color: #999;
+  margin-right: 30rpx;
+}
+.datesend{
+  display: flex;
+  justify-content: space-between;
+  height: 100rpx;
+  align-items: center;
+}
+.data{
+  font-size: 26rpx;
+  color: #999;
+  flex: 1;
+  text-align: left;
+
+}
+.more{
+   flex: 1;
+  text-align: right;
+}
+.zailai{
+  border: none;
+  text-align: center;
+  width: 130rpx;
+  height: 50rpx;
+  background: #f0be24;
+  color: #333;
+  line-height: 50rpx;
+  font-size: 24rpx;
+  border-radius: 4rpx;
+  
 }
