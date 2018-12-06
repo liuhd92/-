@@ -12,7 +12,9 @@ Page({
    * 页面的初始数据
    */
   data: {
-    markers: [],
+    markers: [
+      
+    ],
     covers:[],
     time: '',
     time_style: 'margin-left:403rpx;',
@@ -92,6 +94,12 @@ Page({
       markers: [],
       latitude: 40.008268,
       longitude: 116.487501
+    },
+    mapData: {
+      scale: 16,
+      markers: [],
+      lng: 116.29845,
+      lat: 39.95933
     },
     containerStyle: "padding-bottom:" + (getApp().globalData.isIpx ? 176 : 130) + "rpx;",
     sendIcon: "/imgs/sendPoint.png",
@@ -186,36 +194,52 @@ Page({
     var that = this;
     // 获取当前位置
     var latitude = '', longitude = '';
-    var covers = [];
+    var covers = that.data.covers;
+    var markers = that.data.markers;
     var fromaddress = wx.getStorageSync('fromaddress_detail');
     if (fromaddress != '') {
       fromaddress = JSON.parse(fromaddress);
+      // covers.push({
+      //   'latitude': wx.getStorageSync('fromaddress_lat'),
+      //   'longitude': wx.getStorageSync('fromaddress_lng'),
+      //   'iconPath': "/imgs/send.png",
+      //   'width': 35,
+      //   'height': 40
+      // });
+
+      markers.push({
+        'id': 1,
+        'latitude': wx.getStorageSync('fromaddress_lat'),
+        'longitude': wx.getStorageSync('fromaddress_lng'),
+        'iconPath': "/imgs/send.png",
+        'width': 35,
+        'height': 40
+      });
 
       that.setData({
         addressHide: false,
         addressDetail: fromaddress.detailInfo.length > 19 ? fromaddress.detailInfo.slice(0, 17) + '...' : fromaddress.detailInfo,
         addressUser: fromaddress.userName + '  ' + fromaddress.telNumber,
-        "covers": covers.push({
-          'latitude': wx.getStorageSync('fromaddress_lat'),
-          'longitude': wx.getStorageSync('fromaddress_lng'),
-          'iconPath': "/imgs/send1.png",
-        })
+        // covers: covers,
+        markers: markers
       })
     }
     var toaddress = wx.getStorageSync('toaddress_detail');
-    
     if (toaddress != '') {
       toaddress = JSON.parse(toaddress);
-
+      markers.push({
+        'id': 2,
+        'latitude': wx.getStorageSync('toaddress_lat'),
+        'longitude': wx.getStorageSync('toaddress_lng'),
+        'iconPath': "/imgs/receive.png",
+        'width': 35,
+        'height': 40
+      });
       that.setData({
         addressHide: false,
-        addressDetailTo: toaddress.detailInfo.length > 19 ? toaddress.detailInfo.slice(0, 17) + '...' : fromaddress.detailInfo,
+        addressDetailTo: toaddress.detailInfo.length > 19 ? toaddress.detailInfo.slice(0, 17) + '...' : toaddress.detailInfo,
         addressUserTo: toaddress.userName + '  ' + toaddress.telNumber,
-        "covers": covers.push({
-          'latitude': wx.getStorageSync('toaddress_lat'),
-          'longitude': wx.getStorageSync('toaddress_lng'),
-          'iconPath': "/imgs/send1.png",
-        })
+        markers: markers
       })
     }
     console.log(that.data)
@@ -226,8 +250,6 @@ Page({
       type: 'gcj02',
       success(res) {
         console.log('----------定位成功----------');
-        console.log(res)
-        console.log(that)
           that.localLocation(wx.getStorageSync('fromaddress_lat') || res.latitude, wx.getStorageSync('fromaddress_lng') || res.longitude);
       },
       fail(res) {
@@ -283,25 +305,31 @@ Page({
           address: res.cityName + res.countryName + res.detailInfo,
           success: function (qq_res) {
             if (qq_res.message == 'query ok') {
-              console.log(qq_res.result)
-              console.log(qq_res)
               wx.setStorageSync('fromaddress_lat', qq_res.result.location.lat);
               wx.setStorageSync('fromaddress_lng', qq_res.result.location.lng);
+              console.log(that.data);
+              console.log(that.data.markers[0])
+              console.log(that.data.markers[0].latitude)
+              console.log(that.data.markers[0].longitude)
+              console.log(qq_res.result.location.lat)
+              console.log(qq_res.result.location.lng)
+              if(that.data.markers[0]){
+                that.data.markers[0].latitude = qq_res.result.location.lat;
+                that.data.markers[0].longitude = qq_res.result.location.lng;
+              }
+
+              console.log(that.data);
               that.setData({
+                mapData: {
+                  lng: qq_res.result.location.lng,
+                  lat: qq_res.result.location.lat,
+                },
                 addressHide: false,
                 addressDetail: res.detailInfo.length > 19 ? res.detailInfo.slice(0, 17) + '...' : res.detailInfo,
                 addressUser: res.userName + '  ' + res.telNumber,
-                covers: that.data.covers.push({
-                  latitude: qq_res.result.location.lat,
-                  longitude: qq_res.result.location.lng,
-                  iconPath: "/imgs/send1.png",
-                }),
+                // markers
               })
-
-              wx.navigateBack({
-                // url: '../index/index?lat=' + res.result.location.lat + '&lng=' + res.result.location.lng,
-                url: '../index/index',
-              })
+              console.log(that)
             }
           },
           fail: function (res) {
@@ -334,11 +362,7 @@ Page({
                 addressHide: false,
                 addressDetail: res.detailInfo.length > 19 ? res.detailInfo.slice(0, 17) + '...' : res.detailInfo,
                 addressUser: res.userName + '  ' + res.telNumber,
-                covers: that.data.covers.push({
-                  latitude: qq_res.result.location.lat,
-                  longitude: qq_res.result.location.lng,
-                  iconPath: "/imgs/receive1.png",
-                }),
+                covers: covers,
               })
               
             }

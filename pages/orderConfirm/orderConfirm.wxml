@@ -1,5 +1,5 @@
 <view class="container {{isIpx?'fix-iphonex-wrap':''}}" style="{{containerStyle}}">
-    <map id="orderMap" latitude="{{mapData.lat}}" longitude="{{mapData.lng}}" markers="{{markers}}" covers="{{covers}}">
+    <map id="orderMap" latitude="{{mapData.lat}}" show-location longitude="{{mapData.lng}}" markers="{{markers}}" covers="{{covers}}">
         <cover-view catchtap="clickOrderMapCover" class="order-map-cover" wx:if="{{orderMap.displayCover}}"></cover-view>
         <cover-image class="centerPoint" src="https://vfile.meituan.net/paotui/jfj3t6pvpb9.png" wx:if="{{showPin}}"></cover-image>
     </map>
