@@ -8,9 +8,13 @@ var qqMap = new QQMapWX({
 });
 //用户登陆状态
 const login_status = app.globalData.login_status;
+//获取手机号的状态
+const phone_status = app.globalData.phone_status;
 
 Page({
   data: {
+    userStatus: false,
+    phone_status: false,
     pageMode: "delivery",
     motto: 'Hello World',
     userInfo: {},
@@ -33,6 +37,56 @@ Page({
     qsjValue: '',
 
   },
+
+  onTapUserIcon: function(e) {
+    wx.navigateTo({
+      url: '../personSet/personSet',
+    })
+  },
+
+  getPhoneNumber: function(e) {
+    if (e.detail.errMsg == "getPhoneNumber:ok") {
+      app.paotui.getPhoneNumber(e.detail.encryptedData, e.detail.iv, wx.getStorageSync('session_key'))
+        .then(res => {
+          console.log(res.user_id)
+          console.log(res.phoneNumber)
+          if (res.code == 0) {
+            wx.setStorageSync('user_id', res.data.user_id);
+            wx.setStorageSync('phone', res.data.phoneNumber);
+            this.setData({
+              phone_status: true
+            })
+            wx.navigateTo({
+              url: '../personSet/personSet',
+            })
+          }
+          console.log('手机号获取成功');
+          console.log(res);
+        })
+        .catch(res => {
+          console.log('手机号获取失败');
+          console.log(res);
+        })
+    }
+
+    
+    
+  },
+  
+  // getPhoneNumber: function(e) {
+  //   getPhoneNumber(encryptedData, iv, session_key)
+  //   .then(res => {
+  //     console.log('手机号获取成功');
+  //     console.log(res);
+  //   })
+  //   .catch(res => {
+  //     console.log('手机号获取失败');
+  //     console.log(res);
+  //   })
+  //   console.log(e)
+  // },
+
+  // 获取订单列表
   getOrderList: function(e){
     app.paotui.getOrderList(1, 0)
     .then(res => {
@@ -66,7 +120,6 @@ Page({
               })
 
               wx.navigateBack({
-                // url: '../index/index?lat=' + res.result.location.lat + '&lng=' + res.result.location.lng,
                 url: '../index/index',
               })
             }
@@ -115,11 +168,6 @@ Page({
   },
 
   jumpToOrder: function(e){
-    console.log(e.data.addressDetail)
-    console.log(e.data.addressUser)
-    console.log(e.data.addressDetailTo)
-    console.log(e.data.addressUserTo)
-    console.log(e.data.qsjValue)
     if(e.data.currentData == 0){
       var url = '../orderConfirm/orderConfirm';
     }
@@ -158,10 +206,6 @@ Page({
     "end" !== e.type && this.data.pinTextVisible && this.setData({
       pinTextVisible: !1
     }), "end" !== e.type || void 0 !== this.data.sendAddress.id && "buy" !==  this.data.pageMode// || //this.getCenterLocation();
-  },
-
-  getPhoneNumber: function(res){
-    console.log(res)
   },
 
   onShow: function(){
@@ -220,6 +264,12 @@ Page({
   },
 
   onLoad: function (e) {
+    this.getOrderList()
+    if(login_status != 'success'){
+      this.setData({'userStatus': false});
+    } else {
+      this.setData({'userStatus': true});
+    }
     var that = this;
     // 获取当前位置
     var latitude = '', longitude = '';

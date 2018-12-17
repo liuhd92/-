@@ -31,5 +31,5 @@
             <text>20公斤</text>
         </view>
     </view>
-    <button bindtap="clickConfirmBtn" class="confirmBtn lg {{selectedType>-1?'primary':'disabled'}}">确定</button>
+    <button bindtap="clickConfirmBtn" class="confirmBtn lg {{isDisabled == 0 ?'primary':'disabled'}}">确定</button>
 </view>

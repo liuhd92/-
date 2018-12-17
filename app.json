@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/index/index",
     "pages/orderList/orderList",
     "pages/personSet/personSet",
     "pages/clickSz/clickSz",
@@ -14,7 +15,6 @@
     
     "pages/fwjs/fwjs",
    
-    "pages/index/index",
     "pages/cityList/cityList",
     
     "pages/orderDetail/orderDetail",

@@ -28,11 +28,43 @@ class paotui {
     let data = { uid: uid, order_status: status }
     return this._request.postRequest(this._baseUrl + 'buyOrder/order_list', data, this._defaultHeader).then(res => res.data);
   }
-
+  /**
+   * 取送件商品信息
+   */
   getGoodsList(type) {
     let data = { type: type }
     return this._request.postRequest(this._baseUrl +'goods/goods_list', data, this._defaultHeader).then(res => res.data);
   }
+
+  /**
+   * 用户登录
+   */
+  userLogin(code) {
+    console.log('code : '+code)
+    let data = { code: code}
+    return this._request.postRequest(this._baseUrl + 'WeChat/getopenId', data, this._defaultHeader).then(res => res.data);
+  }
+
+  /**
+   * 用户授权手机号
+   */
+  getPhoneNumber(encryptedData, iv, session_key) {
+    let data = { encryptedData: encryptedData, iv: iv, session_key: session_key }
+    console.log('data : ')
+    console.log(data)
+    return this._request.postRequest(this._baseUrl + 'WeChat/getPhoneNumber', data, this._defaultHeader).then(res => res.data);
+  }
+
+  /**
+   * 用户下单
+   */
+  createOrder(param) {
+    let data = param;
+    console.log('data : ')
+    console.log(data)
+    return this._request.postRequest(this._baseUrl + 'buyOrder/buy_order', data, this._defaultHeader).then(res => res.data)
+  }
+
   /**
    * 获取所有课程
    */

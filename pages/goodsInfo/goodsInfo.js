@@ -17,8 +17,9 @@ Page({
    */
   data: {
     goodsTypes: null,
-    selectedType: 71,
-    selectedName: "餐饮",
+    selectedType: -1,
+    isDisabled: 1,
+    selectedName: "",
     defaultSelect: {},
     goodsWeight: 1,
     tagWidth: 99,
@@ -40,11 +41,13 @@ Page({
     });
   },
   chooseItem: function (e) {
+    console.log(e)
     var t = e.target.dataset.value;
     console.log(e.target.dataset.value)
-    if (t && !t.disabled){
+    if (t){
       this.setData({
-      selectedType: e.target.dataset.value
+      selectedType: e.target.dataset.value,
+      isDisabled: 0
     })
     }
   },
@@ -102,15 +105,12 @@ Page({
    */
   onLoad: function (options) {
     this.getGoodsList();
-    console.log(wx.getStorageSync('qsj_id'))
+    console.log(this)
     this.setData({
       goodsWeight: wx.getStorageSync('qsj_weight') || 1,
       selectedType: { 'id': wx.getStorageSync('qsj_id'), 'text': wx.getStorageSync('qsj_name')},
-      
+      isDisabled: this.data.selectedType ? 0 : 1 
     })
-   
-    console.log(wx.getStorageSync('qsj_name'))
-    console.log(wx.getStorageSync('qsj_weight'))
     
   },
 

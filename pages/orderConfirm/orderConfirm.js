@@ -6,16 +6,33 @@ var qqmapsdk;
 var qqMap = new QQMapWX({
   key: app.globalData.qqmap_key
 });
+// 订单创建时间
+var create_time = Date.parse(new Date())/1000;
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    markers: [
-      
-    ],
+    price: 0,
+    total_price: 0,
+    distance_cal: 0,
+    distance: 0,
+    markers: [],
+    commentObj: {
+      isEditing: !1,
+      text: "",
+      placeholder: "物品描述或送件要求",
+      delete: !1
+    },
+    tipObj: {
+      isEditing: !1,
+      text: "",
+      placeholder: "物品描述或送件要求",
+      delete: !1
+    },
     covers:[],
+    scale: 13,
     time: '',
     time_style: 'margin-left:403rpx;',
     scrollTop: 0,
@@ -25,6 +42,9 @@ Page({
       text: "",
       placeholder: "加小费抢单更快哦",
       hasPlaceholder: !0
+    },
+    tip: {
+      text: ""
     },
     tipFee: 0,
     tipSlide: {
@@ -104,13 +124,11 @@ Page({
     containerStyle: "padding-bottom:" + (getApp().globalData.isIpx ? 176 : 130) + "rpx;",
     sendIcon: "/imgs/sendPoint.png",
     receiveIcon: "/imgs/receivePoint.png",
-    hasAddress: !1
+    hasAddress: !1,
+    qsjValue: '',
   },
 
   bindTimeChange: function (e) {
-    console.log('picker发送选择改变，携带值为', e.detail.value)
-
-    console.log(e.detail.value)
     this.setData({
       time: e.detail.value,
       time_style: 'margin-left:379rpx;'
@@ -126,7 +144,6 @@ Page({
       "timeSlide.slideStatus": "visible",
       "timeSlide.hideType": 0
     });
-    console.log(e);
   },
   timeConfirm: function (e) {
     this.setData({
@@ -156,9 +173,6 @@ Page({
 
   localLocation: function (lat, lng) {
     let that = this;
-
-    console.log('----------localLocation----------');
-
     // 当前城市信息
     qqMap.reverseGeocoder({
       location: {
@@ -166,7 +180,6 @@ Page({
         longitude: lng
       },
       success: function (res) {
-        console.log(res)
         // 设置当前城市
         that.setData({
           myCity: res.result.address_component.city,
@@ -177,7 +190,7 @@ Page({
         })
       },
       fail: function (res) {
-        console.log(res);
+        
       },
       complete: function (res) {
         // if(wx.getStorageSync('toaddress_detail') == ''){
@@ -187,15 +200,55 @@ Page({
       }
     });
   },
+  priceRules: function (){
+    console.log(this)
+    var basePrice = app.globalData.base_price;
+    var distancePrice = 0;
+    var distance = this.data.distance_cal; // 距离
+    console.log(this.data.distance_cal)
+    var weightPrice = 0;
+    var weight = wx.getStorageSync('qsj_weight');
+    var price = 0;
+    // 距离费
+    if (distance >= 0 && distance < 3) {
+      distancePrice += distance
+    } else {
+      distancePrice += ((distance - 3) * 2 + 3)
+    }
+    // 重量费
+    if (weight <= 5){
+      weightPrice = 0;
+    } else if (weight >=6  && weight < 10) {
+      weightPrice += 6;
+    } else {
+      weightPrice += 10;
+    }
+    
+    if (this.data.tip.text) {
+      price = basePrice + distancePrice + weightPrice + parseInt(this.data.tip.text)
+    } else {
+      price = basePrice + distancePrice + weightPrice
+    }
+    this.setData({
+      price: price,
+      total_price: price
+    })
+    wx.showToast({
+      title: '两个经纬度之间的距离（米）' + this.data.distance+'   基础费： ' + 6 + '  距离费用 ： ' + distancePrice + '   重量费用 ： ' + weightPrice,
+      icon: 'none',
+      duration: 6000
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+
     var that = this;
     // 获取当前位置
     var latitude = '', longitude = '';
     var covers = that.data.covers;
-    var markers = that.data.markers;
+    var markers = [];
     var fromaddress = wx.getStorageSync('fromaddress_detail');
     if (fromaddress != '') {
       fromaddress = JSON.parse(fromaddress);
@@ -214,6 +267,70 @@ Page({
         'iconPath': "/imgs/send.png",
         'width': 35,
         'height': 40
+      });
+
+      var from_lat = wx.getStorageSync('fromaddress_lat');
+      var from_lng = wx.getStorageSync('fromaddress_lng');
+      var to_lat = wx.getStorageSync('toaddress_lat');
+      var to_lng = wx.getStorageSync('toaddress_lng');
+      console.log('from_lat : ' + from_lat)
+      console.log('from_lng : ' + from_lng)
+      console.log('to_lat : ' + to_lat)
+      console.log('to_lng : ' + to_lng)
+      // 调用接口
+      qqMap.calculateDistance({
+        mode: 'driving', //步行，驾车为'driving'  walking'; , { latitude: blat,      longitude: blon    } 
+        from: {
+          latitude: from_lat,
+          longitude: from_lng
+        },
+        to: [{
+          latitude: to_lat,
+          longitude: to_lng
+        }],
+        success: function (res) {
+          if (res.message == "query ok") {
+
+            var distance = res.result.elements["0"].distance;
+            console.log('distance1 : ' + distance)
+            var beishu = distance / 1000;
+            that.setData({
+              'distance': beishu,
+              '_distance': beishu.toFixed(1),
+              'distance_cal': parseInt(beishu)
+            })
+            var scale = that.data.scale;
+            if (beishu > 100 && beishu <= 1000) {
+              scale = 3
+            } else if (beishu > 30 && beishu <= 100) {
+              scale = 5
+            } else if (beishu > 20 && beishu <= 30) {
+              scale = 7
+            } else if (beishu > 10 && beishu <= 20) {
+              scale = 10
+            } else {
+              scale = 15
+            }
+            that.setData({
+              scale: scale
+            })
+            that.priceRules() 
+            console.log('success执行了')
+            // that.priceRules(that);
+            // console.log(that.data);
+            // console.log(JSON.stringify(that.data));
+            // that.setScale(res.result.elements["0"].distance);
+          }
+        },
+        fail: function (res) {
+          // console.log(res);
+        },
+        complete: function (res) {
+          console.log('complete执行了')
+          // console.log(that.data);
+          // that.priceRules(that);
+          // console.log(JSON.stringify(that.data));
+        }
       });
 
       that.setData({
@@ -242,19 +359,13 @@ Page({
         markers: markers
       })
     }
-    console.log(that.data)
-
-
 
     wx.getLocation({
       type: 'gcj02',
       success(res) {
-        console.log('----------定位成功----------');
           that.localLocation(wx.getStorageSync('fromaddress_lat') || res.latitude, wx.getStorageSync('fromaddress_lng') || res.longitude);
       },
       fail(res) {
-        console.log('---------定位失败----------');
-        console.log(res)
         if (res.errMsg == 'getLocation:fail auth deny') {
           wx.showModal({
             title: '',
@@ -269,11 +380,11 @@ Page({
                 // 打开设置页
                 wx.openSetting({
                   success: function (res) {
-                    console.log(res)
+                    // console.log(res)
 
                   },
                   fail: function (res) {
-                    console.log(res)
+                    // console.log(res)
                   }
                 })
               }
@@ -282,24 +393,51 @@ Page({
         }
       },
       complete(res) {
-        console.log('---------定位结束----------')
-        console.log(res)
+        // console.log('---------定位结束----------')
+        // console.log(res)
       }
     })
 
     // 取送件内容
-    if (wx.getStorageSync('qsj')) {
+    if (wx.getStorageSync('qsj') != '') {
       that.setData({
         qsjValue: wx.getStorageSync('qsj')
       })
     }
+    
   },
 
+setScale: function(distance){
+  // distance = 704340;
+
+  var beishu = distance/1000;
+  this.setData({
+    'distance': beishu,
+    '_distance': beishu.toFixed(1),
+    'distance_cal': parseInt(beishu)
+  })
+  var scale = this.data.scale;
+  if (beishu>100 && beishu<=1000){
+    scale = 3
+  } else if (beishu > 30 && beishu <= 100) {
+    scale = 5
+  } else if (beishu > 20 && beishu <= 30) {
+    scale = 7
+  } else if (beishu > 10 && beishu <= 20) {
+    scale = 10
+  } else {
+    scale = 15
+  }
+  this.setData({
+    scale: scale
+  })
+}, 
   fromAddress: function () {
     let that = this;
+  
     wx.chooseAddress({
       success: res => {
-        console.log(res)
+        console.log('ok');
         wx.setStorageSync('fromaddress_detail', JSON.stringify(res));
         qqMap.geocoder({
           address: res.cityName + res.countryName + res.detailInfo,
@@ -307,18 +445,69 @@ Page({
             if (qq_res.message == 'query ok') {
               wx.setStorageSync('fromaddress_lat', qq_res.result.location.lat);
               wx.setStorageSync('fromaddress_lng', qq_res.result.location.lng);
-              console.log(that.data);
-              console.log(that.data.markers[0])
-              console.log(that.data.markers[0].latitude)
-              console.log(that.data.markers[0].longitude)
-              console.log(qq_res.result.location.lat)
-              console.log(qq_res.result.location.lng)
+
+              var markers = that.data.markers;
               if(that.data.markers[0]){
                 that.data.markers[0].latitude = qq_res.result.location.lat;
                 that.data.markers[0].longitude = qq_res.result.location.lng;
               }
 
-              console.log(that.data);
+              var from_lat = wx.getStorageSync('fromaddress_lat');
+              var from_lng = wx.getStorageSync('fromaddress_lng');
+              var to_lat = wx.getStorageSync('toaddress_lat');
+              var to_lng = wx.getStorageSync('toaddress_lng');
+              // 调用接口
+              qqMap.calculateDistance({
+                mode: 'walking', //步行，驾车为'driving'  walking'; , { latitude: blat,      longitude: blon    } 
+                from: {
+                  latitude: from_lat,
+                  longitude: from_lng
+                },
+                to: [{
+                  latitude: to_lat,
+                  longitude: to_lng
+                }],
+                success: function (res) {
+                  if (res.message == "query ok"){
+
+                    var distance = res.result.elements["0"].distance;
+                    var beishu = distance / 1000;
+                    that.setData({
+                      'distance': beishu,
+                      '_distance': beishu.toFixed(1),
+                      'distance_cal': parseInt(beishu)
+                    })
+                    var scale = that.data.scale;
+                    if (beishu > 100 && beishu <= 1000) {
+                      scale = 3
+                    } else if (beishu > 30 && beishu <= 100) {
+                      scale = 5
+                    } else if (beishu > 20 && beishu <= 30) {
+                      scale = 7
+                    } else if (beishu > 10 && beishu <= 20) {
+                      scale = 10
+                    } else {
+                      scale = 15
+                    }
+                    that.setData({
+                      scale: scale
+                    })
+
+                    that.priceRules()
+
+
+
+                    // that.setScale(res.result.elements["0"].distance);
+                  }
+                },
+                fail: function (res) {
+                  // console.log(res);
+                },
+                complete: function (res) {
+                  // console.log(res);
+                }
+              });
+
               that.setData({
                 mapData: {
                   lng: qq_res.result.location.lng,
@@ -327,18 +516,22 @@ Page({
                 addressHide: false,
                 addressDetail: res.detailInfo.length > 19 ? res.detailInfo.slice(0, 17) + '...' : res.detailInfo,
                 addressUser: res.userName + '  ' + res.telNumber,
-                // markers
+                markers: markers
               })
-              console.log(that)
             }
+            console.log(that)
           },
           fail: function (res) {
-            console.log(res);
+            console.log(that)
+            // console.log(res);
           },
           complete: function (res) {
-            console.log(res);
+            // console.log(res);
           }
         });
+      },
+      fail: function(res){
+        console.log(that)
       }
     })
 
@@ -348,51 +541,193 @@ Page({
     let that = this;
     wx.chooseAddress({
       success: res => {
-        console.log(res)
         wx.setStorageSync('toaddress_detail', JSON.stringify(res));
         qqMap.geocoder({
           address: res.cityName + res.countryName + res.detailInfo,
           success: function (qq_res) {
             if (qq_res.message == 'query ok') {
+              var markers = that.data.markers;
+              if (that.data.markers[1]) {
+                that.data.markers[1].latitude = qq_res.result.location.lat;
+                that.data.markers[1].longitude = qq_res.result.location.lng;
+              }
 
-              console.log(qq_res)
               wx.setStorageSync('toaddress_lat', qq_res.result.location.lat);
               wx.setStorageSync('toaddress_lng', qq_res.result.location.lng);
+
+              var from_lat = wx.getStorageSync('fromaddress_lat');
+              var from_lng = wx.getStorageSync('fromaddress_lng');
+              var to_lat = wx.getStorageSync('toaddress_lat');
+              var to_lng = wx.getStorageSync('toaddress_lng');
+              // 调用接口
+              qqMap.calculateDistance({
+                mode: 'walking', //步行，驾车为'driving'  walking'; , { latitude: blat,      longitude: blon    } 
+                from: {
+                  latitude: from_lat,
+                  longitude: from_lng
+                },
+                to: [{
+                  latitude: to_lat,
+                  longitude: to_lng
+                }],
+                success: function (res) {
+                  if (res.message == "query ok") {
+
+
+                    var distance = res.result.elements["0"].distance;
+                    var beishu = distance / 1000;
+                    that.setData({
+                      'distance': beishu,
+                      '_distance': beishu.toFixed(1),
+                      'distance_cal': parseInt(beishu)
+                    })
+                    var scale = that.data.scale;
+                    if (beishu > 100 && beishu <= 1000) {
+                      scale = 3
+                    } else if (beishu > 30 && beishu <= 100) {
+                      scale = 5
+                    } else if (beishu > 20 && beishu <= 30) {
+                      scale = 7
+                    } else if (beishu > 10 && beishu <= 20) {
+                      scale = 10
+                    } else {
+                      scale = 15
+                    }
+                    that.setData({
+                      scale: scale
+                    })
+
+                    that.priceRules()
+
+
+
+                    // that.setScale(res.result.elements["0"].distance);
+                  }
+                },
+                fail: function (res) {
+                  // console.log(res);
+                },
+                complete: function (res) {
+                  // console.log(res);
+                }
+              });
               that.setData({
                 addressHide: false,
-                addressDetail: res.detailInfo.length > 19 ? res.detailInfo.slice(0, 17) + '...' : res.detailInfo,
-                addressUser: res.userName + '  ' + res.telNumber,
-                covers: covers,
+                addressDetailTo: res.detailInfo.length > 19 ? res.detailInfo.slice(0, 17) + '...' : res.detailInfo,
+                addressUserTo: res.userName + '  ' + res.telNumber,
+                markers: markers
               })
               
             }
           }
         });
-        that.setData({
-          addressHideTo: false,
-          addressDetailTo: res.detailInfo.length > 19 ? res.detailInfo.slice(0, 17) + '...' : res.detailInfo,
-          addressUserTo: res.userName + '  ' + res.telNumber,
-        })
+        // that.setData({
+        //   addressHideTo: false,
+        //   addressDetailTo: res.detailInfo.length > 19 ? res.detailInfo.slice(0, 17) + '...' : res.detailInfo,
+        //   addressUserTo: res.userName + '  ' + res.telNumber,
+        // })
       }
     })
+  },
+  clickComment: function (e) {
+    this.setData({
+      "commentObj.isEditing": !0
+    });
+  },
+  inputBlur: function (e) {
+    this.data.commentObj.delete ? this.setData({
+      "commentObj.delete": !1,
+      "commentObj.text": "",
+      "commentObj.isEditing": !1
+    }) : this.setData({
+      "commentObj.isEditing": !1,
+      "commentObj.text": e.detail.value
+    });
+  },
+  deleteRemark: function (e) {
+    this.setData({
+      "commentObj.delete": !0
+    });
+  },
+
+  clickComment1: function (e) {
+    this.setData({
+      "tip.isEditing": !0
+    });
+  },
+  inputBlur1: function (e) {
+    var tipPrice = e.detail.value
+    if (tipPrice == ""){
+      tipPrice = 0;
+    } else {
+      tipPrice = parseInt(tipPrice)
+    }
+
+    this.data.tip.delete ? this.setData({
+      "tip.delete": !1,
+      "tip.text": "",
+      "tip.isEditing": !1,
+      "price": this.data.total_price
+    }) : this.setData({
+      "tip.isEditing": !1,
+      "tip.text": e.detail.value,
+      "price": this.data.total_price + tipPrice
+    });
+  },
+  deleteRemark1: function (e) {
+    this.setData({
+      "tip.delete": !0,
+    });
+  },
+
+  // 提交订单
+  submitTip: function (e) {
+    
+    var data = this.data;
+    console.log(data);
+    var param = {
+      'uid': parseInt(wx.getStorageSync('user_id')),
+      'type': 1,
+      'detail_info': data.qsjValue,
+      'base_price': app.globalData.base_price,
+      'tip_price': data.tip.text || 0,
+      'create_time': create_time,
+      'from_address': data.addressDetail,
+      'from_user': data.addressUser,
+      'to_address': data.addressDetailTo,
+      'to_user': data.addressUserTo,
+      'remark': data.commentObj.text,
+      'from_time': data.time || Date.parse(new Date()) / 1000
+    };
+    console.log(param)
+    app.paotui.createOrder(param)
+      .then(res => {
+        if (res.code == 0) {
+          wx.showToast({
+            title: '下单成功',
+            icon: 'success',
+            success: res =>{
+              setTimeout(function(){
+                wx.redirectTo({
+                  url: '../orderList/orderList?uid=' + wx.getStorageSync('user_id')
+                })
+              }, 3000);
+            }
+          })
+        }
+        console.log(res);
+      })
+      .catch(res => {
+        console.log(res);
+      })
   },
 
   chooseAddress: function (e) {
     wx.chooseAddress({
       success: function (res) {
-        console.log(res)
-        console.log(res.userName)
-        console.log(res.postalCode)
-        console.log(res.provinceName)
-        console.log(res.cityName)
-        console.log(res.countyName)
-        console.log(res.detailInfo)
-        console.log(res.nationalCode)
-        console.log(res.telNumber)
+
       },
       fail: function (res) {
-
-        console.log(res)
         if (res.errMsg == 'chooseAddress:fail auth deny') {
           wx.showModal({
             title: '',
@@ -432,7 +767,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    this.onLoad();
   },
 
   /**

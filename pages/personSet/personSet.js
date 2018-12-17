@@ -1,19 +1,42 @@
 // pages/personSet/personSet.js
+//获取应用实例
+const app = getApp();
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-
+    // userInfo: app.golablData.userInfo,
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    
+    this.getOrderList();
   },
+
+  // 获取订单列表
+  getOrderList: function (e) {
+    app.paotui.getOrderList(1, 0)
+      .then(res => {
+        console.log('订单列表获取成功');
+        console.log(res);
+      })
+      .catch(res => {
+        console.log('订单列表获取失败');
+        console.log(res);
+      })
+  },
+
+  // 跳转到订单页面
+  jumpToOrderList: function(){
+    wx.navigateTo({
+      url: '../orderList/orderList',
+    })
+  },
+
   phoneNumber:function(){
     wx.makePhoneCall({
       phoneNumber: '88-888-8888',

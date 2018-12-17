@@ -12,7 +12,7 @@
 </view>
  <view class="block"></view>
  <view class="container container1">
-    <view class="personList" >
+    <view class="personList" bindtap="jumpToOrderList">
       <view class="personone">
         <image src='/imgs/icon-order.png'></image>
       </view>

@@ -1,5 +1,5 @@
 <view class="container {{isIpx?'fix-iphonex-wrap':''}}" style="{{containerStyle}}">
-    <map id="orderMap" latitude="{{mapData.lat}}" show-location longitude="{{mapData.lng}}" markers="{{markers}}" covers="{{covers}}">
+    <map id="orderMap" scale="{{scale}}" latitude="{{mapData.lat}}" show-location longitude="{{mapData.lng}}" markers="{{markers}}" covers="{{covers}}">
         <cover-view catchtap="clickOrderMapCover" class="order-map-cover" wx:if="{{orderMap.displayCover}}"></cover-view>
         <cover-image class="centerPoint" src="https://vfile.meituan.net/paotui/jfj3t6pvpb9.png" wx:if="{{showPin}}"></cover-image>
     </map>
@@ -7,7 +7,13 @@
       <view class="goodsInfo infoContainer">
       <image class="goodsIconBefore" src="/imgs/rectangle.png"></image>
       <view class="goodsText" wx:if="{{goodsTypeName}}">{{goodsTypeName}}、{{_displayWeight}}</view>
-      <view class="goodsText {{highlight?'highlight':'placeholder'}}" wx:else>要配送的物品类型、重量</view>
+
+      <block wx:if="{{qsjValue == ''}}">
+                    <navigator url="../goodsInfo/goodsInfo" class="goodsText placeholder">要配送的物品类型、重量</navigator></block>
+                    <block class="goodsText" wx:else><navigator style="padding-left: 20rpx;" url="../goodsInfo/goodsInfo" >{{qsjValue}}</navigator></block>
+
+
+      <!-- <view class="goodsText {{highlight?'highlight':'placeholder'}}" wx:else>要配送的物品类型、重量</view> -->
       <image class="rightArrow" src="/imgs/rightArrow.png"></image>
   </view>
 
@@ -74,13 +80,26 @@
             <view class="commentContent placeholderss" style="margin-bottom: 30rpx;" wx:else>物品描述或送件要求</view>
         </view>
         <list-item bindtap="clickTip" item="{{tipObj}}">
-          <view class="infoContainerss blockContentss borderBtmss">
+          <!-- <view class="infoContainerss blockContentss borderBtmss">
             <view class="contentLeftss">小费</view>
             <text class="contentRightss placeholderss"> 加小费抢单更快哦</text>
+
             <image class="rightArrow" src="/imgs/rightArrow.png"></image>
-          </view>
+          </view> -->
+
+
+<view bindtap="clickComment1" class="comment blockContent borderBtm">
+            <view style="margin-bottom: 30rpx;">小费：</view>
+            <view class="inputContainer" wx:if="{{tip.isEditing}}">
+                <input type="number" bindblur="inputBlur1" class="commentInput" focus="true" maxlength="50" value="{{tip.text}}"></input>
+            </view>
+            <view capture-catch:touchstart="deleteRemark1" class="delContainer" wx:if="{{tip.isEditing}}">
+                <image class="commentDel" src="https://vfile.meituan.net/paotui/jfj3y1d4rjatt9.png"></image>
+            </view>
+            <view class="commentContent" style="margin-bottom: 30rpx;" wx:elif="{{tip.text.length>0}}">¥{{tip.text}}</view>
+            <view class="contentRightss placeholderss" style="margin-bottom: 30rpx;" wx:else>加小费抢单更快哦</view>
+        </view>
         </list-item>
-        <!-- <list-item bindtap="clickInsurance" item="{{insuranceObj}}" wx:if="{{insuranceSlide.insurances&&insuranceSlide.insurances.length>0}}"></list-item> -->
         <list-item  item="{{timeObj}}">
         <!-- bindtap="clickTime" -->
           <view class="infoContainerss blockContentss">
@@ -129,12 +148,12 @@
             <text class="label">{{label}}</text>
             <view class="price">
                 <text class="price-unit">￥</text>
-                <text class="price-value">{{displayPrice||'-'}}</text>
+                <text class="price-value">{{price||'-'}}</text>
             </view>
             <image class="right-arrow" src="https://vfile.meituan.net/paotui/jfj3l1kiryhkt9.png"></image>
         </view>
-        <form bindsubmit="onSubmitTap" class="submit-btn" reportSubmit="true">
-            <button class="submit-btn" formType="submit">提交订单</button>
-        </form>
+        <view class="submit-btn" bindtap="submitTip" >
+            <button class="submit-btn" >提交订单</button>
+        </view>
     </view>
 </view>

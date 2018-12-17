@@ -4,7 +4,7 @@
 		"ignore": []
 	},
 	"setting": {
-		"urlCheck": true,
+		"urlCheck": false,
 		"es6": true,
 		"postcss": true,
 		"minified": true,
@@ -37,7 +37,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 6,
+			"current": 9,
 			"list": [
 				{
 					"id": 0,
@@ -80,6 +80,23 @@
 					"name": "orderConfirm",
 					"pathName": "pages/orderConfirm/orderConfirm",
 					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "orderList",
+					"pathName": "pages/orderList/orderList",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "orderList",
+					"pathName": "pages/personSet/personSet",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "personSet",
+					"pathName": "pages/personSet/personSet"
 				}
 			]
 		}

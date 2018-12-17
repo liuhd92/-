@@ -565,7 +565,7 @@ page {
     align-self: center;
 }
 
-form.submit-btn {
+view.submit-btn {
     margin-right: 20rpx;
     border: none;
     border-radius: 3rpx;

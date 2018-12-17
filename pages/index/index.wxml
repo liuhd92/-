@@ -1,8 +1,16 @@
 <view class="container">
   <view class="topBar">
+      <block wx:if="{{phone_status == true}}">
         <view bindtap="onTapUserIcon" class="userContainer">
-            <image class="userCenter" src="https://vfile.meituan.net/paotui/jfj3kicvgxecdi.png"></image>
+            <image class="userCenter" src="../../imgs/userIcon.png"></image>
         </view>
+      </block>
+      <block wx:else>
+        <!-- <view bindtap="onTapUserIcon" class="userContainer"> -->
+          <button style="background-image:url(https://res.1gre.cn/pt/userIcon.png); background-size:100% 100%; width:28rpx; height:34rpx; position:relative; left:-100rpx; border:none" class='share' open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber"></button>
+        <!-- </view> -->
+      </block>
+        
         <image class="slogan" mode="aspectFit" src="https://vfile.meituan.net/paotui/jfj3nmqp8j8aor.png"></image>
         <view bindtap="onTapCity" class="cityContainer">
         {{myCity}}

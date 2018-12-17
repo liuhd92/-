@@ -14,9 +14,24 @@ App({
         if (res.errMsg == 'checkSession:fail Error: session time out, need relogin'){
           wx.login({
             success: function(res){
-              wx.setStorageSync('login_status', 'success');
-              console.log('login success');
-              console.log(res)
+              var pt = new paotui();
+              pt.userLogin(res.code)
+              .then(res => {
+                console.log('登录成功');
+                console.log(res)
+                wx.setStorageSync('login_status', 'success');
+                wx.setStorageSync('openid', res.openid);
+                wx.setStorageSync('session_key', res.session_key);
+              })
+              .catch(res => {
+                console.log('登录失败');
+                wx.setStorageSync('login_status', 'fail');
+                console.log(res);
+              })
+              // 
+              // paotui.
+              // console.log('login success');
+              // console.log(res)
             },
             fail: res => {
               wx.setStorageSync('login_status', 'fail');
@@ -43,6 +58,13 @@ App({
               if (this.userInfoReadyCallback) {
                 this.userInfoReadyCallback(res)
               }
+            },
+            fail: res => {
+              console.log(res)
+            },
+            complete: res => {
+              console.log('----------------------');
+              console.log(res)
             }
           })
         }
@@ -53,7 +75,9 @@ App({
   globalData: {
     userInfo: null,
     login_status: wx.getStorageSync('login_status'),
+    phone_status: wx.getStorageSync('phone_status'),
     qqmap_key: 'Z7SBZ-FZS6F-AVFJL-JNYVG-FTMQ2-5XF4N',
+    base_price: 3,
   },
   // 定义一个类型为paotui的属性并且实例化
   paotui: new paotui()
