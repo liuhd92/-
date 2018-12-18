@@ -1,0 +1,102 @@
+  <view class="fake-map" hidden='hidden'>
+        <image src="https://vfile.meituan.net/paotui/jfj3paam5hfr.png" style="width: 100%;height: 100%;"></image>
+  </view>
+  <map id="homeMap"  bindregionchange="onMapRegionChange" latitude="{{mapData.lat}}" longitude="{{mapData.lng}}" markers="{{mapData.markers}}" scale="{{mapData.scale}}">
+        <cover-view class="orderCount" >
+          <!-- 待支付 -->
+            <cover-view class="orderText" wx:if="{{waitForPaidOrderIds.length>0}}">有1个待支付的订单 </cover-view>
+            <!-- 进行中 -->
+            <cover-view class="orderText" wx:else>有几个进行中的订单 </cover-view>
+            <!-- 向左箭头 -->
+            <cover-image class="rightArrow orderArrow" src="https://vfile.meituan.net/paotui/jfj3l1kiryhkt9.png"></cover-image>
+        </cover-view>
+        <!-- 接单时间 -->
+        <cover-view class="calloutContainer" >
+            <cover-view class="calloutBlock">
+                <cover-view class="centerCallout">最快5分钟 </cover-view>
+            </cover-view>
+            <cover-image class="calloutArrow" src="https://vfile.meituan.net/paotui/jfj3s4frjdzpvi.png"></cover-image>
+        </cover-view>
+        <!-- 右下角图标 -->
+        <cover-image class="centerPoint" src="https://vfile.meituan.net/paotui/jfj3t6pvpb9.png" ></cover-image>
+        <cover-image bindtap="onTapMapRelocate" class="locateIcon" src="https://vfile.meituan.net/paotui/jfj3ts5ft4kj4i.png" ></cover-image>
+        <!-- 清除地址 -->
+        <cover-view bindtap="onTapClearAddresses" class="deleteAddr" hidden='false'>
+            <cover-image class="deleteAddrBtn" src="https://vfile.meituan.net/paotui/jfj3v72uyiizfr.png"></cover-image>
+        </cover-view>
+    </map>
+    <view class="block"></view>
+    <!-- 待支付 -->
+    <view class="daizhifu">
+        <view class="daizhifucon">
+            <view class="textheader">待支付 ></view>
+            <view class="textcon">请在15：00内支付，超时订单将自动取消</view>
+            <view class="textbtn">
+              <button>取消订单</button>
+              <button>立即支付¥17</button>
+            </view>
+        </view>
+    </view>
+    <view class="block"></view>
+      <view class="conList">
+          <view class="conHeader">
+            <text class="biaoqian1">取送件</text>
+            <text class="mingcheng">数码</text>
+            <text class="zhaungtai"></text>
+          </view>
+          <view class="adressCon">
+              <view class="adress">
+                <view class="sendPoint">
+                  <image src="/imgs/receivePoint.png"></image>
+                </view>
+               <view class="receiveAdress">
+                  <text class="receiveHeader">中关村地址</text>
+                  <view class="receiveXinF">
+                      <text class="receiveXin">小情绪</text>
+                      <text class="receiveXin">88888888888</text>
+                  </view>
+               </view> 
+              </view>
+              <view class="adress">
+                <view class="sendPoint">
+                  <image src="/imgs/receivePoint.png"></image>
+                </view>
+               <view class="receiveAdress">
+                  <text class="receiveHeader">中关村地址</text>
+                  <view class="receiveXinF">
+                      <text class="receiveXin">小情绪</text>
+                      <text class="receiveXin">88888888888</text>
+                  </view>
+               </view> 
+              </view>
+          </view>
+           <view class="datesend">
+            <text class="data">跑腿费</text>
+            <view class="more">
+              <text class="zailai" style="margin-right:20rpx; color:#999">1米</text>
+              <text class="zailai">¥17</text>
+            </view>
+          </view>
+          <view class="datesend">
+            <text class="data">总计</text>
+            <view class="more"><text class="zailai">¥17</text></view>
+          </view>
+          <view class="conHeader conHeader1">
+            <text class="biaoqian1 orderNumber">订单号码</text>
+            <text class="mingcheng number">2514 2521 2521 2514 23</text>
+            <view class="zhaungtai ">
+              <button class="copy">复制</button>
+            </view>
+          </view>
+          <view class="conHeader conHeader1">
+            <text class="biaoqian1 orderNumber">下单时间</text>
+            <text class="mingcheng number">2018-12-17 16：30：32</text>
+            <view class="zhaungtai ">
+            </view>
+          </view>
+          
+      </view>
+      <view class="block"></view>
+      <view class="lxkf">
+        <button  style="background:url(/imgs/phone.png) no-repeat; background-position: 240rpx;background-size: 34rpx 34rpx; ">联系客服</button>
+      </view>

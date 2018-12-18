@@ -3,22 +3,29 @@
   height: auto;
 
 }
+
 .scrollTab{
   padding-left: 20rpx;
-  height: 50rpx;
+  padding-right: 20rpx;
+  height: 80rpx;
+  box-sizing: border-box;
   overflow: hidden;
- background: #fff;
+  background: #fff;
   position: fixed;
   left: 0;
   top: 0;
+  width: 100%;
+  white-space:nowrap;
 }
 .nav-item{
   color: #666;
   /* margin-right: 20rpx; */
-  width: 20%;
-  float: left;
+  margin:0 36rpx;
+  line-height: 50rpx;
+  /* float: left; */
   font-size: 30rpx;
   text-align: center;
+  display: inline-block;
 }
 .nav-item:last-child{
   margin-right: 0;
@@ -30,7 +37,7 @@
   overflow: hidden;
   
   padding: 0 30rpx;
-  margin-top: 80rpx;
+  margin-top: 110rpx;
   width: 100%;
 }
 .conList{
@@ -39,7 +46,10 @@
   background: #fff;
   padding-left: 30rpx;
   padding-right: 30rpx;
+
   margin-bottom: 30rpx;
+  
+
 
 }
 .conHeader{

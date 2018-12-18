@@ -1,18 +1,20 @@
 <!--pages/orderList/orderList.wxml-->
 <view class="container">
   <!-- tab栏目 -->
-  <scroll-view scroll-x="true" class="scrollTab">
+  <scroll-view scroll-x="true" class="scrollTab" scroll-left="{{scrollLeft}}" >
       <block wx:for="{{scrollData}}" wx:for-item="scrollItem" wx:for-index="curscroll" wx:key="curscroll" >
         <view class="nav-item {{currentTab == curscroll ?'active':''}}"  data-current="{{curscroll}}" bindtap='scrollClick'>{{scrollItem.text}}</view>
       </block>
   </scroll-view>
   <!-- 页面内容 -->
   
-  <view class="scrollCon">
+  <swiper class="scrollCon" current="{{currentTab}}" duration="300" style="height:{{winHeight}}rpx" >
+    <swiper-item wx:for="{{[0,1,2,3,4,5]}}">
       <!--  -->
-            <view wx:for="{{orderInfo}}">
-        <view class="conList">
-          <view class="conHeader">
+          <view wx:for="{{orderInfo}}">
+       
+          <view class="conList"    duration="300" >
+          <!-- <view class="conHeader">
             <block wx:if="{{item.type == 1}}"><text class="biaoqian1">取送件</text></block>
             <block wx:elif="{{item.type == 2}}"><text class="biaoqian">代购</text></block>
             <text class="mingcheng">{{item.detail.detail_info}}</text>
@@ -21,7 +23,7 @@
             <block wx:if="{{item.order_status == 3}}"><text class="zhaungtai">已取消</text></block>
             <block wx:if="{{item.order_status == 4}}"><text class="zhaungtai">待支付</text></block>
             <block wx:if="{{item.order_status == 5}}"><text class="zhaungtai">已完成</text></block>           
-          </view>
+          </view> -->
           <view class="adressCon">
               <view class="adress send">
                 <view class="sendPoint">
@@ -60,7 +62,6 @@
           </view>
         </view>
       </view>
-
-
-  </view>
+    </swiper-item>
+  </swiper>
 </view>

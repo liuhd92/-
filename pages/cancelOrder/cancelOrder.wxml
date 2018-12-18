@@ -1,0 +1,77 @@
+
+    <view class="block"></view>
+    <!-- 待支付 -->
+    <view class="daizhifu">
+        <view class="daizhifucon">
+            <view class="textheader">已取消 ></view>
+            <view class="textcon">感谢使用美团跑腿</view>
+            <view class="textbtn">
+              <button>再来一单</button> 
+            </view>
+        </view>
+    </view>
+    <view class="block"></view>
+      <view class="conList">
+          <view class="conHeader">
+            <text class="biaoqian1">取送件</text>
+            <text class="mingcheng">数码</text>
+            <text class="zhaungtai"></text>
+          </view>
+          <view class="adressCon">
+              <view class="adress">
+                <view class="sendPoint">
+                  <image src="/imgs/receivePoint.png"></image>
+                </view>
+               <view class="receiveAdress">
+                  <text class="receiveHeader">中关村地址</text>
+                  <view class="receiveXinF">
+                      <text class="receiveXin">小情绪</text>
+                      <text class="receiveXin">88888888888</text>
+                  </view>
+               </view> 
+              </view>
+              <view class="adress">
+                <view class="sendPoint">
+                  <image src="/imgs/receivePoint.png"></image>
+                </view>
+               <view class="receiveAdress">
+                  <text class="receiveHeader">中关村地址</text>
+                  <view class="receiveXinF">
+                      <text class="receiveXin">小情绪</text>
+                      <text class="receiveXin">88888888888</text>
+                  </view>
+               </view> 
+              </view>
+          </view>
+           <view class="datesend">
+            <text class="data">跑腿费</text>
+            <view class="more">
+              <text class="zailai" style="margin-right:20rpx; color:#999">1米</text>
+              <text class="zailai">¥17</text>
+            </view>
+          </view>
+          <view class="datesend">
+            <text class="data">总计</text>
+            <view class="more">
+              <text class="zailai">¥17</text>
+            </view>
+          </view>
+          <view class="conHeader conHeader1">
+            <text class="biaoqian1 orderNumber">订单号码</text>
+            <text class="mingcheng number">2514 2521 2521 2514 23</text>
+            <view class="zhaungtai ">
+              <button class="copy">复制</button>
+            </view>
+          </view>
+          <view class="conHeader conHeader1">
+            <text class="biaoqian1 orderNumber">下单时间</text>
+            <text class="mingcheng number">2018-12-17 16：30：32</text>
+            <view class="zhaungtai ">
+            </view>
+          </view>
+          
+      </view>
+      <view class="block"></view>
+      <view class="lxkf">
+        <button  style="background:url(/imgs/phone.png) no-repeat; background-position: 240rpx;background-size: 34rpx 34rpx; ">联系客服</button>
+      </view>

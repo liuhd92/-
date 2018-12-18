@@ -13,6 +13,7 @@ Page({
    */
   data: {
     orderInfo: [],
+    winHeight: "",//窗口高度
     scrollData: [
       {
         text: '全部'
@@ -35,10 +36,40 @@ Page({
       
     ],
     currentTab:0,
+    scrollLeft: 0,
 
   },
   onLoad: function (options) {
     this.getOrderList(wx.getStorageSync('user_id'), 0); // 默认展示进行中的订单
+    console.log(options)
+    this.getOrderList(wx.getStorageSync('user_id'), 0);
+    var that = this;
+    // 高度自适应
+    wx.getSystemInfo({
+      success: function (res) {
+        var clientHeight = res.windowHeight,
+          clientWidth = res.windowWidth,
+          rpxR = 750 / clientWidth;
+        var calc = clientHeight * rpxR - 180;
+        console.log(calc)
+        that.setData({
+          winHeight: calc
+        });
+      }
+    });
+ 
+
+  },
+  checkCor: function () {
+    if (this.data.currentTab > 4) {
+      this.setData({
+        scrollLeft: 300
+      })
+    } else {
+      this.setData({
+        scrollLeft: 0
+      })
+    }
   },
   // 点击tag标签效果
   scrollClick:function(e){
@@ -46,11 +77,13 @@ Page({
     console.log(curscroll)
     if (this.data.currentTab == curscroll){
       return false;
+      
     }else{
       this.setData({
         currentTab: curscroll
       })
       this.getOrderList(wx.getStorageSync('user_id'), curscroll);
+      this.checkCor();
     }
   },
   
