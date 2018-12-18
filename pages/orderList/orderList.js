@@ -12,7 +12,11 @@ Page({
    * 页面的初始数据
    */
   data: {
+    orderInfo: [],
     scrollData: [
+      {
+        text: '全部'
+      },
       {
         text: '进行中'
       },
@@ -28,20 +32,17 @@ Page({
       {
         text: '已完成'
       },
-      {
-        text: '全部'
-      }
+      
     ],
     currentTab:0,
 
   },
   onLoad: function (options) {
-    console.log(options)
-    this.getOrderList(wx.getStorageSync('user_id'), 0);
+    this.getOrderList(wx.getStorageSync('user_id'), 0); // 默认展示进行中的订单
   },
   // 点击tag标签效果
   scrollClick:function(e){
-    var curscroll = e.currentTarget.dataset.current; 
+    var curscroll = e.currentTarget.dataset.current;
     console.log(curscroll)
     if (this.data.currentTab == curscroll){
       return false;
@@ -55,11 +56,22 @@ Page({
   
   // 获取订单列表
   getOrderList: function (uid, status) {
-    // $user_id = (int)I('post.uid', 0);
-    // $order_status = I('post.order_status', '');
 
     app.paotui.getOrderList(uid, status)
       .then(res => {
+        console.log(res.data)
+        if (res.code == 0){
+          this.setData({
+            'orderInfo': res.data
+          });
+        } else if (res.code == 10314){
+          wx.showToast({
+            title: '暂无',
+          })
+          this.setData({
+            'orderInfo': []
+          })
+        }
         console.log('订单列表获取成功');
         console.log(res);
       })
@@ -68,4 +80,30 @@ Page({
         console.log(res);
       })
   },
+
+  // 下拉刷新
+  onPullDownRefresh: function(){
+    console.log(this.data)
+    app.paotui.getOrderList(wx.getStorageSync('user_id'), this.data.currentTab)
+      .then(res => {
+        console.log(res.data)
+        if (res.code == 0) {
+          this.setData({
+            'orderInfo': res.data
+          });
+        }
+        // 隐藏导航栏加载框
+        wx.hideNavigationBarLoading();
+        // 停止下拉动作
+        wx.stopPullDownRefresh();
+      })
+      .catch(res => {
+        console.log('订单列表获取失败');
+        console.log(res);
+      })
+
+    console.log(this)
+    
+
+  }
 })

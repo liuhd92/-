@@ -7,13 +7,22 @@ App({
     logs.unshift(Date.now())
     wx.setStorageSync('logs', logs)
     wx.checkSession({
+      
       success: res => {
+        console.log('check session success');
+        console.log(res)
         wx.setStorageSync('login_status', 'success');
       },
       fail: res => {
-        if (res.errMsg == 'checkSession:fail Error: session time out, need relogin'){
+        
+        console.log('check session fail');
+        console.log(res)
+        if (res.errCode == '-13001' || res.errMsg == 'checkSession:fail Error: session time out, need relogin'){
+          console.log(res)
           wx.login({
             success: function(res){
+              console.log('login success')
+              console.log(res)
               var pt = new paotui();
               pt.userLogin(res.code)
               .then(res => {
@@ -34,7 +43,13 @@ App({
               // console.log(res)
             },
             fail: res => {
+              console.log('login fail');
+              console.log(res)
               wx.setStorageSync('login_status', 'fail');
+            },
+            complete: res => {
+              console.log('login done');
+              console.log(res)
             }
           })
         }

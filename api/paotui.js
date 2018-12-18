@@ -48,8 +48,8 @@ class paotui {
   /**
    * 用户授权手机号
    */
-  getPhoneNumber(encryptedData, iv, session_key) {
-    let data = { encryptedData: encryptedData, iv: iv, session_key: session_key }
+  getPhoneNumber(encryptedData, iv, session_key, openid) {
+    let data = { encryptedData: encryptedData, iv: iv, session_key: session_key, openid }
     console.log('data : ')
     console.log(data)
     return this._request.postRequest(this._baseUrl + 'WeChat/getPhoneNumber', data, this._defaultHeader).then(res => res.data);

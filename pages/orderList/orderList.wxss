@@ -105,7 +105,7 @@
 .sendAdress{
   font-size: 26rpx;
   color: #333;
-
+  padding-top:10rpx;
 }
 .receiveHeader{
   font-size: 26rpx;

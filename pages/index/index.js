@@ -39,6 +39,7 @@ Page({
   },
 
   onTapUserIcon: function(e) {
+    
     wx.navigateTo({
       url: '../personSet/personSet',
     })
@@ -46,7 +47,7 @@ Page({
 
   getPhoneNumber: function(e) {
     if (e.detail.errMsg == "getPhoneNumber:ok") {
-      app.paotui.getPhoneNumber(e.detail.encryptedData, e.detail.iv, wx.getStorageSync('session_key'))
+      app.paotui.getPhoneNumber(e.detail.encryptedData, e.detail.iv, wx.getStorageSync('session_key'), wx.getStorageSync('openid'))
         .then(res => {
           console.log(res.user_id)
           console.log(res.phoneNumber)

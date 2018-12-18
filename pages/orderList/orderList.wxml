@@ -10,74 +10,55 @@
   
   <view class="scrollCon">
       <!--  -->
-      <view class="conList">
+            <view wx:for="{{orderInfo}}">
+        <view class="conList">
           <view class="conHeader">
-            <text class="biaoqian">代购</text>
-            <text class="mingcheng">喜茶</text>
-            <text class="zhaungtai">已取消</text>
+            <block wx:if="{{item.type == 1}}"><text class="biaoqian1">取送件</text></block>
+            <block wx:elif="{{item.type == 2}}"><text class="biaoqian">代购</text></block>
+            <text class="mingcheng">{{item.detail.detail_info}}</text>
+            <block wx:if="{{item.order_status == 1}}"><text class="zhaungtai">进行中</text></block>
+            <block wx:if="{{item.order_status == 2}}"><text class="zhaungtai">待接单</text></block>
+            <block wx:if="{{item.order_status == 3}}"><text class="zhaungtai">已取消</text></block>
+            <block wx:if="{{item.order_status == 4}}"><text class="zhaungtai">待支付</text></block>
+            <block wx:if="{{item.order_status == 5}}"><text class="zhaungtai">已完成</text></block>           
           </view>
           <view class="adressCon">
               <view class="adress send">
                 <view class="sendPoint">
                   <image src="/imgs/sendPoint.png"></image>
                 </view>
-                <text class="sendAdress">北京市哪里发</text>
-              </view>
-              <view class="adress">
-                <view class="sendPoint">
-                  <image src="/imgs/receivePoint.png"></image>
-                </view>
-               <view class="receiveAdress">
-                  <text class="receiveHeader">中关村地址</text>
-                  <view class="receiveXinF">
-                      <text class="receiveXin">小情绪</text>
-                      <text class="receiveXin">88888888888</text>
-                  </view>
-               </view> 
-              </view>
-          </view>
-           <view class="datesend">
-            <text class="data">2018-12-08</text>
-            <view class="more"><button class="zailai">再来一单</button></view>
-          </view>
-      </view>
 
-      <view class="conList">
-          <view class="conHeader">
-            <text class="biaoqian1">取送件</text>
-            <text class="mingcheng">喜茶</text>
-            <text class="zhaungtai">已取消</text>
-          </view>
-          <view class="adressCon">
-              <view class="adress">
-                <view class="sendPoint">
-                  <image src="/imgs/receivePoint.png"></image>
+                <block wx:if="{{item.type == 1}}">
+                  <view class="receiveAdress">
+                    <text class="receiveHeader">{{item.detail.from_address}}</text>
+                    <view class="receiveXinF">
+                        <text class="receiveXin">{{item.detail.from_user}}</text>
+                        <text class="receiveXin">{{item.detail.from_phone}}</text>
+                    </view>
                 </view>
-               <view class="receiveAdress">
-                  <text class="receiveHeader">中关村地址</text>
-                  <view class="receiveXinF">
-                      <text class="receiveXin">小情绪</text>
-                      <text class="receiveXin">88888888888</text>
-                  </view>
-               </view> 
+               </block>
+               <block wx:elif="{{item.type == 2}}">
+                <text class="sendAdress">{{item.detail.from_address}}</text>
+               </block>
               </view>
               <view class="adress">
                 <view class="sendPoint">
                   <image src="/imgs/receivePoint.png"></image>
                 </view>
                <view class="receiveAdress">
-                  <text class="receiveHeader">中关村地址</text>
+                  <text class="receiveHeader">{{item.detail.to_address}}</text>
                   <view class="receiveXinF">
-                      <text class="receiveXin">小情绪</text>
-                      <text class="receiveXin">88888888888</text>
+                      <text class="receiveXin">{{item.detail.to_user}}</text>
+                      <text class="receiveXin">{{item.detail.to_phone}}</text>
                   </view>
                </view> 
               </view>
           </view>
            <view class="datesend">
-            <text class="data">2018-12-08</text>
+            <text class="data">{{item.create_time_date}}</text>
             <view class="more"><button class="zailai">再来一单</button></view>
           </view>
+        </view>
       </view>
 
 
