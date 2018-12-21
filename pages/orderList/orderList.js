@@ -14,6 +14,7 @@ Page({
   data: {
     orderInfo: [],
     winHeight: "",//窗口高度
+    
     scrollData: [
       {
         text: '全部'
@@ -50,10 +51,12 @@ Page({
         var clientHeight = res.windowHeight,
           clientWidth = res.windowWidth,
           rpxR = 750 / clientWidth;
+      
         var calc = clientHeight * rpxR - 180;
         console.log(calc)
         that.setData({
-          winHeight: calc
+          winHeight: calc,
+          
         });
       }
     });

@@ -13,23 +13,18 @@ module.exports.calc = calc;
     </view>
     <view wx:if="{{showNav}}">
         <!-- <view catchtap='goHome' class='navigation home' style='top:{{calc.calc(top,150)}}px;left:{{left}}px;'> -->
-        <view catchtap='goHome' class='navigation home' style='left:{{left}}px;'>
+        <view catchtap='goHome' class='navigation home' style='left:{{left}}rpx;top:{{top-180}}rpx;' >
             <view class='icon_container'>
                 <icon class="iconfont icon-shouye"></icon>
                 <text style="">首页</text>
             </view>
         </view>
-        <!-- <view catchtap='goExit' class='navigation exit' style='top:{{calc.calc(top,80)}}px;left:{{left}}px;'>
-            <view class='icon_container'>
-                <icon class="iconfont icon-add"></icon>
-                <text>退出</text>
-            </view>
-        </view> -->
-        <view catchtap='navigation' class='navigation close' style='top:{{top}}px;left:{{left}}px;'>
+       
+        <view catchtap='navigation' class='navigation close' style='top:{{top}}rpx;left:{{left}}rpx;'>
             <icon class='iconfont icon-xiajiantou1'></icon>
         </view>
     </view>
-    <movable-view wx:if="{{!showNav}}" class='navigation' catchtap='navigation' catchtouchmove='move' style='top:{{top}}px;left:{{left}}px;'>
+    <movable-view wx:if="{{!showNav}}" class='navigation' catchtap='navigation' catchtouchmove='move' style='top:{{top}}rpx;'>
         <text>导航</text>
     </movable-view>
 </view>

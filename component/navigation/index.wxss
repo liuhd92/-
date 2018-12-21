@@ -38,7 +38,9 @@
 .navigation {
     position: fixed;
     bottom: 150rpx;
-    right: 50rpx;
+    /* right: 50rpx; */
+    left:85%;
+    
     width: 80rpx;
     height: 80rpx;
     border: 1px solid #fff;
@@ -62,6 +64,7 @@
 
 .navigation.home {
     bottom: 470rpx;
+
     background: #fff;
 }
 
