@@ -31,14 +31,22 @@
   margin-right: 0;
 }
 .active{
-  color: red;
+  color: rgb(243, 155, 155);
+  position: relative;
+
 }
+.active:after{ content: "";display: block;height: 8rpx;width: 95%;background: rgb(243, 155, 155);position: absolute; bottom: -10rpx;left: 2rpx;border-radius: 16rpx;}
 .scrollCon{
-  overflow: hidden;
+  /* overflow: hidden; */
   
   padding: 0 30rpx;
   margin-top: 110rpx;
   width: 100%;
+  /* height: auto; */
+}
+.scrollCon swiper-item {
+  height: 100%;
+  overflow-y: scroll;
 }
 .conList{
   overflow: hidden;

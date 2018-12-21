@@ -68,6 +68,13 @@ Page({
       url: '../daizhifu/daizhifu?id=' + e.currentTarget.dataset.id
     })
   },
+  // 滚动切换标签样式
+  switchTab: function (e) {
+    this.setData({
+      currentTab: e.detail.current
+    });
+    this.checkCor();
+  },
   checkCor: function () {
     if (this.data.currentTab > 4) {
       this.setData({
