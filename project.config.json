@@ -37,7 +37,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 9,
+			"current": 11,
 			"list": [
 				{
 					"id": 0,
@@ -88,15 +88,28 @@
 					"query": ""
 				},
 				{
-					"id": -1,
-					"name": "orderList",
+					"id": 8,
+					"name": "personSet",
 					"pathName": "pages/personSet/personSet",
 					"query": ""
 				},
 				{
 					"id": -1,
 					"name": "personSet",
-					"pathName": "pages/personSet/personSet"
+					"pathName": "pages/personSet/personSet",
+					"query": ""
+				},
+				{
+					"id": 10,
+					"name": "cancelOrder",
+					"pathName": "pages/cancelOrder/cancelOrder",
+					"query": ""
+				},
+				{
+					"id": 11,
+					"name": "daizhifu",
+					"pathName": "pages/daizhifu/daizhifu",
+					"query": "id=1"
 				}
 			]
 		}

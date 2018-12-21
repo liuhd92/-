@@ -1,0 +1,35 @@
+<wxs module='calc'>
+var calc = function(top,px){
+    if(top>200){
+        return top-px
+    }else{
+        return top+px
+    }
+}
+module.exports.calc = calc;
+</wxs>
+<view>
+    <view class='shade' wx:if="{{showNav}}">
+    </view>
+    <view wx:if="{{showNav}}">
+        <!-- <view catchtap='goHome' class='navigation home' style='top:{{calc.calc(top,150)}}px;left:{{left}}px;'> -->
+        <view catchtap='goHome' class='navigation home' style='left:{{left}}px;'>
+            <view class='icon_container'>
+                <icon class="iconfont icon-shouye"></icon>
+                <text style="">首页</text>
+            </view>
+        </view>
+        <!-- <view catchtap='goExit' class='navigation exit' style='top:{{calc.calc(top,80)}}px;left:{{left}}px;'>
+            <view class='icon_container'>
+                <icon class="iconfont icon-add"></icon>
+                <text>退出</text>
+            </view>
+        </view> -->
+        <view catchtap='navigation' class='navigation close' style='top:{{top}}px;left:{{left}}px;'>
+            <icon class='iconfont icon-xiajiantou1'></icon>
+        </view>
+    </view>
+    <movable-view wx:if="{{!showNav}}" class='navigation' catchtap='navigation' catchtouchmove='move' style='top:{{top}}px;left:{{left}}px;'>
+        <text>导航</text>
+    </movable-view>
+</view>

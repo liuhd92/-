@@ -1,31 +1,25 @@
 {
   "pages": [
-    
     "pages/orderList/orderList",
     "pages/cancelOrder/cancelOrder",
     "pages/daizhifu/daizhifu",
     "pages/index/index",
-    
     "pages/personSet/personSet",
     "pages/clickSz/clickSz",
     "pages/yijianfk/yijianfk",
-    
     "pages/yhxy/yhxy",
     "pages/bsxy/bsxy",
     "pages/bmxy/bmxy",
     "pages/yszc/yszc",
     "pages/yhxyText/yhxyText",
-    
     "pages/fwjs/fwjs",
-   
     "pages/cityList/cityList",
-    
     "pages/orderDetail/orderDetail",
     "pages/goodsInfo/goodsInfo",
     "pages/address/address",
     "pages/logs/logs",
-    "pages/orderConfirm/orderConfirm"
-    
+    "pages/orderConfirm/orderConfirm",
+    "component/navigation/index"
   ],
   "window": {
     "backgroundTextStyle": "dark",

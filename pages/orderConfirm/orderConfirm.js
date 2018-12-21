@@ -8,6 +8,7 @@ var qqMap = new QQMapWX({
 });
 // 订单创建时间
 var create_time = Date.parse(new Date())/1000;
+var goon = false;
 Page({
 
   /**
@@ -18,6 +19,7 @@ Page({
     total_price: 0,
     distance_cal: 0,
     distance: 0,
+    phone_status: wx.getStorageSync('user_id') != '' ? true : false,
     markers: [],
     commentObj: {
       isEditing: !1,
@@ -27,13 +29,13 @@ Page({
     },
     tipObj: {
       isEditing: !1,
-      text: "",
+      text: "物品描述或送件要求",
       placeholder: "物品描述或送件要求",
       delete: !1
     },
     covers:[],
     scale: 13,
-    time: '',
+    time: wx.getStorageSync('from_time') != '' ? wx.getStorageSync('from_time') : '',
     time_style: 'margin-left:403rpx;',
     scrollTop: 0,
     tipObj: {
@@ -126,6 +128,29 @@ Page({
     receiveIcon: "/imgs/receivePoint.png",
     hasAddress: !1,
     qsjValue: '',
+  },
+
+  getPhoneNumber: function (e) {
+    if (e.detail.errMsg == "getPhoneNumber:ok") {
+      app.paotui.getPhoneNumber(e.detail.encryptedData, e.detail.iv, wx.getStorageSync('session_key'), wx.getStorageSync('openid'))
+        .then(res => {
+          console.log(res.user_id)
+          console.log(res.phoneNumber)
+          if (res.code == 0) {
+            wx.setStorageSync('user_id', res.data.user_id);
+            wx.setStorageSync('phone', res.data.phoneNumber);
+            this.setData({
+              phone_status: true
+            })
+          }
+          console.log('手机号获取成功');
+          console.log(res);
+        })
+        .catch(res => {
+          console.log('手机号获取失败');
+          console.log(res);
+        })
+    }
   },
 
   bindTimeChange: function (e) {
@@ -239,11 +264,13 @@ Page({
       duration: 6000
     })
   },
+
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    console.log('user_id : '+wx.getStorageSync('user_id'))
+    console.log('phone_status : ' + this.data.phone_status)
     var that = this;
     // 获取当前位置
     var latitude = '', longitude = '';
@@ -405,6 +432,23 @@ Page({
       })
     }
     
+    if (wx.getStorageSync('tip_price')) {
+
+      this.setData({
+        'tip.isEditing': 1,
+        'tip.text': parseInt(wx.getStorageSync('tip_price'))
+      })
+      console.log('--------------' + this.data.tip.text)
+    }
+
+    if (wx.getStorageSync('remark')) {
+
+      this.setData({
+        'commentObj.isEditing': 1,
+        'commentObj.text': wx.getStorageSync('remark')
+      })
+      console.log('--------------' + this.data.tip.text)
+    }
   },
 
 setScale: function(distance){
@@ -651,12 +695,18 @@ setScale: function(distance){
   },
 
   clickComment1: function (e) {
+    console.log('12345')
+    console.log(e)
     this.setData({
       "tip.isEditing": !0
     });
   },
   inputBlur1: function (e) {
     var tipPrice = e.detail.value
+    console.log('dfdafdsfas' + tipPrice);
+    this.setData({'tipPrice': e.detail.value});
+    console.log('this.data.total_pric : ' + this.data.total_pric)
+    console.log('this.data.price : ' + this.data.price)
     if (tipPrice == ""){
       tipPrice = 0;
     } else {
@@ -667,24 +717,37 @@ setScale: function(distance){
       "tip.delete": !1,
       "tip.text": "",
       "tip.isEditing": !1,
-      "price": this.data.total_price
+      "price": this.data.total_price - parseInt(this.data.tipPrice)
     }) : this.setData({
       "tip.isEditing": !1,
       "tip.text": e.detail.value,
-      "price": this.data.total_price + tipPrice
+      "price": wx.getStorageSync('tip_price') != undefined ? this.data.total_price - wx.getStorageSync('tip_price') + tipPrice : this.data.price + tipPrice
     });
+    console.log('this.data.price2 : ' + this.data.price)
+    console.log('price : ' + this.data.price + ' + tipPrice : '+tipPrice)
   },
   deleteRemark1: function (e) {
+    console.log(parseInt(this.data.price))
+    console.log(this.data.tipPrice)
+    console.log(typeof this.data.tipPrice)
+    console.log(this.data.tipPrice)
+    if(this.data.tipPrice == undefined) {
+      this.data.tipPrice = wx.getStorageSync('tip_price');
+      console.log(this.data)
+    }
     this.setData({
+      "tip.isEditing": !1,
       "tip.delete": !0,
+      "price": this.data.price - this.data.tipPrice,
+      "tip.text": ""
     });
+    wx.setStorageSync('tip_price', '');
   },
 
   // 提交订单
   submitTip: function (e) {
     
     var data = this.data;
-    console.log(data);
     var param = {
       'uid': parseInt(wx.getStorageSync('user_id')),
       'type': 1,
@@ -694,8 +757,12 @@ setScale: function(distance){
       'create_time': create_time,
       'from_address': data.addressDetail,
       'from_user': data.addressUser,
+      'from_latitude': wx.getStorageSync('fromaddress_lat'),
+      'from_longitude': wx.getStorageSync('fromaddress_lng'),
       'to_address': data.addressDetailTo,
       'to_user': data.addressUserTo,
+      'to_latitude': wx.getStorageSync('toaddress_lat'),
+      'to_longitude': wx.getStorageSync('toaddress_lng'),
       'remark': data.commentObj.text,
       'from_time': data.time || Date.parse(new Date()) / 1000
     };
@@ -708,7 +775,7 @@ setScale: function(distance){
             icon: 'success',
             success: res =>{
               setTimeout(function(){
-                wx.redirectTo({
+                wx.navigateTo({
                   url: '../orderList/orderList?uid=' + wx.getStorageSync('user_id')
                 })
               }, 3000);

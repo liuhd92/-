@@ -1,4 +1,7 @@
 {
   "navigationBarTitleText": "订单列表",
-  "enablePullDownRefresh": true
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "app-navigation": "/component/navigation/index"
+  }
 }

@@ -57,8 +57,16 @@ Page({
         });
       }
     });
- 
+  },
 
+  /**
+   * 进入订单详情页
+   */
+  enterDetailTab: function(e) {
+    console.log('点击了进入详情页');
+    wx.navigateTo({
+      url: '../daizhifu/daizhifu?id=' + e.currentTarget.dataset.id
+    })
   },
   checkCor: function () {
     if (this.data.currentTab > 4) {
@@ -85,6 +93,45 @@ Page({
       this.getOrderList(wx.getStorageSync('user_id'), curscroll);
       this.checkCor();
     }
+  },
+
+  /**
+   * 再来一单
+   */
+  buyOneMore: function (e) {
+    // 获取订单详情
+    let that = this;
+    app.paotui.getOrderDetail(e.currentTarget.dataset.id)
+      .then(res => {
+        if (res.code == 0) {
+          var res = res.data;
+          // 数据入缓存
+          var from_user = { 'detailInfo': res.detail.from_address, 'userName': res.detail.from_user, 'telNumber': res.detail.from_phone }
+          wx.setStorageSync('fromaddress_detail', JSON.stringify(from_user))
+          var to_user = { 'detailInfo': res.detail.to_address, 'userName': res.detail.to_user, 'telNumber': res.detail.to_phone }
+          wx.setStorageSync('toaddress_detail', JSON.stringify(to_user))
+          wx.setStorageSync('toaddress_lat', res.detail.to_latitude)
+          wx.setStorageSync('toaddress_lng', res.detail.to_longitude)
+          wx.setStorageSync('fromaddress_lat', res.detail.from_latitude)
+          wx.setStorageSync('fromaddress_lng', res.detail.from_longitude)
+
+          wx.setStorageSync('qsj_weight', res.detail.goods[1])
+          wx.setStorageSync('qsj_name', res.detail.goods[0])
+          wx.setStorageSync('qsj', res.detail.detail_info)
+          wx.setStorageSync('tip_price', parseInt(res.detail.tip_price))
+          wx.setStorageSync('remark', res.detail.remark)
+          wx.setStorageSync('from_time', res.detail.from_time_hi)
+
+        }
+      })
+      .catch(res => {
+
+      })
+
+
+    wx.navigateTo({
+      url: '../orderConfirm/orderConfirm?id=' + that.data.id
+    })
   },
   
   // 获取订单列表
@@ -114,6 +161,9 @@ Page({
       })
   },
 
+  payMoney: function() {
+    console.log('去支付了');
+  },
   // 下拉刷新
   onPullDownRefresh: function(){
     console.log(this.data)

@@ -28,6 +28,21 @@ class paotui {
     let data = { uid: uid, order_status: status }
     return this._request.postRequest(this._baseUrl + 'buyOrder/order_list', data, this._defaultHeader).then(res => res.data);
   }
+
+  /**
+   * 获取订单详细信息
+   */
+  getOrderDetail(id) {
+    let data = { id: id }
+    return this._request.postRequest(this._baseUrl + 'order/order_detail', data, this._defaultHeader).then(res => res.data);
+  }
+
+  changeOrderStatus(id, status) {
+    let data = { id: id, order_status: status }
+    console.log(data)
+    return this._request.postRequest(this._baseUrl + 'order/update_status', data, this._defaultHeader).then(res => res.data);
+  }
+
   /**
    * 取送件商品信息
    */

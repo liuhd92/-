@@ -14,7 +14,7 @@ const phone_status = app.globalData.phone_status;
 Page({
   data: {
     userStatus: false,
-    phone_status: false,
+    phone_status: wx.getStorageSync('user_id') != '' ? true: false,
     pageMode: "delivery",
     motto: 'Hello World',
     userInfo: {},
@@ -46,6 +46,7 @@ Page({
   },
 
   getPhoneNumber: function(e) {
+    console.log(e)
     if (e.detail.errMsg == "getPhoneNumber:ok") {
       app.paotui.getPhoneNumber(e.detail.encryptedData, e.detail.iv, wx.getStorageSync('session_key'), wx.getStorageSync('openid'))
         .then(res => {
@@ -68,10 +69,7 @@ Page({
           console.log('手机号获取失败');
           console.log(res);
         })
-    }
-
-    
-    
+    }    
   },
   
   // getPhoneNumber: function(e) {

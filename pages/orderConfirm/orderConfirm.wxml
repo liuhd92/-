@@ -93,11 +93,11 @@
             <view class="inputContainer" wx:if="{{tip.isEditing}}">
                 <input type="number" bindblur="inputBlur1" class="commentInput" focus="true" maxlength="50" value="{{tip.text}}"></input>
             </view>
-            <view capture-catch:touchstart="deleteRemark1" class="delContainer" wx:if="{{tip.isEditing}}">
+            <!-- <view capture-catch:touchstart="deleteRemark1" class="delContainer" wx:if="{{tip.isEditing}}">
                 <image class="commentDel" src="https://vfile.meituan.net/paotui/jfj3y1d4rjatt9.png"></image>
-            </view>
-            <view class="commentContent" style="margin-bottom: 30rpx;" wx:elif="{{tip.text.length>0}}">¥{{tip.text}}</view>
-            <view class="contentRightss placeholderss" style="margin-bottom: 30rpx;" wx:else>加小费抢单更快哦</view>
+            </view> -->
+            <view class="commentContent" style="margin-bottom: 30rpx;" wx:elif="{{tip.text.length>0}}">{{tip.text}}</view>
+            <view class="contentRightss placeholderss" style="margin-bottom: 30rpx;" wx:else>加小费抢单更快哦(单位：元)</view>
         </view>
         </list-item>
         <list-item  item="{{timeObj}}">
@@ -153,7 +153,12 @@
             <image class="right-arrow" src="https://vfile.meituan.net/paotui/jfj3l1kiryhkt9.png"></image>
         </view>
         <view class="submit-btn" bindtap="submitTip" >
+          <block wx:if="{{phone_status == true}}">
             <button class="submit-btn" >提交订单</button>
+          </block>
+          <block wx:elif="{{phone_status == false}}">
+            <button class="submit-btn" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">提交订单</button>
+          </block>
         </view>
     </view>
 </view>
