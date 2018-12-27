@@ -1,12 +1,12 @@
 <!--pages/yijianfk/yijianfk.wxml-->
 <view class="container">
     <view class="input">
-      <textarea value='请留下您的宝贵意见，我们将努力改进~'>
+      <textarea bindinput="getFeedbackContent" placeholder="请留下您的宝贵意见，我们将努力改进~" value=''>
       </textarea>
       <text class="alert">不少于5字</text>
     </view>
     <view class="phone">
-      <input type='text' placeholder='请留下您的电话号码（选填）' placeholder-style='font-size:28rpx;color:#999'></input>
+      <input type='text' bindinput="getFeedbackPhone" placeholder='请留下您的电话号码（选填）' placeholder-style='font-size:28rpx;color:#999'></input>
     </view>
-    <button>提交</button>
+    <button bindtap="submitFeedback">提交</button>
 </view>

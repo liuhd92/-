@@ -39,7 +39,7 @@ Page({
 
   phoneNumber:function(){
     wx.makePhoneCall({
-      phoneNumber: '88-888-8888',
+      phoneNumber: app.globalData.kf_phone,
       success: function (res) {
         console.log(res);
       }

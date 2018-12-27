@@ -6,8 +6,7 @@ var qqmapsdk;
 var qqMap = new QQMapWX({
   key: app.globalData.qqmap_key
 });
-// 订单创建时间
-var create_time = Date.parse(new Date())/1000;
+
 var goon = false;
 Page({
 
@@ -19,7 +18,9 @@ Page({
     total_price: 0,
     distance_cal: 0,
     distance: 0,
-    phone_status: wx.getStorageSync('user_id') != '' ? true : false,
+    weightPrice: 0,
+    distancePrice: 0,
+    phone_status: parseInt(wx.getStorageSync('user_id')) > 0 ? true : false,
     markers: [],
     commentObj: {
       isEditing: !1,
@@ -35,7 +36,7 @@ Page({
     },
     covers:[],
     scale: 13,
-    time: wx.getStorageSync('from_time') != '' ? wx.getStorageSync('from_time') : '',
+    time: wx.getStorageSync('from_time') != undefined ? wx.getStorageSync('from_time') : '',
     time_style: 'margin-left:403rpx;',
     scrollTop: 0,
     tipObj: {
@@ -139,9 +140,11 @@ Page({
           if (res.code == 0) {
             wx.setStorageSync('user_id', res.data.user_id);
             wx.setStorageSync('phone', res.data.phoneNumber);
+            
             this.setData({
               phone_status: true
             })
+
           }
           console.log('手机号获取成功');
           console.log(res);
@@ -226,29 +229,30 @@ Page({
     });
   },
   priceRules: function (){
-    console.log(this)
     var basePrice = app.globalData.base_price;
     var distancePrice = 0;
     var distance = this.data.distance_cal; // 距离
-    console.log(this.data.distance_cal)
     var weightPrice = 0;
     var weight = wx.getStorageSync('qsj_weight');
     var price = 0;
     // 距离费
-    if (distance >= 0 && distance < 3) {
-      distancePrice += distance
-    } else {
-      distancePrice += ((distance - 3) * 2 + 3)
+    if (distance >= 0 && distance <= 1) {
+      distancePrice = 0
+    } else if (distance > 1 && distance <= 2) {
+      distancePrice = 1
+    } else if (distance >3  && distance <= 5) {
+      distancePrice = 3
     }
     // 重量费
-    if (weight <= 5){
+    if (weight <= 1){
       weightPrice = 0;
-    } else if (weight >=6  && weight < 10) {
-      weightPrice += 6;
+    } else if (weight >=1  && weight < 2) {
+      weightPrice = 1;
     } else {
-      weightPrice += 10;
+      weightPrice = 3;
     }
     
+
     if (this.data.tip.text) {
       price = basePrice + distancePrice + weightPrice + parseInt(this.data.tip.text)
     } else {
@@ -256,10 +260,12 @@ Page({
     }
     this.setData({
       price: price,
-      total_price: price
+      total_price: price,
+      weightPrice: weightPrice,
+      distancePrice: distancePrice
     })
     wx.showToast({
-      title: '两个经纬度之间的距离（米）' + this.data.distance+'   基础费： ' + 6 + '  距离费用 ： ' + distancePrice + '   重量费用 ： ' + weightPrice,
+      title: '两个经纬度之间的距离（米）' + this.data.distance + '   基础费： ' + basePrice + '  距离费用 ： ' + distancePrice + '   重量费用 ： ' + weightPrice,
       icon: 'none',
       duration: 6000
     })
@@ -270,7 +276,7 @@ Page({
    */
   onLoad: function (options) {
     console.log('user_id : '+wx.getStorageSync('user_id'))
-    console.log('phone_status : ' + this.data.phone_status)
+    console.log('from_time : ' + this.data.from_time)
     var that = this;
     // 获取当前位置
     var latitude = '', longitude = '';
@@ -279,14 +285,6 @@ Page({
     var fromaddress = wx.getStorageSync('fromaddress_detail');
     if (fromaddress != '') {
       fromaddress = JSON.parse(fromaddress);
-      // covers.push({
-      //   'latitude': wx.getStorageSync('fromaddress_lat'),
-      //   'longitude': wx.getStorageSync('fromaddress_lng'),
-      //   'iconPath': "/imgs/send.png",
-      //   'width': 35,
-      //   'height': 40
-      // });
-
       markers.push({
         'id': 1,
         'latitude': wx.getStorageSync('fromaddress_lat'),
@@ -746,7 +744,6 @@ setScale: function(distance){
 
   // 提交订单
   submitTip: function (e) {
-    
     var data = this.data;
     var param = {
       'uid': parseInt(wx.getStorageSync('user_id')),
@@ -754,7 +751,7 @@ setScale: function(distance){
       'detail_info': data.qsjValue,
       'base_price': app.globalData.base_price,
       'tip_price': data.tip.text || 0,
-      'create_time': create_time,
+      'create_time': Date.parse(new Date()) / 1000,
       'from_address': data.addressDetail,
       'from_user': data.addressUser,
       'from_latitude': wx.getStorageSync('fromaddress_lat'),
@@ -764,7 +761,9 @@ setScale: function(distance){
       'to_latitude': wx.getStorageSync('toaddress_lat'),
       'to_longitude': wx.getStorageSync('toaddress_lng'),
       'remark': data.commentObj.text,
-      'from_time': data.time || Date.parse(new Date()) / 1000
+      'from_time': data.time || Date.parse(new Date()) / 1000,
+      'weight_price': data.weightPrice,
+      'distance_price': data.distancePrice,
     };
     console.log(param)
     app.paotui.createOrder(param)
@@ -860,6 +859,15 @@ setScale: function(distance){
     wx.removeStorageSync('fromaddress_lat');
     wx.removeStorageSync('fromaddress_lng');
     wx.removeStorageSync('toaddress_detail');
+    wx.removeStorageSync('toaddress_lat');
+    wx.removeStorageSync('toaddress_lng');
+    wx.removeStorageSync('qsj');
+    wx.removeStorageSync('qsj_id');
+    wx.removeStorageSync('qsj_name');
+    wx.removeStorageSync('qsj_weight');
+    wx.removeStorageSync('tip_price');
+    wx.removeStorageSync('remark');
+    wx.removeStorageSync('from_time');
   },
 
   /**

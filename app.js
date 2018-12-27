@@ -92,7 +92,8 @@ App({
     login_status: wx.getStorageSync('login_status'),
     phone_status: wx.getStorageSync('phone_status'),
     qqmap_key: 'Z7SBZ-FZS6F-AVFJL-JNYVG-FTMQ2-5XF4N',
-    base_price: 3,
+    base_price: 2,
+    kf_phone: '17558828866',
   },
   // 定义一个类型为paotui的属性并且实例化
   paotui: new paotui()

@@ -171,9 +171,50 @@ Page({
       })
   },
 
-  payMoney: function() {
-    console.log('去支付了');
+  /**
+     * 取消订单
+     */
+  cancelOrder: function () {
+    let that = this;
+    wx.showModal({
+      title: '警告！',
+      content: '您确定要取消该订单吗？',
+      showCancel: true,
+      cancelText: '否',
+      confirmText: '是',
+      success: function (res) {
+        if (res.confirm) {
+          that.setOrderDisabled(that.data.id, 3);
+        } else {
+          return false;
+        }
+      }
+    })
   },
+
+  payMoney: function(e) {
+    console.log(e)
+    console.log('去支付了');
+    let that = this;
+    that.changeOrderStatus(e.currentTarget.dataset.id, 2);
+  },
+
+  /**
+   * 修改订单状态为已支付
+   */
+  changeOrderStatus: function (id, status) {
+    app.paotui.changeOrderStatus(id, status)
+      .then(res => {
+        this.setData({
+          'orderDetail.order_status': '3'
+        })
+      })
+      .catch(res => {
+        console.log('修改失败')
+        console.log(res)
+      })
+  },
+
   // 下拉刷新
   onPullDownRefresh: function(){
     console.log(this.data)

@@ -22,13 +22,13 @@
         </tag-list>
     </view>
     <view class="goodsTitle big">重量</view>
-    <view class="goodsTitle" style="color: #FA9817;" wx:if="{{goodsWeight<5}}">小于5公斤</view>
+    <view class="goodsTitle" style="color: #FA9817;" wx:if="{{goodsWeight<=1}}">小于1公斤(含1公斤)</view>
     <view class="goodsTitle" style="color: #FA9817;" wx:else>{{goodsWeight}}公斤</view>
     <view>
-        <slider activeColor="#FFB000" backgroundColor="#EDEDED" bindchange="chooseWeight" bindchanging="changeingWeight" class="weightSlider" max="20" min="4" value="{{goodsWeight}}"></slider>
+        <slider activeColor="#FFB000" backgroundColor="#EDEDED" bindchange="chooseWeight" bindchanging="changeingWeight" class="weightSlider" max="10" min="1" value="{{goodsWeight}}"></slider>
         <view class="weightLabel">
-            <text>小于5公斤</text>
-            <text>20公斤</text>
+            <text>小于1公斤</text>
+            <text>10公斤</text>
         </view>
     </view>
     <button bindtap="clickConfirmBtn" class="confirmBtn lg {{isDisabled == 0 ?'primary':'disabled'}}">确定</button>

@@ -75,17 +75,23 @@ class paotui {
    */
   createOrder(param) {
     let data = param;
-    console.log('data : ')
-    console.log(data)
     return this._request.postRequest(this._baseUrl + 'buyOrder/buy_order', data, this._defaultHeader).then(res => res.data)
+  }
+
+  /**
+   * 意见反馈
+   */
+  miniFeedback(uid, content, phone) {
+    let data = { uid: uid, content: content, phone: phone };
+    return this._request.postRequest(this._baseUrl + 'public/mini_feedback', data, this._defaultHeader).then(res => res.data)
   }
 
   /**
    * 获取所有课程
    */
-  getCourseList(page = 1, size = 10, key = null) {
-    let data = key != null ? { page: page, size: size, queryValue: key } : { page: page, size: size }
-    return this._request.getRequest(this._baseUrl + '/course/mobile', data).then(res => res.data).catch(res=>res.data)
-  }
+  // getCourseList(page = 1, size = 10, key = null) {
+  //   let data = key != null ? { page: page, size: size, queryValue: key } : { page: page, size: size }
+  //   return this._request.getRequest(this._baseUrl + '/course/mobile', data).then(res => res.data).catch(res=>res.data)
+  // }
 }
 export default paotui

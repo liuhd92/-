@@ -132,7 +132,7 @@ Page({
   /**
    * 修改订单状态为已取消
    */
-  setOrderDisabled: function(id, status) {
+  changeOrderStatus: function(id, status) {
     app.paotui.changeOrderStatus(id, status)
       .then(res => {
         this.setData({
@@ -185,7 +185,7 @@ Page({
       confirmText: '是',
       success: function(res) {
         if(res.confirm) {
-          that.setOrderDisabled(that.data.id, 3);
+          that.changeOrderStatus(that.data.id, 3);
         } else {
           return false;
         }
@@ -217,7 +217,7 @@ Page({
           //因为timer是存在data里面的，所以在关掉时，也要在data里取出后再关闭
           clearInterval(that.data.timer);
           //关闭定时器之后，将当前订单的状态置为已取消
-          that.setOrderDisabled(that.data.id, 3);
+          that.changeOrderStatus(that.data.id, 3);
         }    
       }, 1000)
     })

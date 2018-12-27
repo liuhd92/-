@@ -31,19 +31,24 @@ Page({
     });
   },
   chooseWeight: function (e) {
+    
     this.setData({
-      goodsWeight: 4 === e.detail.value ? 1 : e.detail.value
+      // goodsWeight: 4 === e.detail.value ? 1 : e.detail.value
+      goodsWeight: e.detail.value
     });
   },
   changeingWeight: function (e) {
+    console.log(e.detail.value)
     this.setData({
-      goodsWeight: 4 === e.detail.value ? 1 : e.detail.value
+      // goodsWeight: 4 === e.detail.value ? 1 : e.detail.value
+      goodsWeight: e.detail.value
     });
   },
   chooseItem: function (e) {
-    console.log(e)
+    // console.log(e)
     var t = e.target.dataset.value;
-    console.log(e.target.dataset.value)
+    // console.log(e.target.dataset.value)
+    // console.log(e.target.dataset.value)
     if (t){
       this.setData({
       selectedType: e.target.dataset.value,
@@ -55,7 +60,7 @@ Page({
     console.log(this.data)
     if ('' !== this.data.selectedType.id) {
       console.log(this.data.goodsWeight)
-      var goodsWeight = this.data.goodsWeight == 1 ? '小于5公斤' : this.data.goodsWeight+'公斤' ;
+      var goodsWeight = this.data.goodsWeight == 1 ? '小于1公斤' : this.data.goodsWeight+'公斤' ;
       var goodsId = this.data.selectedType.id;
       var goodsName = this.data.selectedType.text
       wx.setStorageSync('qsj', goodsName+'、'+goodsWeight);

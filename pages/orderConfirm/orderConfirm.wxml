@@ -154,7 +154,7 @@
         </view>
         <view class="submit-btn" bindtap="submitTip" >
           <block wx:if="{{phone_status == true}}">
-            <button class="submit-btn" >提交订单</button>
+            <button class="submit-btn" >提交订单{{phone_status}}</button>
           </block>
           <block wx:elif="{{phone_status == false}}">
             <button class="submit-btn" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">提交订单</button>

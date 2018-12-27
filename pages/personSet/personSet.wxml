@@ -24,7 +24,7 @@
       </view>
     </view>
 
-     <view class="personList">
+     <!-- <view class="personList">
       <view class="personone">
         <image src='/imgs/icon-order.png'></image>
       </view>
@@ -34,9 +34,9 @@
       <view class="personthree">
         <image src='/imgs/moreArrow.png'></image>
       </view>
-    </view>
+    </view> -->
 
-     <view class="personList">
+     <!-- <view class="personList">
       <view class="personone">
         <image src='/imgs/inviteCoupon.png'></image>
       </view>
@@ -46,7 +46,7 @@
       <view class="personthree">
         <image src='/imgs/moreArrow.png'></image>
       </view>
-    </view> 
+    </view>  -->
 
  </view>
 <view class="block"></view>

@@ -1,0 +1,103 @@
+<!--服务评价-->
+<view class="service">
+
+  <view>
+
+  </view>
+  <!--评分-->
+  <view class='score'>
+    <view class='left'>
+      评分
+    </view>
+    <view class='right'>
+       <view bindtap="starTap" data-index="{{index}}"  class="star" wx:for="{{userStars}}" wx:key="index">
+        <image src="{{item}}"></image>
+      </view>
+      <text class='rtxt'>{{wjxScore}}.0分</text>
+    </view>
+  </view>
+
+
+  <!-- <view class='evaluation_top'>
+  <view class='ico' bindtap='change_color' data-id='1'>
+    <image class='ico_pace' src='images/icon_good.png' style='width:80rpx;height:80rpx; '></image>
+    好评
+  </view>
+  <view class='ico' bindtap='change_color' data-id='2'>
+    <image class='ico_pace' src='images/icon_middle.png' style='width:80rpx;height:80rpx; '></image>
+    中评
+  </view>
+  <view class='ico' bindtap='change_color' data-id='3'>
+    <image class='ico_pace' src='images/icon_bad.png' style='width:80rpx;height:80rpx; '></image>
+    差评
+  </view>
+</view> -->
+
+  <!--内容-->
+  <view class='content'>
+    <view class='left'>
+      选项
+    </view>
+    <view class='right'>
+       <view class='ico' bindtap='change_color' data-id='1'>
+          <image class='ico_pace' src="{{pj_face==1 ? 'images/icon_good_select.png' : 'images/icon_good.png'}}" ></image>
+        好评
+      </view>
+
+      <view class='ico' bindtap='change_color' data-id='2' style="padding-left: 100rpx;">
+          <image class='ico_pace' src="{{pj_face==2 ? 'images/icon_middle_select.png' : 'images/icon_middle.png'}}" ></image>
+        中评
+      </view>
+
+      <view class='ico' bindtap='change_color' data-id='3' style="padding-left: 100rpx;">
+          <image class='ico_pace' src="{{pj_face==3 ? 'images/icon_bad_select.png' : 'images/icon_bad.png'}}" ></image>
+        差评
+      </view>
+      <!-- <view class='ico' bindtap='change_color' data-id='2' style="padding-left: 60rpx;">
+        <image class='ico_pace' src="{{pj_face == 2:images/icon_middle_select.png'?images/icon_middle.png}}"></image>
+        
+        中评
+      </view> -->
+      <!-- <view class='ico' bindtap='change_color' data-id='3' style="padding-left: 60rpx;">
+        <image class='ico_pace' src="{{pj_face == 3:images/icon_bad_select.png'?images/icon_bad.png}}"></image>
+        差评
+      </view> -->
+    </view>
+  </view>
+
+  <!--内容-->
+  <view class='content'>
+    <view class='left'>
+      评价
+    </view>
+    <view class='right'>
+      <text bindtap='label' class="{{attitude===true ? 'labelColor':''}}" data-index="true">服务态度好</text>
+      <text bindtap='label1' class="{{time===false? 'labelColor':''}}" data-index="true">排队时间短</text>
+      <text bindtap='label2' class="{{efficiency===false?'labelColor':''}}" data-index="{{efficiency}}">送取效率高</text>
+      <text bindtap='label3' class="{{environment===false?'labelColor':''}}" data-index="{{environment}}">门店环境好</text>
+      <text bindtap='label4' class="{{professional===false?'labelColor':''}}" data-index="{{professional}}">很专业</text> 
+      <text bindtap='label4' class="{{professional===false?'labelColor':''}}" data-index="{{professional}}">很专业2</text> 
+    </view>
+  </view>
+  <!-- 图片 -->
+  <!-- <view class='picture'>
+    <view class='left'>
+      图片
+    </view> 
+    <view class='right'>
+       <view class="parcel" wx:for="{{pics}}" wx:key="{{index}}">
+       <image src="{{pics[index]}}" class="According" data-index="{{index}}" mode="aspectFill" bindtap="previewImg"></image>
+       <image src="{{staticImg}}home/order/apply/error.png" class='deleteimg' catchtap="deleteImg" data-index="{{index}}"></image>
+       </view>
+      <image src='/pages/service/img/add.png' class='add' bindtap='choose'></image>
+    </view>
+  </view> -->
+</view>
+<!--textarea-->
+<view class="conts">
+    <textarea class="areas" placeholder='更多评价请写在这里（最多300字）' minlength="{{min}}" maxlength="{{max}}" bindinput="inputs"> 
+        <!-- <text class="currentWordNumber">{{currentWordNumber|0}}/{{max}}</text> -->
+    </textarea>
+</view>
+<!--提交评价-->
+<button class='btn'>提交评价</button>
