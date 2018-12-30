@@ -31,7 +31,6 @@ Page({
       'id': options.id
     })
     this.getOrderDetail(options.id)
-
     
   },
 
@@ -171,7 +170,12 @@ Page({
       url: '../orderConfirm/orderConfirm?id=' + this.data.id
     })
   },
-
+  goComment: function() {
+    let that = this;
+    wx.navigateTo({
+      url: "../orderProgress/orderProgress?order_id=" + that.data.id
+    });
+  },
   /**
    * 取消订单
    */
@@ -192,7 +196,11 @@ Page({
       }
     })
   },
-
+  makePhoneCall: function(e) {
+    wx.makePhoneCall({
+      phoneNumber: e.currentTarget.dataset.phone // 骑手电话
+    })
+  },
   // 倒计时
   countDown: function () {
     let that = this;

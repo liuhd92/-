@@ -15,7 +15,7 @@
             <block wx:if="{{orderDetail.order_status == 2}}"><view class="textheader">待接单 ></view></block>
             <block wx:if="{{orderDetail.order_status == 3}}"><view class="textheader">已取消 ></view></block>
             <block wx:if="{{orderDetail.order_status == 4}}"><view class="textheader">待支付 ></view></block>
-            <block wx:if="{{orderDetail.order_status == 5}}"><view class="textheader">已完成 ></view></block>
+            <block wx:if="{{orderDetail.order_status == 5}}"><view class="textheader">已完成1 ></view></block>
             <view class="textcon"><block wx:if="{{orderDetail.order_status == 4}}">请在{{countDownNum}}内支付，超时订单将自动取消</block><block wx:else>感谢使用跑腿</block></view>
             
             
@@ -66,6 +66,14 @@
               </view>
           </view>
            <view class="datesend">
+            <text class="data">配送人</text>
+            <view class="more">
+              <text class="zailai" style="margin-right:20rpx; color:#999">{{orderDetail.detail.rider.nick_name}}</text>
+              <!-- <text class="zailai">联系</text> -->
+              <button bindtap="makePhoneCall" data-phone="{{orderDetail.detail.rider.real_phone}}" class="zailai" style="background-image:url(https://res.1gre.cn/pt/call.png);background-size:100% 100%; width:32px; height:32px; position:relative; border:none;margin-top:24px;"></button>
+            </view>
+          </view>
+          <view class="datesend">
             <text class="data">感谢费</text>
             <view class="more">
               <text class="zailai" style="margin-right:20rpx; color:#999">1米</text>
@@ -95,9 +103,13 @@
             <view class="zhaungtai ">
             </view>
           </view>
+          <view class="conHeader conHeader1" hidden="{{orderDetail.order_status==5 ? false : true}}">
+            <!--提交评价-->
+<button bindtap="goComment" class='btn confirmBtn lg primary button-hover'>去评价{{orderDetail.order_status==5 ? false : true}}</button>
+          </view>
           
       </view>
       <view class="block"></view>
       <view class="lxkf">
-        <button  style="background:url(/imgs/phone.png) no-repeat; background-position: 240rpx;background-size: 34rpx 34rpx; ">联系客服</button>
+        <button style="background:url(/imgs/phone.png) no-repeat; background-position: 240rpx;background-size: 34rpx 34rpx; ">联系客服{{orderDetail.order_status==5 ? true : false}}</button>
       </view>

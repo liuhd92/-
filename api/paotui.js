@@ -37,6 +37,9 @@ class paotui {
     return this._request.postRequest(this._baseUrl + 'order/order_detail', data, this._defaultHeader).then(res => res.data);
   }
 
+  /**
+   * 修改订单状态
+   */
   changeOrderStatus(id, status) {
     let data = { id: id, order_status: status }
     console.log(data)
@@ -79,11 +82,35 @@ class paotui {
   }
 
   /**
+   * 订单评价
+   */
+  order_comment(param) {
+    let data = param;
+    return this._request.postRequest(this._baseUrl + 'order/order_comment', data, this._defaultHeader).then(res => res.data)
+  }
+
+  /**
    * 意见反馈
    */
   miniFeedback(uid, content, phone) {
     let data = { uid: uid, content: content, phone: phone };
     return this._request.postRequest(this._baseUrl + 'public/mini_feedback', data, this._defaultHeader).then(res => res.data)
+  }
+
+  /**
+   * 预支付
+   */
+  wxPreparePay(param) {
+    let data = param;
+    return this._request.postRequest(this._baseUrl + 'wxpay/prepay', data, this._defaultHeader).then(res => res.data)
+  }
+
+  /**
+   * 支付
+   */
+  wxPay(prepay_id) {
+    let data = { prepay_id: prepay_id };
+    return this._request.postRequest(this._baseUrl + 'wxpay/pay', data, this._defaultHeader).then(res => res.data)
   }
 
   /**

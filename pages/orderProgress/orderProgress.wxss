@@ -45,12 +45,12 @@ page {
   height: 100rpx;
   line-height: 100rpx;
   margin-left: 15rpx;
-  color: #c00;
+  color: #efb336;
   font-weight: bold;
 }
 .labelColor {
-  color: #c00;
-  border: 1px solid #c00 !important;
+  color: #efb336;
+  border: 1px solid #efb336 !important;
 }
 .content {
   width: 100%;
@@ -163,10 +163,10 @@ textarea {
   height: 80rpx;
   line-height: 80rpx;
   font-size: 30rpx;
-  color: #fff;
-  background: #c00;
+  color: black;
+  /* background: #c00; */
   position: fixed;
-  left:75rpx;
+  left:33rpx;
   bottom: 37rpx;
 } 
 button:after {
@@ -181,3 +181,15 @@ button:after {
   height:26px;
   padding-top: 10px
 }
+.rider {
+  float: left;
+  border:1;
+  padding-left: 25rpx;
+}
+
+.placeholder {
+  font-size: 34rpx;
+  /* color: grey; */
+  padding-left: 10rpx;
+}
+

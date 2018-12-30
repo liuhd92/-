@@ -3,17 +3,42 @@ Page({
   data: {
     staticImg: app.globalData.staticImg,
     current: 0,
-    attitude: true,
-    time: true,
-    efficiency: true,
-    environment: true,
-    professional: true,
+    good: {
+      attitude_good: false,
+      time_good: false,
+      professional_good: false,
+      efficiency_good: false,
+      again_good: false,
+      keepon_good: false,
+      all_weather_good: false,
+      warmth_good: false,
+    },
+    middle: {
+      attitude_middle: false,
+      efficiency_middle: false,
+      rid_attitude_middle: false,
+      arrival_middle: false,
+      time_middle: false,
+      packaging_good: false,
+      packaging_middle: false,
+      rid_attitude_bad: false,
+    },
+    bad: {
+      attitude_bad: false,
+      time_bad: false,
+      professional_bad: false,
+      efficiency_bad: false,
+      again_bad: false,
+      packaging_bad: false,
+    },
+    
+    environment_good: false,
     userStars: [
-      "../../imgs/star.png",
-      "../../imgs/star.png",
-      "../../imgs/star.png",
-      "../../imgs/star.png",
-      "../../imgs/star.png",
+      "images/star.png",
+      "images/star.png",
+      "images/star.png",
+      "images/star.png",
+      "images/star.png",
     ],
     wjxScore: 5,
     // textarea
@@ -25,18 +50,19 @@ Page({
 
   // 星星点击事件
   starTap: function (e) {
+    console.log(e)
     var that = this;
     var index = e.currentTarget.dataset.index; // 获取当前点击的是第几颗星星
     var tempUserStars = this.data.userStars; // 暂存星星数组
     var len = tempUserStars.length; // 获取星星数组的长度
     for (var i = 0; i < len; i++) {
       if (i <= index) { // 小于等于index的是满心
-        tempUserStars[i] = "../../imgs/star.png";
+        tempUserStars[i] = "images/star.png";
         that.setData({
           wjxScore: i + 1,
         })
       } else { // 其他是空心
-        tempUserStars[i] = "../../imgs/wjx.png"
+        tempUserStars[i] = "images/wjx.png"
       }
     }
     // 重新赋值就可以显示了
@@ -50,46 +76,266 @@ Page({
     let that = this;
     var pj_face = e.currentTarget.dataset.id;
     that.setData({pj_face: pj_face})
-    
-    console.log(pj_face)
   },
 
   // 标签
   label: function (e) {
-    console.log(e)
     var that = this;
+    switch(e.currentTarget.dataset.tag) {
+      case 'attitude_good':
+        that.setData({
+          "good.attitude_good": !e.currentTarget.dataset.index
+        })
+        break;
+      case 'time_good':
+        that.setData({
+          "good.time_good": !e.currentTarget.dataset.index
+        })
+        break;
+      case 'professional_good':
+        that.setData({
+          "good.professional_good": !e.currentTarget.dataset.index
+        })
+        break;
+      case 'efficiency_good':
+        that.setData({
+          "good.efficiency_good": !e.currentTarget.dataset.index
+        })
+        break;
+      case 'again_good':
+        that.setData({
+          "good.again_good": !e.currentTarget.dataset.index
+        })
+        break;
+      case 'keepon_good':
+        that.setData({
+          "good.keepon_good": !e.currentTarget.dataset.index
+        })
+        break;
+      case 'all_weather_good':
+        that.setData({
+          "good.all_weather_good": !e.currentTarget.dataset.index
+        })
+        break;
+      case 'warmth_good':
+        that.setData({
+          "good.warmth_good": !e.currentTarget.dataset.index
+        })
+        break;
+    }
+
+    var good = that.data.good;
+    var tag = {};
+    for (var i in good) {
+      // console.log(i+' : '+middle[i])
+      if (good[i] == true) {
+        tag[i] = true;
+      }
+    }
     that.setData({
-      attitude: !e.currentTarget.dataset.index
+      tag: tag
     })
   },
+
   label1: function (e) {
-    console.log(e)
+
     var that = this;
+    switch (e.currentTarget.dataset.tag) {
+      case 'attitude_middle':
+        that.setData({
+          "middle.attitude_middle": !e.currentTarget.dataset.index
+        })
+        break;
+      case 'efficiency_middle':
+        that.setData({
+          "middle.efficiency_middle": !e.currentTarget.dataset.index
+        })
+        break;
+      case 'rid_attitude_middle':
+        that.setData({
+          "middle.rid_attitude_middle": !e.currentTarget.dataset.index
+        })
+        break;
+      case 'arrival_middle':
+        that.setData({
+          "middle.arrival_middle": !e.currentTarget.dataset.index
+        })
+        break;
+      case 'time_middle':
+        that.setData({
+          "middle.time_middle": !e.currentTarget.dataset.index
+        })
+        break;
+      case 'packaging_good':
+        that.setData({
+          "middle.packaging_good": !e.currentTarget.dataset.index
+        })
+        break;
+      case 'packaging_middle':
+        that.setData({
+          "middle.packaging_middle": !e.currentTarget.dataset.index
+        })
+        break;
+      case 'rid_attitude_bad':
+        that.setData({
+          "middle.rid_attitude_bad": !e.currentTarget.dataset.index
+        })
+        break;
+    }
+
+    var middle = that.data.middle;
+    var tag = {};    
+    for (var i in middle) {
+      // console.log(i+' : '+middle[i])
+      if(middle[i] == true) {
+        tag[i] = true;
+      }
+    }
     that.setData({
-      time: !e.currentTarget.dataset.index
+      tag: tag
     })
   },
+
   label2: function (e) {
-    console.log(e)
     var that = this;
+    switch (e.currentTarget.dataset.tag) {
+      case 'attitude_bad':
+        that.setData({
+          "bad.attitude_bad": !e.currentTarget.dataset.index
+        })
+        break;
+      case 'time_bad':
+        that.setData({
+          "bad.time_bad": !e.currentTarget.dataset.index
+        })
+        break;
+      case 'professional_bad':
+        that.setData({
+          "bad.professional_bad": !e.currentTarget.dataset.index
+        })
+        break;
+      case 'efficiency_bad':
+        that.setData({
+          "bad.efficiency_bad": !e.currentTarget.dataset.index
+        })
+        break;
+      case 'again_bad':
+        that.setData({
+          "bad.again_bad": !e.currentTarget.dataset.index
+        })
+        break;
+      case 'packaging_bad':
+        that.setData({
+          "bad.packaging_bad": !e.currentTarget.dataset.index
+        })
+        break;
+    }
+
+    var bad = that.data.bad;
+    var tag = {};
+    for (var i in bad) {
+      // console.log(i+' : '+middle[i])
+      if (bad[i] == true) {
+        tag[i] = true;
+      }
+    }
     that.setData({
-      efficiency: !e.currentTarget.dataset.index
+      tag: tag
     })
   },
-  label3: function (e) {
-    console.log(e)
-    var that = this;
-    that.setData({
-      environment: !e.currentTarget.dataset.index
+
+  submitReview: function(e) {
+    let that = this;
+    var star = that.data.wjxScore; // 星级
+    var face = that.data.pj_face; // 评价--脸
+    var tag = that.data.tag; // 标签内容
+    var moreReview = that.data.moreReview; // 评价
+    var param = {
+      'uid': wx.getStorageSync('user_id'),
+      'oid': that.data.order_id,
+      'stars': star,
+      'type': face,
+      'tags': JSON.stringify(tag),
+      'content': moreReview
+    }
+    app.paotui.order_comment(param)
+      .then(res => {
+        console.log('success');
+        if(res.code == 0) {
+          wx.showToast({
+            title: '评论成功！',
+            icon: 'success',
+            duration: 2000,
+          })
+          setTimeout(function() {
+            wx.navigateBack({
+              url: '../daizhifu/daizhifu?id=' + that.data.order_id
+            })
+          }, 3000);
+          
+        }
+        console.log(res)
+      })
+      .catch(res => {
+        console.log('fail');
+        console.log(res)
+      })
+    
+  },
+
+  giveMoney: function(e) {
+    this.setData({
+      'give': e.detail.value
     })
   },
-  label4: function (e) {
-    console.log(e)
+
+  PayOrder: function (t) {
     var that = this;
-    that.setData({
-      professional: !e.currentTarget.dataset.index
-    })
+    var param = {
+      'openid': wx.getStorageSync('openid'),
+      'oid': that.data.order_id, //订单id
+      'body': '打赏骑手',
+      'total_fee': that.data.give,
+    }
+
+    // 预支付
+    app.paotui.wxPreparePay(param)
+      .then(res => {
+        console.log('success');
+        console.log(res);
+        if (res.data.data.return_msg == 'OK') {
+          // 支付
+          app.paotui.wxPay(res.data.data.prepay_id)
+            .then(res_pay => {
+              console.log('success1');
+              console.log(res_pay);
+                wx.requestPayment({
+                  timeStamp: res_pay.timeStamp + '',
+                  nonceStr: res_pay.nonceStr,
+                  package: res_pay.package,
+                  signType: res_pay.signType,
+                  paySign: res_pay.paySign,
+                  success: function (res) {
+                    wx.navigateTo({
+                      url: '../orderProgress/orderProgress?course_id=' + that.data.order_id,
+                    })
+                  }
+                })
+            })
+            .catch(res_pay => {
+              console.log('fail');
+              console.log(res_pay);
+            })
+        }
+      })
+      .catch(res => {
+        console.log('fail');
+        console.log(res);
+      })
+
+
   },
+ 
   // 留言
   //字数限制  
   inputs: function (e) {
@@ -101,7 +347,8 @@ Page({
     if (len > this.data.max) return;
     // 当输入框内容的长度大于最大长度限制（max)时，终止setData()的执行
     this.setData({
-      currentWordNumber: len //当前字数  
+      currentWordNumber: len, //当前字数  
+      moreReview: value // 评价内容
     });
   },
   // 图片
@@ -141,7 +388,10 @@ Page({
     });
   },
   onLoad: function (options) {
-
+    console.log(options)
+    this.setData({
+      'order_id': options.order_id
+    })
   },
   // 删除图片
   deleteImg: function (e) {

@@ -117,7 +117,6 @@ Page({
                 addressDetail: res.detailInfo.length > 19 ? res.detailInfo.slice(0, 17) + '...' : res.detailInfo,
                 addressUser: res.userName + '  ' + res.telNumber,
               })
-
               wx.navigateBack({
                 url: '../index/index',
               })
