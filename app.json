@@ -1,13 +1,14 @@
 {
   "pages": [
+    "pages/index/index",
     "pages/orderList/orderList",
     "pages/cancelOrder/cancelOrder",
     "pages/daizhifu/daizhifu",
-    "pages/index/index",
     "pages/personSet/personSet",
     "pages/clickSz/clickSz",
     "pages/yijianfk/yijianfk",
     "pages/yhxy/yhxy",
+    "pages/test/test",
     "pages/bsxy/bsxy",
     "pages/bmxy/bmxy",
     "pages/yszc/yszc",

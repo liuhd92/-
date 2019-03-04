@@ -77,7 +77,7 @@
                 <image class="commentDel" src="https://vfile.meituan.net/paotui/jfj3y1d4rjatt9.png"></image>
             </view>
             <view class="commentContent" wx:elif="{{commentObj.text.length>0}}">{{commentObj.text}}</view>
-            <view class="commentContent placeholderss" style="margin-bottom: 30rpx;" wx:else>物品描述或送件要求</view>
+            <view class="commentContent placeholderss" style="margin-bottom: 30rpx;" wx:else>物品描述、取送件要求、取件码等</view>
         </view>
         <list-item bindtap="clickTip" item="{{tipObj}}">
           <!-- <view class="infoContainerss blockContentss borderBtmss">
@@ -91,7 +91,7 @@
 <view bindtap="clickComment1" class="comment blockContent borderBtm">
             <view style="margin-bottom: 30rpx;">小费：</view>
             <view class="inputContainer" wx:if="{{tip.isEditing}}">
-                <input type="number" bindblur="inputBlur1" class="commentInput" focus="true" maxlength="50" value="{{tip.text}}"></input>
+                <input type="digit" bindblur="inputBlur1" class="commentInput" focus="true" maxlength="50" value="{{tip.text}}"></input>
             </view>
             <!-- <view capture-catch:touchstart="deleteRemark1" class="delContainer" wx:if="{{tip.isEditing}}">
                 <image class="commentDel" src="https://vfile.meituan.net/paotui/jfj3y1d4rjatt9.png"></image>
@@ -152,9 +152,9 @@
             </view>
             <image class="right-arrow" src="https://vfile.meituan.net/paotui/jfj3l1kiryhkt9.png"></image>
         </view>
-        <view class="submit-btn" bindtap="submitTip" >
+        <view class="submit-btn" bindtap="PayOrder" >
           <block wx:if="{{phone_status == true}}">
-            <button class="submit-btn" >提交订单{{phone_status}}</button>
+            <button class="submit-btn" data-value="{{qsjValue}}">提交订单</button>
           </block>
           <block wx:elif="{{phone_status == false}}">
             <button class="submit-btn" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">提交订单</button>

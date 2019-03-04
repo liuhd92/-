@@ -296,6 +296,7 @@ Page({
       'oid': that.data.order_id, //订单id
       'body': '打赏骑手',
       'total_fee': that.data.give,
+      'type': 2,
     }
 
     // 预支付
@@ -303,6 +304,13 @@ Page({
       .then(res => {
         console.log('success');
         console.log(res);
+        if(res.result == 'fail'){
+          wx.showToast({
+            title: '支付环境异常或者重复支付',
+            icon: 'none'
+          })
+          return false;
+        } 
         if (res.data.data.return_msg == 'OK') {
           // 支付
           app.paotui.wxPay(res.data.data.prepay_id)
@@ -316,9 +324,11 @@ Page({
                   signType: res_pay.signType,
                   paySign: res_pay.paySign,
                   success: function (res) {
-                    wx.navigateTo({
-                      url: '../orderProgress/orderProgress?course_id=' + that.data.order_id,
-                    })
+                    console.log('-----------------')
+                    console.log(res)
+                    // wx.navigateTo({
+                    //   url: '../orderProgress/orderProgress?course_id=' + that.data.order_id,
+                    // })
                   }
                 })
             })

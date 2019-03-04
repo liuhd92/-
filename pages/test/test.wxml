@@ -1,5 +1,8 @@
 <!--pages/test/test.wxml-->
 <text>pages/test/test.wxml</text>
+
+<button open-type='getUserInfo'>获取用户信息{{phone_status}}</button>
+<button open-type="getPhoneNumber">获取手机号息</button>
 <button bindtap='chooseAddress'>选择地址</button>
 
   <icon class="iconfont icon-zhiding"></icon>

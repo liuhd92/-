@@ -14,7 +14,8 @@ const phone_status = app.globalData.phone_status;
 Page({
   data: {
     userStatus: false,
-    phone_status: wx.getStorageSync('user_id') != '' ? true: false,
+    // phone_status: wx.getStorageSync('user_id') != '' ? true: false,
+    phone_status: getApp().globalData.phone_status,
     pageMode: "delivery",
     motto: 'Hello World',
     userInfo: {},
@@ -46,70 +47,50 @@ Page({
   },
 
   getPhoneNumber: function(e) {
-    console.log(e)
     if (e.detail.errMsg == "getPhoneNumber:ok") {
       app.paotui.getPhoneNumber(e.detail.encryptedData, e.detail.iv, wx.getStorageSync('session_key'), wx.getStorageSync('openid'))
         .then(res => {
-          console.log(res.user_id)
-          console.log(res.phoneNumber)
           if (res.code == 0) {
             wx.setStorageSync('user_id', res.data.user_id);
             wx.setStorageSync('phone', res.data.phoneNumber);
             this.setData({
               phone_status: true
             })
+            getApp().globalData.phone_status = true;
+
             wx.navigateTo({
               url: '../personSet/personSet',
             })
           }
-          console.log('手机号获取成功');
-          console.log(res);
+
         })
         .catch(res => {
-          console.log('手机号获取失败');
-          console.log(res);
+
         })
     }    
   },
-  
-  // getPhoneNumber: function(e) {
-  //   getPhoneNumber(encryptedData, iv, session_key)
-  //   .then(res => {
-  //     console.log('手机号获取成功');
-  //     console.log(res);
-  //   })
-  //   .catch(res => {
-  //     console.log('手机号获取失败');
-  //     console.log(res);
-  //   })
-  //   console.log(e)
-  // },
 
   // 获取订单列表
   getOrderList: function(e){
     app.paotui.getOrderList(1, 0)
     .then(res => {
-      console.log('订单列表获取成功');
-      console.log(res);
+
     })
     .catch(res => {
-      console.log('订单列表获取失败');
-      console.log(res);
+
     })
   },
   fromAddress: function () {
     let that = this;
-    console.log('12345');
+
     wx.chooseAddress({
       success: res=>{
-        console.log(res)
+
         wx.setStorageSync('fromaddress_detail', JSON.stringify(res));
         qqMap.geocoder({
           address: res.cityName + res.countryName + res.detailInfo,
           success: function (qq_res) {
             if (qq_res.message == 'query ok') {
-
-              console.log(qq_res)
               wx.setStorageSync('fromaddress_lat', qq_res.result.location.lat);
               wx.setStorageSync('fromaddress_lng', qq_res.result.location.lng);
               that.setData({
@@ -122,12 +103,8 @@ Page({
               })
             }
           },
-          fail: function (res) {
-            console.log(res);
-          },
-          complete: function (res) {
-            console.log(res);
-          }
+          fail: function (res) {},
+          complete: function (res) {}
         });
       }
     })
@@ -138,14 +115,11 @@ Page({
     let that = this;
     wx.chooseAddress({
       success: res => {
-        console.log(res)
         wx.setStorageSync('toaddress_detail', JSON.stringify(res));
         qqMap.geocoder({
           address: res.cityName + res.countryName + res.detailInfo,
           success: function (qq_res) {
             if (qq_res.message == 'query ok') {
-
-              console.log(qq_res)
               wx.setStorageSync('toaddress_lat', qq_res.result.location.lat);
               wx.setStorageSync('toaddress_lng', qq_res.result.location.lng);
               that.setData({
@@ -174,9 +148,7 @@ Page({
       wx.navigateTo({
         url: url,
       })
-      console.log(this.data.currentData)
     }
-    // console.log(e)
   },
 
   //事件处理函数
@@ -190,10 +162,13 @@ Page({
   checkCurrent: function (e) {
     this.onLoad()
     const that = this;
-    // console.log(that.data.currentData)
     console.log(e.target.dataset.current)
     if (that.data.currentData === e.target.dataset.current) {
       return false;
+    } else if (e.target.dataset.current == 1) {
+      wx.showToast({
+        title: '敬请期待'
+      })
     } else {
       that.setData({
         currentData: e.target.dataset.current
@@ -239,7 +214,6 @@ Page({
         longitude: lng
       },
       success: function (res) {
-        console.log(res)
         // 设置当前城市
         that.setData({
           myCity: res.result.address_component.city,
@@ -262,6 +236,9 @@ Page({
   },
 
   onLoad: function (e) {
+    this.setData({
+      phone_status: getApp().globalData.phone_status
+    })
     this.getOrderList()
     if(login_status != 'success'){
       this.setData({'userStatus': false});
@@ -275,9 +252,6 @@ Page({
     wx.getLocation({
       type: 'gcj02',
       success(res) {
-        console.log('----------定位成功----------');
-        console.log(res)
-        console.log(that)
         if (that.data.currentData == 0){
           that.localLocation(wx.getStorageSync('fromaddress_lat') || res.latitude, wx.getStorageSync('fromaddress_lng') || res.longitude);
         } else {
@@ -285,8 +259,6 @@ Page({
         }
       },
       fail(res) {
-        console.log('---------定位失败----------');
-        console.log(res)
         if (res.errMsg == 'getLocation:fail auth deny') {
           wx.showModal({
             title: '',
@@ -314,8 +286,6 @@ Page({
         }
       },
       complete(res) {
-        console.log('---------定位结束----------')
-        console.log(res)
         that.jumpToOrder(that);
       }
     })
@@ -364,15 +334,7 @@ Page({
   chooseAddress: function(e){
     wx.chooseAddress({
       success: function (res) {
-        console.log(res)
-        console.log(res.userName)
-        console.log(res.postalCode)
-        console.log(res.provinceName)
-        console.log(res.cityName)
-        console.log(res.countyName)
-        console.log(res.detailInfo)
-        console.log(res.nationalCode)
-        console.log(res.telNumber)
+
       },
       fail: function(res){
         
@@ -405,7 +367,6 @@ Page({
     })
   },
   getUserInfo: function(e) {
-    console.log(e)
     app.globalData.userInfo = e.detail.userInfo
     this.setData({
       userInfo: e.detail.userInfo,

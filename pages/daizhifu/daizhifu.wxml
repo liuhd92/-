@@ -11,18 +11,18 @@
     <!-- 待支付 -->
     <view class="daizhifu">
         <view class="daizhifucon">
-            <block wx:if="{{orderDetail.order_status == 1}}"><view class="textheader">进行中 ></view></block>
+            <block wx:if="{{orderDetail.order_status == 1}}"><view class="textheader">配送中 ></view></block>
             <block wx:if="{{orderDetail.order_status == 2}}"><view class="textheader">待接单 ></view></block>
             <block wx:if="{{orderDetail.order_status == 3}}"><view class="textheader">已取消 ></view></block>
             <block wx:if="{{orderDetail.order_status == 4}}"><view class="textheader">待支付 ></view></block>
-            <block wx:if="{{orderDetail.order_status == 5}}"><view class="textheader">已完成1 ></view></block>
+            <block wx:if="{{orderDetail.order_status == 5}}"><view class="textheader">已完成 ></view></block>
             <view class="textcon"><block wx:if="{{orderDetail.order_status == 4}}">请在{{countDownNum}}内支付，超时订单将自动取消</block><block wx:else>感谢使用跑腿</block></view>
             
             
             <view class="textbtn">
               <block wx:if="{{orderDetail.order_status == 4}}">
                 <button bindtap="cancelOrder">取消订单</button>
-                <button bindtap="payMoney">立即支付¥{{orderDetail.total_price}}</button>
+                <button bindtap="PayOrder">立即支付¥{{orderDetail.total_price}}</button>
               </block>
               <block wx:else>
                 <button bindtap="buyOneMore">再来一单</button>
@@ -76,7 +76,7 @@
           <view class="datesend">
             <text class="data">感谢费</text>
             <view class="more">
-              <text class="zailai" style="margin-right:20rpx; color:#999">1米</text>
+              <!-- <text class="zailai" style="margin-right:20rpx; color:#999">1米</text> -->
               <text class="zailai">¥{{orderDetail.detail.tip_price}}</text>
             </view>
           </view>
@@ -91,10 +91,17 @@
             <view class="more"><text class="zailai">¥{{orderDetail.pay_price}}</text></view>
           </view>
           <view class="conHeader conHeader1">
-            <text class="biaoqian1 orderNumber">订单号码</text>
+            <text class="biaoqian1 orderNumber">系统单号</text>
             <text class="mingcheng number">{{orderDetail.order_number}}</text>
             <view class="zhaungtai ">
-              <button class="copy">复制</button>
+              <button class="copy" bindtap="copy" data-no="{{orderDetail.order_number}}">复制</button>
+            </view>
+          </view>
+          <view class="conHeader conHeader1">
+            <text class="biaoqian1 orderNumber">快递单号</text>
+            <text class="mingcheng number">{{orderDetail.detail.tracking_number}}</text>
+            <view class="zhaungtai ">
+              <button class="copy" bindtap="copy" data-no="{{orderDetail.tracking_number}}">复制</button>
             </view>
           </view>
           <view class="conHeader conHeader1">
@@ -105,11 +112,11 @@
           </view>
           <view class="conHeader conHeader1" hidden="{{orderDetail.order_status==5 ? false : true}}">
             <!--提交评价-->
-<button bindtap="goComment" class='btn confirmBtn lg primary button-hover'>去评价{{orderDetail.order_status==5 ? false : true}}</button>
+<button bindtap="goComment" class='btn confirmBtn lg primary button-hover'>去评价</button>
           </view>
           
       </view>
       <view class="block"></view>
       <view class="lxkf">
-        <button style="background:url(/imgs/phone.png) no-repeat; background-position: 240rpx;background-size: 34rpx 34rpx; ">联系客服{{orderDetail.order_status==5 ? true : false}}</button>
+        <button bindtap="makePhoneCall" data-phone="17558828866" style="background:url(/imgs/phone.png) no-repeat; background-position: 240rpx;background-size: 34rpx 34rpx; ">联系客服</button>
       </view>

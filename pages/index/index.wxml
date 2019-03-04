@@ -22,14 +22,7 @@
         <image src="https://vfile.meituan.net/paotui/jfj3paam5hfr.png" style="width: 100%;height: 100%;"></image>
   </view>
   <map id="homeMap"  bindregionchange="onMapRegionChange" latitude="{{mapData.lat}}" longitude="{{mapData.lng}}" markers="{{mapData.markers}}" scale="{{mapData.scale}}">
-        <cover-view class="orderCount" >
-          <!-- 待支付 -->
-            <cover-view class="orderText" wx:if="{{waitForPaidOrderIds.length>0}}">有1个待支付的订单 </cover-view>
-            <!-- 进行中 -->
-            <cover-view class="orderText" wx:else>有几个进行中的订单 </cover-view>
-            <!-- 向左箭头 -->
-            <cover-image class="rightArrow orderArrow" src="https://vfile.meituan.net/paotui/jfj3l1kiryhkt9.png"></cover-image>
-        </cover-view>
+
         <!-- 接单时间 -->
         <cover-view class="calloutContainer" >
             <cover-view class="calloutBlock">
@@ -37,13 +30,9 @@
             </cover-view>
             <cover-image class="calloutArrow" src="https://vfile.meituan.net/paotui/jfj3s4frjdzpvi.png"></cover-image>
         </cover-view>
-        <!-- 右下角图标 -->
+
         <cover-image class="centerPoint" src="https://vfile.meituan.net/paotui/jfj3t6pvpb9.png" ></cover-image>
-        <cover-image bindtap="onTapMapRelocate" class="locateIcon" src="https://vfile.meituan.net/paotui/jfj3ts5ft4kj4i.png" ></cover-image>
-        <!-- 清除地址 -->
-        <cover-view bindtap="onTapClearAddresses" class="deleteAddr" hidden='false'>
-            <cover-image class="deleteAddrBtn" src="https://vfile.meituan.net/paotui/jfj3v72uyiizfr.png"></cover-image>
-        </cover-view>
+
     </map>
     
     <view class="main-form">

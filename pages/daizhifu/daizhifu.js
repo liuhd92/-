@@ -128,6 +128,65 @@ Page({
       })
   },
 
+  PayOrder: function (t) {
+    var data = this.data;
+    console.log(data);
+
+    var that = this;
+    var param = {
+      'openid': wx.getStorageSync('openid'),
+      'oid': that.data.id, //订单id
+      'body': data.orderDetail.detail.detail_info,
+      'total_fee': parseFloat(data.orderDetail.detail.base_price) + parseFloat(data.orderDetail.detail.tip_price) + parseFloat(data.orderDetail.detail.weight_price) + parseFloat(data.orderDetail.detail.distance_price),
+      'type': 1,
+    }
+
+
+    // 预支付
+    app.paotui.wxPreparePay(param)
+      .then(res => {
+        console.log('success');
+        console.log(res);
+        if (res.result == 'fail') {
+          wx.showToast({
+            title: '支付环境异常或者重复支付',
+            icon: 'none'
+          })
+          return false;
+        }
+        if (res.data.data.return_msg == 'OK') {
+          // 支付
+          app.paotui.wxPay(res.data.data.prepay_id)
+            .then(res_pay => {
+              console.log('success1');
+              console.log(res_pay);
+              wx.requestPayment({
+                timeStamp: res_pay.timeStamp + '',
+                nonceStr: res_pay.nonceStr,
+                package: res_pay.package,
+                signType: res_pay.signType,
+                paySign: res_pay.paySign,
+                success: function (res) {
+                  console.log('-----------------')
+                  console.log(res)
+                  wx.navigateTo({
+                    url: '../orderList/orderList?uid=' + wx.getStorageSync('user_id')
+                  })
+                }
+              })
+            })
+            .catch(res_pay => {
+              console.log('fail');
+              console.log(res_pay);
+            })
+        }
+      })
+      .catch(res => {
+        console.log('fail');
+        console.log(res);
+      })
+  },
+
   /**
    * 修改订单状态为已取消
    */
@@ -150,6 +209,7 @@ Page({
   buyOneMore: function() {
     console.log('12345');
     var res = this.data.orderDetail;
+    console.log(res)
     var from_user = { 'detailInfo': res.detail.from_address, 'userName': res.detail.from_user, 'telNumber': res.detail.from_phone }
     wx.setStorageSync('fromaddress_detail', JSON.stringify(from_user))
     var to_user = { 'detailInfo': res.detail.to_address, 'userName': res.detail.to_user, 'telNumber': res.detail.to_phone }
@@ -158,8 +218,11 @@ Page({
     wx.setStorageSync('toaddress_lng', res.detail.to_longitude)
     wx.setStorageSync('fromaddress_lat', res.detail.from_latitude)
     wx.setStorageSync('fromaddress_lng', res.detail.from_longitude)
-
-    wx.setStorageSync('qsj_weight', res.detail.goods[1])
+    var weight = res.detail.goods[1];
+    if (weight.indexOf("小于") != -1) {
+      weight = 1
+    }
+    wx.setStorageSync('qsj_weight', weight)
     wx.setStorageSync('qsj_name', res.detail.goods[0])
     wx.setStorageSync('qsj', res.detail.detail_info)
     wx.setStorageSync('tip_price', parseInt(res.detail.tip_price))
@@ -197,6 +260,7 @@ Page({
     })
   },
   makePhoneCall: function(e) {
+    console.log(e)
     wx.makePhoneCall({
       phoneNumber: e.currentTarget.dataset.phone // 骑手电话
     })

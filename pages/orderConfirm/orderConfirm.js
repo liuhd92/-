@@ -20,7 +20,8 @@ Page({
     distance: 0,
     weightPrice: 0,
     distancePrice: 0,
-    phone_status: parseInt(wx.getStorageSync('user_id')) > 0 ? true : false,
+    // phone_status: wx.getStorageSync('user_id') != '' ? true : false,
+    phone_status: getApp().globalData.phone_status,
     markers: [],
     commentObj: {
       isEditing: !1,
@@ -131,6 +132,98 @@ Page({
     qsjValue: '',
   },
 
+  PayOrder: function (t) {
+    var data = this.data;
+    console.log(data);
+    var param1 = {
+      'uid': parseInt(wx.getStorageSync('user_id')),
+      'type': 1,
+      'detail_info': data.qsjValue,
+      'base_price': app.globalData.base_price,
+      'tip_price': data.tip.text || 0,
+      'create_time': Date.parse(new Date()) / 1000,
+      'from_address': data.addressDetail_All,
+      'from_user': data.addressUser,
+      'from_latitude': wx.getStorageSync('fromaddress_lat'),
+      'from_longitude': wx.getStorageSync('fromaddress_lng'),
+      'to_address': data.addressDetailTo_All,
+      'to_user': data.addressUserTo,
+      'to_latitude': wx.getStorageSync('toaddress_lat'),
+      'to_longitude': wx.getStorageSync('toaddress_lng'),
+      'remark': data.commentObj.text,
+      'from_time': data.time || Date.parse(new Date()) / 1000,
+      'weight_price': data.weightPrice,
+      'distance_price': data.distancePrice,
+    };
+    console.log(param1)
+    app.paotui.createOrder(param1)
+      .then(res1 => {
+        if (res1.code == 0) {
+              var that = this;
+              var param = {
+                'openid': wx.getStorageSync('openid'),
+                'oid': res1.data.oid, //订单id
+                'body': data.qsjValue,
+                'total_fee': parseFloat(param1.base_price) + parseFloat(param1.tip_price) + parseFloat(param1.weight_price) + parseFloat(param1.distance_price),
+                'type': 1,
+              }
+
+              // 预支付
+              app.paotui.wxPreparePay(param)
+                .then(res => {
+                  console.log('success');
+                  console.log(res);
+                  if (res.result == 'fail') {
+                    wx.showToast({
+                      title: '支付环境异常或者重复支付',
+                      icon: 'none'
+                    })
+                    return false;
+                  }
+                  if (res.data.data.return_msg == 'OK') {
+                    // 支付
+                    app.paotui.wxPay(res.data.data.prepay_id)
+                      .then(res_pay => {
+                        console.log('success1');
+                        console.log(res_pay);
+                        wx.requestPayment({
+                          timeStamp: res_pay.timeStamp + '',
+                          nonceStr: res_pay.nonceStr,
+                          package: res_pay.package,
+                          signType: res_pay.signType,
+                          paySign: res_pay.paySign,
+                          success: function (res) {
+                            console.log('-----------------')
+                            console.log(res)
+                            wx.navigateTo({
+                              url: '../orderList/orderList?uid=' + wx.getStorageSync('user_id')
+                            })
+                          }
+                        })
+                      })
+                      .catch(res_pay => {
+                        console.log('fail');
+                        console.log(res_pay);
+                      })
+                  }
+                })
+                .catch(res => {
+                  console.log('fail');
+                  console.log(res);
+                })
+
+
+        }
+        console.log(res);
+      })
+      .catch(res => {
+        console.log(res);
+      })
+  },
+
+  /**
+   * 获取手机号
+   */
   getPhoneNumber: function (e) {
     if (e.detail.errMsg == "getPhoneNumber:ok") {
       app.paotui.getPhoneNumber(e.detail.encryptedData, e.detail.iv, wx.getStorageSync('session_key'), wx.getStorageSync('openid'))
@@ -144,6 +237,7 @@ Page({
             this.setData({
               phone_status: true
             })
+            getApp().globalData.phone_status = true
 
           }
           console.log('手机号获取成功');
@@ -246,10 +340,24 @@ Page({
     // 重量费
     if (weight <= 1){
       weightPrice = 0;
-    } else if (weight >=1  && weight < 2) {
+    } else if (weight>1  && weight<=2) {
       weightPrice = 1;
-    } else {
+    } else if (weight>2 && weight<=3) {
+      weightPrice = 2;
+    } else if (weight>3 && weight<=4) {
       weightPrice = 3;
+    } else if (weight>4 && weight<=5) {
+      weightPrice = 4;
+    } else if (weight>5 && weight<=6) {
+      weightPrice = 5;
+    } else if (weight>6 && weight<=7) {
+      weightPrice = 6;
+    } else if (weight>7 && weight<=8) {
+      weightPrice = 7;
+    } else if (weight>8 && weight<=9) {
+      weightPrice = 8;
+    } else if (weight>9 && weight<=10) {
+      weightPrice = 9;
     }
     
 
@@ -264,11 +372,6 @@ Page({
       weightPrice: weightPrice,
       distancePrice: distancePrice
     })
-    wx.showToast({
-      title: '两个经纬度之间的距离（米）' + this.data.distance + '   基础费： ' + basePrice + '  距离费用 ： ' + distancePrice + '   重量费用 ： ' + weightPrice,
-      icon: 'none',
-      duration: 6000
-    })
   },
 
   /**
@@ -276,8 +379,12 @@ Page({
    */
   onLoad: function (options) {
     console.log('user_id : '+wx.getStorageSync('user_id'))
-    console.log('from_time : ' + this.data.from_time)
+    console.log('phone_status : ' + getApp().globalData.phone_status)
+
     var that = this;
+    that.setData({
+      phone_status: getApp().globalData.phone_status
+    })
     // 获取当前位置
     var latitude = '', longitude = '';
     var covers = that.data.covers;
@@ -298,10 +405,6 @@ Page({
       var from_lng = wx.getStorageSync('fromaddress_lng');
       var to_lat = wx.getStorageSync('toaddress_lat');
       var to_lng = wx.getStorageSync('toaddress_lng');
-      console.log('from_lat : ' + from_lat)
-      console.log('from_lng : ' + from_lng)
-      console.log('to_lat : ' + to_lat)
-      console.log('to_lng : ' + to_lng)
       // 调用接口
       qqMap.calculateDistance({
         mode: 'driving', //步行，驾车为'driving'  walking'; , { latitude: blat,      longitude: blon    } 
@@ -361,6 +464,7 @@ Page({
       that.setData({
         addressHide: false,
         addressDetail: fromaddress.detailInfo.length > 19 ? fromaddress.detailInfo.slice(0, 17) + '...' : fromaddress.detailInfo,
+        addressDetail_All: fromaddress.detailInfo,
         addressUser: fromaddress.userName + '  ' + fromaddress.telNumber,
         // covers: covers,
         markers: markers
@@ -380,6 +484,7 @@ Page({
       that.setData({
         addressHide: false,
         addressDetailTo: toaddress.detailInfo.length > 19 ? toaddress.detailInfo.slice(0, 17) + '...' : toaddress.detailInfo,
+        addressDetailTo_All: toaddress.detailInfo,
         addressUserTo: toaddress.userName + '  ' + toaddress.telNumber,
         markers: markers
       })
@@ -833,6 +938,7 @@ setScale: function(distance){
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+    console.log(getApp().globalData.phone_status);
     this.onLoad();
   },
 

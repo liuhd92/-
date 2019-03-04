@@ -18,7 +18,7 @@
                 <block wx:if="{{item.type == 1}}"><text class="biaoqian1">取送件</text></block>
                 <block wx:elif="{{item.type == 2}}"><text class="biaoqian">代购</text></block>
                 <text class="mingcheng">{{item.detail.detail_info}}</text>
-                <block wx:if="{{item.order_status == 1}}"><text class="zhaungtai">进行中</text></block>
+                <block wx:if="{{item.order_status == 1}}"><text class="zhaungtai">配送中</text></block>
                 <block wx:if="{{item.order_status == 2}}"><text class="zhaungtai">待接单</text></block>
                 <block wx:if="{{item.order_status == 3}}"><text class="zhaungtai">已取消</text></block>
                 <block wx:if="{{item.order_status == 4}}"><text class="zhaungtai">待支付</text></block>
@@ -59,7 +59,8 @@
            <view class="datesend">
             <text class="data">{{item.create_time_date}}</text>
             <view class="more" >
-              <block wx:if="{{item.order_status == 4}}"><button class="zailai" data-id='{{item.id}}' catchtap="payMoney">立即支付</button></block>
+              <!-- <block wx:if="{{item.order_status == 4}}"><button class="zailai" data-id='{{item.id}}' catchtap="payMoney">立即支付</button></block> -->
+              <block wx:if="{{item.order_status == 4}}"><button class="zailai" data-id='{{item.id}}'>立即支付</button></block>
               <block wx:else><button class="zailai" data-id='{{item.id}}' catchtap="buyOneMore">再来一单</button></block>
             </view>
           </view>

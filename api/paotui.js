@@ -7,7 +7,8 @@
 import request from './request.js'
 class paotui {
   constructor() {
-    this._baseUrl = 'https://t.tiandaoedu.cn/api/'
+    //this._baseUrl = 'https://t.tiandaoedu.cn/api/'
+    this._baseUrl = 'https://www.caccqc.cn/api/'
     // this._baseUrl = 'http://www.paotui.org/api/'
     this._defaultHeader = { 'content-type': 'application/x-www-form-urlencoded' }
     this._request = new request
@@ -25,6 +26,8 @@ class paotui {
    * 根据用户id和订单状态查询订单列表
    */
   getOrderList(uid, status) {
+    console.log('-----------------------');
+    console.log(this._baseUrl)
     let data = { uid: uid, order_status: status }
     return this._request.postRequest(this._baseUrl + 'buyOrder/order_list', data, this._defaultHeader).then(res => res.data);
   }

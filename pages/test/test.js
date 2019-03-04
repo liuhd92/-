@@ -1,18 +1,26 @@
 // pages/test/test.js
+const app = getApp();
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-
+    phone_status: getApp().globalData.phone_status
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    console.log(app.globalData)
+    console.log(getApp().globalData.phone_status);
+    // app.globalData.phone_status = true;
+    console.log(app.globalData);
+    this.setData({
+      'phone_status': this.data.phone_status
+    })
   },
 
   /**

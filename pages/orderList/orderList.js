@@ -20,7 +20,7 @@ Page({
         text: '全部'
       },
       {
-        text: '进行中'
+        text: '配送中'
       },
       {
         text: '待接单'
@@ -41,7 +41,7 @@ Page({
 
   },
   onLoad: function (options) {
-    this.getOrderList(wx.getStorageSync('user_id'), 0); // 默认展示进行中的订单
+    this.getOrderList(wx.getStorageSync('user_id'), 0); // 默认展示配送中的订单
     console.log(options)
     this.getOrderList(wx.getStorageSync('user_id'), 0);
     var that = this;
@@ -109,6 +109,7 @@ Page({
    * 再来一单
    */
   buyOneMore: function (e) {
+    console.log(e)
     // 获取订单详情
     let that = this;
     app.paotui.getOrderDetail(e.currentTarget.dataset.id)
@@ -124,8 +125,7 @@ Page({
           wx.setStorageSync('toaddress_lng', res.detail.to_longitude)
           wx.setStorageSync('fromaddress_lat', res.detail.from_latitude)
           wx.setStorageSync('fromaddress_lng', res.detail.from_longitude)
-
-          wx.setStorageSync('qsj_weight', res.detail.goods[1])
+          wx.setStorageSync('qsj_weight', res.detail.goods[1] == '小于1' ? 1 : res.detail.goods[1])
           wx.setStorageSync('qsj_name', res.detail.goods[0])
           wx.setStorageSync('qsj', res.detail.detail_info)
           wx.setStorageSync('tip_price', parseInt(res.detail.tip_price))
@@ -192,28 +192,28 @@ Page({
     })
   },
 
-  payMoney: function(e) {
-    console.log(e)
-    console.log('去支付了');
-    let that = this;
-    that.changeOrderStatus(e.currentTarget.dataset.id, 2);
-  },
+  // payMoney: function(e) {
+  //   console.log(e)
+  //   console.log('去支付了');
+  //   let that = this;
+  //   that.changeOrderStatus(e.currentTarget.dataset.id, 2);
+  // },
 
-  /**
-   * 修改订单状态为已支付
-   */
-  changeOrderStatus: function (id, status) {
-    app.paotui.changeOrderStatus(id, status)
-      .then(res => {
-        this.setData({
-          'orderDetail.order_status': '3'
-        })
-      })
-      .catch(res => {
-        console.log('修改失败')
-        console.log(res)
-      })
-  },
+  // /**
+  //  * 修改订单状态为已支付
+  //  */
+  // changeOrderStatus: function (id, status) {
+  //   app.paotui.changeOrderStatus(id, status)
+  //     .then(res => {
+  //       this.setData({
+  //         'orderDetail.order_status': '3'
+  //       })
+  //     })
+  //     .catch(res => {
+  //       console.log('修改失败')
+  //       console.log(res)
+  //     })
+  // },
 
   // 下拉刷新
   onPullDownRefresh: function(){

@@ -94,7 +94,9 @@ App({
     qqmap_key: 'Z7SBZ-FZS6F-AVFJL-JNYVG-FTMQ2-5XF4N',
     base_price: 2,
     kf_phone: '17558828866',
+    phone_status: false,
   },
+
   // 定义一个类型为paotui的属性并且实例化
   paotui: new paotui()
 })
