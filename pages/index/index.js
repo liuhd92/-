@@ -10,6 +10,8 @@ var qqMap = new QQMapWX({
 const login_status = app.globalData.login_status;
 //获取手机号的状态
 const phone_status = app.globalData.phone_status;
+//摊位推广链接
+const promote_url = app.globalData.promote_url;
 
 Page({
   data: {
@@ -56,8 +58,8 @@ Page({
             this.setData({
               phone_status: true
             })
-            getApp().globalData.phone_status = true;
 
+            getApp().globalData.phone_status = true;
             wx.navigateTo({
               url: '../personSet/personSet',
             })
@@ -236,6 +238,46 @@ Page({
   },
 
   onLoad: function (e) {
+    // 首单立减1元
+    app.paotui.firstOrder(wx.getStorageSync('openid'))
+      .then(res => {
+        wx.setStorageSync('first_order', res.data.msg);
+        console.log(res)
+      })
+      .catch(res => {
+        console.log(res);
+      })
+
+    // 扫码来源
+    var booth_id = 0;
+    if (wx.getStorageSync('booth')) {
+      booth_id = wx.getStorageSync('booth');
+    } else if (e != undefined){
+      if (e.booth_id) {
+        booth_id = e.booth_id
+        wx.setStorageSync('booth', e.booth_id);
+      }
+    }
+
+    setTimeout(function () {
+      //要延时执行的代码
+      console.log(wx.getStorageSync('openid'))
+      wx.request({
+        url: promote_url,
+        header: { 'content-type': 'application/x-www-form-urlencoded' },
+        data: {
+          'booth_id': booth_id,
+          'open_id': wx.getStorageSync('openid')
+        },
+        method: 'post',
+        success: function (res) { },
+        fail: function (res) { }
+      })
+    }, 5000) //延迟时间 这里是1秒
+    
+    
+
+
     this.setData({
       phone_status: getApp().globalData.phone_status
     })

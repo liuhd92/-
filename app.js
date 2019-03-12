@@ -9,15 +9,16 @@ App({
     wx.checkSession({
       
       success: res => {
+        console.log('success------')
         console.log('check session success');
         console.log(res)
         wx.setStorageSync('login_status', 'success');
       },
       fail: res => {
-        
+        console.log('fail------')
         console.log('check session fail');
         console.log(res)
-        if (res.errCode == '-13001' || res.errMsg == 'checkSession:fail Error: session time out, need relogin'){
+        if (res.errCode == '-13001' || res.errMsg == 'checkSession:fail Error: session time out, need relogin' || res.errMsg == 'checkSession:fail session time out, need relogin'){
           console.log(res)
           wx.login({
             success: function(res){
@@ -31,6 +32,16 @@ App({
                 wx.setStorageSync('login_status', 'success');
                 wx.setStorageSync('openid', res.openid);
                 wx.setStorageSync('session_key', res.session_key);
+                console.log(wx.getStorageSync('openid'));
+                console.log(res.openid)
+                pt.firstOrder(res.openid)
+                  .then(res => {
+                    wx.setStorageSync('first_order', res.data.msg);
+                    console.log(res)
+                  })
+                  .catch(res => {
+                    console.log(res);
+                  })
               })
               .catch(res => {
                 console.log('登录失败');
@@ -95,6 +106,8 @@ App({
     base_price: 2,
     kf_phone: '17558828866',
     phone_status: false,
+    // promote_url: 'http://www.paotui.org/api/promote/booth',
+    promote_url: 'https://www.caccqc.cn/api/promote/booth',
   },
 
   // 定义一个类型为paotui的属性并且实例化

@@ -156,6 +156,9 @@ Page({
       'distance_price': data.distancePrice,
     };
     console.log(param1)
+    if (wx.getStorageSync('first_order') == 'yes') {
+      param1.base_price = param1.base_price - 1;
+    }
     app.paotui.createOrder(param1)
       .then(res1 => {
         if (res1.code == 0) {
@@ -214,10 +217,10 @@ Page({
 
 
         }
-        console.log(res);
+        console.log(res1);
       })
-      .catch(res => {
-        console.log(res);
+      .catch(res1 => {
+        console.log(res1);
       })
   },
 
@@ -363,8 +366,24 @@ Page({
 
     if (this.data.tip.text) {
       price = basePrice + distancePrice + weightPrice + parseInt(this.data.tip.text)
+      if (wx.getStorageSync('first_order') == 'yes') {
+        wx.showToast({
+          title: '首单立减1元哦~',
+          icon: 'none',
+          duration: 3000,
+        })
+        price = price-1;
+      }
     } else {
       price = basePrice + distancePrice + weightPrice
+      if (wx.getStorageSync('first_order') == 'yes') {
+        wx.showToast({
+          title: '首单立减1元哦~',
+          icon: 'none',
+          duration: 3000,
+        })
+        price = price - 1;
+      }
     }
     this.setData({
       price: price,
@@ -390,6 +409,7 @@ Page({
     var covers = that.data.covers;
     var markers = [];
     var fromaddress = wx.getStorageSync('fromaddress_detail');
+    console.log(fromaddress)
     if (fromaddress != '') {
       fromaddress = JSON.parse(fromaddress);
       markers.push({
@@ -460,7 +480,7 @@ Page({
           // console.log(JSON.stringify(that.data));
         }
       });
-
+      console.log(fromaddress);
       that.setData({
         addressHide: false,
         addressDetail: fromaddress.detailInfo.length > 19 ? fromaddress.detailInfo.slice(0, 17) + '...' : fromaddress.detailInfo,

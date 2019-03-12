@@ -114,6 +114,8 @@ Page({
     let that = this;
     app.paotui.getOrderDetail(e.currentTarget.dataset.id)
       .then(res => {
+        console.log(res)
+        console.log(e.currentTarget.dataset.id)
         if (res.code == 0) {
           var res = res.data;
           // 数据入缓存

@@ -8,7 +8,7 @@ import request from './request.js'
 class paotui {
   constructor() {
     //this._baseUrl = 'https://t.tiandaoedu.cn/api/'
-    this._baseUrl = 'https://www.caccqc.cn/api/'
+     this._baseUrl = 'https://www.caccqc.cn/api/'
     // this._baseUrl = 'http://www.paotui.org/api/'
     this._defaultHeader = { 'content-type': 'application/x-www-form-urlencoded' }
     this._request = new request
@@ -98,6 +98,14 @@ class paotui {
   miniFeedback(uid, content, phone) {
     let data = { uid: uid, content: content, phone: phone };
     return this._request.postRequest(this._baseUrl + 'public/mini_feedback', data, this._defaultHeader).then(res => res.data)
+  }
+
+  /**
+   * 是否是首单
+   */
+  firstOrder(open_id) {
+    let data = { open_id: open_id };
+    return this._request.postRequest(this._baseUrl + 'buyOrder/first_order', data, this._defaultHeader).then(res => res.data)
   }
 
   /**
